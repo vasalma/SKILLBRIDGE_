@@ -424,7 +424,7 @@ public class panelAsig extends javax.swing.JPanel {
         slash.setText("//");
         background.add(slash, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
-        add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 540));
+        add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 560));
     }// </editor-fold>//GEN-END:initComponents
 
     private void backBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseClicked

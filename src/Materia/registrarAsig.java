@@ -41,6 +41,7 @@ public class registrarAsig extends javax.swing.JFrame {
 
         background.setBackground(new java.awt.Color(247, 247, 247));
         background.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         img.setBackground(new java.awt.Color(64, 174, 178));
 
@@ -54,6 +55,8 @@ public class registrarAsig extends javax.swing.JFrame {
             imgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 147, Short.MAX_VALUE)
         );
+
+        background.add(img, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 17, -1, -1));
 
         accBtn.setBackground(new java.awt.Color(64, 174, 178));
 
@@ -89,32 +92,43 @@ public class registrarAsig extends javax.swing.JFrame {
             .addComponent(regisABtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
         );
 
-        asigName.setBackground(new java.awt.Color(255, 255, 255));
-        asigName.setForeground(new java.awt.Color(0, 0, 0));
+        background.add(accBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 119, -1, -1));
+
+        asigName.setBackground(new java.awt.Color(247, 247, 247));
+        asigName.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
+        asigName.setForeground(new java.awt.Color(145, 145, 145));
         asigName.setText("Asignatura");
         asigName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                asigNameMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 asigNameMousePressed(evt);
             }
         });
+        background.add(asigName, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 214, 33));
 
-        descrpTxt.setBackground(new java.awt.Color(255, 255, 255));
-        descrpTxt.setForeground(new java.awt.Color(0, 0, 0));
+        descrpTxt.setBackground(new java.awt.Color(247, 247, 247));
+        descrpTxt.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
+        descrpTxt.setForeground(new java.awt.Color(145, 145, 145));
         descrpTxt.setText("Descripción");
         descrpTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 descrpTxtMousePressed(evt);
             }
         });
+        background.add(descrpTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(396, 59, 410, 108));
 
-        IDAsig.setBackground(new java.awt.Color(255, 255, 255));
-        IDAsig.setForeground(new java.awt.Color(0, 0, 0));
+        IDAsig.setBackground(new java.awt.Color(247, 247, 247));
+        IDAsig.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
+        IDAsig.setForeground(new java.awt.Color(145, 145, 145));
         IDAsig.setText("ID de asignatura");
         IDAsig.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 IDAsigMousePressed(evt);
             }
         });
+        background.add(IDAsig, new org.netbeans.lib.awtextra.AbsoluteConstraints(616, 20, 190, 33));
 
         exit.setFont(new java.awt.Font("Questrial", 0, 24)); // NOI18N
         exit.setForeground(new java.awt.Color(0, 0, 0));
@@ -125,49 +139,7 @@ public class registrarAsig extends javax.swing.JFrame {
                 exitMouseClicked(evt);
             }
         });
-
-        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
-        background.setLayout(backgroundLayout);
-        backgroundLayout.setHorizontalGroup(
-            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                        .addComponent(asigName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IDAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(descrpTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                        .addComponent(accBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addComponent(exit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        backgroundLayout.setVerticalGroup(
-            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, backgroundLayout.createSequentialGroup()
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(IDAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(asigName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(descrpTxt))
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(accBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
+        background.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(952, 1, 47, 46));
 
         getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 180));
 
@@ -238,6 +210,10 @@ public class registrarAsig extends javax.swing.JFrame {
             descrpTxt.setText("");
         }
     }//GEN-LAST:event_descrpTxtMousePressed
+
+    private void asigNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_asigNameMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_asigNameMouseClicked
 
     /**
      * @param args the command line arguments

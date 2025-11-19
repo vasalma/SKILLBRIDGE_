@@ -83,6 +83,7 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         background.setBackground(new java.awt.Color(247, 247, 247));
+        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         img.setBackground(new java.awt.Color(64, 174, 178));
 
@@ -97,13 +98,17 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
             .addGap(0, 147, Short.MAX_VALUE)
         );
 
+        background.add(img, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 17, -1, -1));
+
         asigName.setFont(new java.awt.Font("Poppins", 1, 25)); // NOI18N
         asigName.setForeground(new java.awt.Color(0, 0, 0));
         asigName.setText("Asignaturra");
+        background.add(asigName, new org.netbeans.lib.awtextra.AbsoluteConstraints(401, 17, -1, -1));
 
         descrpTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         descrpTxt.setForeground(new java.awt.Color(0, 0, 0));
         descrpTxt.setText("Descripción");
+        background.add(descrpTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(401, 62, 85, -1));
 
         accBtn.setBackground(new java.awt.Color(64, 174, 178));
 
@@ -136,39 +141,7 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
             .addComponent(accTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
-        background.setLayout(backgroundLayout);
-        backgroundLayout.setHorizontalGroup(
-            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(0, 423, Short.MAX_VALUE)
-                        .addComponent(accBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(asigName)
-                            .addComponent(descrpTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(29, 29, 29))
-        );
-        backgroundLayout.setVerticalGroup(
-            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(accBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(backgroundLayout.createSequentialGroup()
-                            .addComponent(asigName)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(descrpTxt))
-                        .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
+        background.add(accBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(824, 126, -1, -1));
 
         add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 180));
     }// </editor-fold>//GEN-END:initComponents

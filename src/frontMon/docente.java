@@ -272,7 +272,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         actsTitle.setText("Docente");
         sectionName.add(actsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        getContentPane().add(sectionName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 90));
+        getContentPane().add(sectionName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 85));
 
         menuBar.setBackground(new java.awt.Color(255, 255, 255));
         menuBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
