@@ -75,9 +75,6 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
         coursesBtn = new javax.swing.JPanel();
         coursesTxt = new javax.swing.JLabel();
         coursesIcon = new javax.swing.JLabel();
-        actsBtn = new javax.swing.JPanel();
-        actsTxt = new javax.swing.JLabel();
-        actsIcon = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JPanel();
         logoutTxt = new javax.swing.JLabel();
         logoutIcon = new javax.swing.JLabel();
@@ -161,19 +158,6 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
         coursesBtn.add(coursesIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
         menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
-
-        actsBtn.setBackground(new java.awt.Color(255, 255, 255));
-        actsBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        actsTxt.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
-        actsTxt.setForeground(new java.awt.Color(64, 174, 178));
-        actsTxt.setText("Actividades");
-        actsBtn.add(actsTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 13, -1, -1));
-
-        actsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/appleGicon.png"))); // NOI18N
-        actsBtn.add(actsIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
-
-        menuBar.add(actsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
 
         logoutBtn.setBackground(new java.awt.Color(255, 255, 255));
         logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -430,10 +414,7 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actName;
-    private javax.swing.JPanel actsBtn;
-    private javax.swing.JLabel actsIcon;
     private javax.swing.JLabel actsTitle;
-    private javax.swing.JLabel actsTxt;
     private javax.swing.JLabel appName;
     private javax.swing.JLabel configArrow;
     private javax.swing.JPanel cont;
