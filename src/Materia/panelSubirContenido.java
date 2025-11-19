@@ -738,6 +738,9 @@ private void subirActividad() {
             }
         });
         subirScheTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subirScheTxtMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 subirScheTxtMouseExited(evt);
             }
@@ -959,6 +962,10 @@ private void subirActividad() {
             salidaTxt.setText("");
         }
     }//GEN-LAST:event_salidaTxtMouseClicked
+
+    private void subirScheTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subirScheTxtMouseClicked
+        // EVENTOOOO
+    }//GEN-LAST:event_subirScheTxtMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

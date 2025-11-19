@@ -27,11 +27,24 @@ public class panelCurso extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        videoName = new javax.swing.JLabel();
+        descripTxt = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(247, 247, 247));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        videoName.setFont(new java.awt.Font("Poppins SemiBold", 0, 26)); // NOI18N
+        videoName.setForeground(new java.awt.Color(0, 0, 0));
+        videoName.setText("Asignatura");
+        jPanel1.add(videoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 370, 30));
+
+        descripTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
+        descripTxt.setForeground(new java.awt.Color(0, 0, 0));
+        descripTxt.setText("Descripción...");
+        jPanel1.add(descripTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(64, 174, 178));
 
@@ -48,8 +61,25 @@ public class panelCurso extends javax.swing.JPanel {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 17, -1, -1));
 
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        jPanel3.setBackground(new java.awt.Color(247, 247, 247));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(64, 174, 178), 2));
+
+        jLabel1.setFont(new java.awt.Font("Questrial", 0, 12)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Acceder");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(564, 170, 120, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -65,8 +95,11 @@ public class panelCurso extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel descripTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel videoName;
     // End of variables declaration//GEN-END:variables
 }
