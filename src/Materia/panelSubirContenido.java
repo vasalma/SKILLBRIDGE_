@@ -115,7 +115,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
     File targetFile = new File(uploadDir, uniqueFileName);
     
     // La RUTA ABSOLUTA que guardaremos como String en la DB
-    String dbVideoPath = targetFile.getAbsolutePath();
+    String dbVideoPath = BASE_UPLOAD_PATH + File.separator + uniqueFileName;
 
     try {
         // ⭐ PASO 2: MOVER/COPIAR EL ARCHIVO FÍSICAMENTE AL DIRECTORIO DE SUBIDA ⭐
@@ -182,7 +182,7 @@ private void subirActividad() {
     
     String uniqueFileName = System.currentTimeMillis() + "_" + actividadFile.getName();
     File targetFile = new File(uploadDir, uniqueFileName);
-    String dbActividadPath = targetFile.getAbsolutePath();
+   String dbActividadPath = BASE_UPLOAD_PATH + File.separator + uniqueFileName; // ✅ AÑADIR ESTA LÍNEA String dbActividadPath = targetFile.getAbsolutePath();
 
     try {
         Files.copy(actividadFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
