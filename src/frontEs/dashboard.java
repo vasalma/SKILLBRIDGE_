@@ -68,6 +68,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         asignatura = new javax.swing.JLabel();
         docente = new javax.swing.JLabel();
         actRecientesExcel = new javax.swing.JPanel();
+        filter = new javax.swing.JComboBox<>();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -95,14 +96,17 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         mainCont.setBackground(new java.awt.Color(255, 255, 255));
+        mainCont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         actsHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
         actsHead.setForeground(new java.awt.Color(0, 0, 0));
         actsHead.setText("Actividades recientes");
+        mainCont.add(actsHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, -1));
 
         videosHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
         videosHead.setForeground(new java.awt.Color(0, 0, 0));
         videosHead.setText("Seguir viendo...");
+        mainCont.add(videosHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         vidRecientes.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -110,12 +114,14 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         vidRecientes.setLayout(vidRecientesLayout);
         vidRecientesLayout.setHorizontalGroup(
             vidRecientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 980, Short.MAX_VALUE)
         );
         vidRecientesLayout.setVerticalGroup(
             vidRecientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 252, Short.MAX_VALUE)
         );
+
+        mainCont.add(vidRecientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 53, 980, -1));
 
         actRecientes.setBackground(new java.awt.Color(204, 204, 204));
         actRecientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -153,34 +159,10 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
 
         actRecientes.add(actRecientesExcel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 990, 220));
 
-        javax.swing.GroupLayout mainContLayout = new javax.swing.GroupLayout(mainCont);
-        mainCont.setLayout(mainContLayout);
-        mainContLayout.setHorizontalGroup(
-            mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainContLayout.createSequentialGroup()
-                .addGroup(mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(vidRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(mainContLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(videosHead)
-                            .addComponent(actsHead)))
-                    .addComponent(actRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20))
-        );
-        mainContLayout.setVerticalGroup(
-            mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainContLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(videosHead)
-                .addGap(13, 13, 13)
-                .addComponent(vidRecientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(actsHead)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(actRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        mainCont.add(actRecientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 380, -1, -1));
+
+        filter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        mainCont.add(filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 21, -1, -1));
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
 
@@ -410,6 +392,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel dashIcon;
     private javax.swing.JLabel dashTxt;
     private javax.swing.JLabel docente;
+    private javax.swing.JComboBox<String> filter;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel logoutBtn;
