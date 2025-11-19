@@ -244,7 +244,7 @@ public class DBConnection {
     }
 
     // ------------------------------
-    // Insertar video
+    // Insertar video RIJFIR
     // ------------------------------
     public static boolean insertarVideo(String idDocente, String titulo, String descripcion, String idMateria, String videourl) {
         String sql = "INSERT INTO videos (idDocente, titulo, descripcion, idMateria, videourl) VALUES (?, ?, ?, ?, ?)";

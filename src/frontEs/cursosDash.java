@@ -511,7 +511,7 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         profile nuevaventana = new profile(this);
         nuevaventana.setVisible(true);
 
-        // Ocultar dashboard (no cerrarlo) para poder volver cuando el perfil cierre
+        // Ocultar dashboard (no cerrarlo) para poder volver cuando el perfil cierre ORIJIR
         this.setVisible(false);
     }//GEN-LAST:event_jPanel1MouseClicked
 

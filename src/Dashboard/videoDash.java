@@ -54,7 +54,7 @@ public class videoDash extends javax.swing.JPanel {
 
 
     public String getVideoURL() {
-        return videoURL; // el atributo donde guardas videourl
+        return videoURL; // el atributo donde guardas videourl ROIHFIUH
 }
 
     @SuppressWarnings("unchecked")
