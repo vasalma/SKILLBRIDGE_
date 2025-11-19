@@ -11,7 +11,7 @@ import java.awt.Component;
 
 /**
  *
- * @author Mi PC
+ * @author Mi PC HOLIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
  */
 public class panelCurso extends javax.swing.JPanel {
 

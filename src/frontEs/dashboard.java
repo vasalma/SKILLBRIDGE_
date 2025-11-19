@@ -19,7 +19,7 @@ import Dashboard.actDash;
  */
 public class dashboard extends javax.swing.JFrame implements Actualizable {
 
-    //private PanelReproductor panelReproductor;
+    //private PanelReproductor panelReproductor; HOLA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     //private PanelReproductor panelReproductor;
     public dashboard() {
         initComponents();
