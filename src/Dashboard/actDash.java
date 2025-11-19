@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Dashboard;
 
 /**
@@ -15,6 +11,36 @@ public class actDash extends javax.swing.JPanel {
      */
     public actDash() {
         initComponents();
+    }
+    private String actividadURL;
+
+    // ==================== GETTERS CORREGIDOS ====================
+    public javax.swing.JPanel getDownloadBtn() {  // ← MANTÉN ESTE
+        return downloadBtn;
+    }
+
+    public javax.swing.JLabel getActividadName() {
+        return actName;
+    }
+
+    public javax.swing.JLabel getDocenteName() {
+        return docenteName;
+    }
+
+    public javax.swing.JLabel getAsigName() {
+        return asigTxt;
+    }
+
+    // ==================== SET DATA ====================
+    public void setActividadData(String titulo, String docente, String asignatura, String actividadURL) {
+        this.actName.setText(titulo);
+        this.docenteName.setText(docente);
+        this.asigTxt.setText(asignatura);
+        this.actividadURL = actividadURL;
+    }
+
+    public String getActividadURL() {
+        return actividadURL;
     }
 
     /**

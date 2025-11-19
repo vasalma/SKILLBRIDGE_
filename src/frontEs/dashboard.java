@@ -1,6 +1,5 @@
 package frontEs;
 
-import Materia.PanelReproductor;
 import back.Session;
 import back.Usuario;
 import front.login;
@@ -10,16 +9,12 @@ import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import main.DBConnection;
+import Dashboard.actDash;
 //
 
-/**
- *
- * @author Mi PC
- */
 public class dashboard extends javax.swing.JFrame implements Actualizable {
 
     //private PanelReproductor panelReproductor;
-
     public dashboard() {
         initComponents();
         System.out.println("📌 Constructor dashboard iniciado");
@@ -32,7 +27,11 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
 
             cargarVideosRecientes();
             System.out.println("✔ cargarVideosRecientes ejecutado");
+            cargarActividadesRecientes();  // ← NUEVA LÍNEA
+            System.out.println("✔ cargarActividadesRecientes ejecutado");
 
+            System.out.println("✔ Mostrando ventana del dashboard...");
+            this.setVisible(true);
             // ❌❌❌ COMENTA TEMPORALMENTE ESTO ❌❌❌
             /*
         panelReproductor = new PanelReproductor();
@@ -119,6 +118,50 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
 
         vidRecientes.revalidate();
         vidRecientes.repaint();
+    }
+
+    private void cargarActividadesRecientes() {
+        System.out.println("📌 Ejecutando cargarActividadesRecientes()...");
+
+        actRecientesExcel.removeAll();
+        actRecientesExcel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
+
+        List<String[]> lista = DBConnection.obtenerActividadesRecientes();
+
+        for (String[] a : lista) {
+            String titulo = a[0];
+            String descripcion = a[1];
+            String materia = a[2];
+            String rutaRelativa = a[3];  // ✅ Ruta relativa directa de la BD
+            String nombreDocente = a[4];
+
+            actDash item = new actDash();
+            item.setActividadData(titulo, nombreDocente, materia, rutaRelativa);
+
+            // LISTENER
+            item.getDownloadBtn().addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    File archivo = new File(rutaRelativa);  // ✅ Usa ruta relativa directamente
+
+                    if (!archivo.exists()) {
+                        JOptionPane.showMessageDialog(null, "Archivo no encontrado:\n" + rutaRelativa);
+                        return;
+                    }
+
+                    try {
+                        Desktop.getDesktop().open(archivo);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error al abrir archivo");
+                    }
+                }
+            });
+
+            actRecientesExcel.add(item);
+        }
+
+        actRecientesExcel.revalidate();
+        actRecientesExcel.repaint();
     }
 
     public void actualizarNombreEnUI() {
