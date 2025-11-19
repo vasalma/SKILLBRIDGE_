@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package frontEs;
 
 import Materia.PanelReproductor;
@@ -22,10 +18,9 @@ import main.DBConnection;
  */
 public class dashboard extends javax.swing.JFrame implements Actualizable {
 
-    private PanelReproductor panelReproductor;
+    //private PanelReproductor panelReproductor;
 
     public dashboard() {
-
         initComponents();
         System.out.println("📌 Constructor dashboard iniciado");
 
@@ -38,22 +33,27 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             cargarVideosRecientes();
             System.out.println("✔ cargarVideosRecientes ejecutado");
 
-            panelReproductor = new PanelReproductor();
-            System.out.println("✔ PanelReproductor creado");
+            // ❌❌❌ COMENTA TEMPORALMENTE ESTO ❌❌❌
+            /*
+        panelReproductor = new PanelReproductor();
+        System.out.println("✔ PanelReproductor creado");
 
-            panelReproductor.setBounds(0, 320, 980, 300);
-            mainCont.add(panelReproductor);
-            panelReproductor.setVisible(false);
+        panelReproductor.setBounds(0, 320, 980, 300);
+        mainCont.add(panelReproductor);
+        panelReproductor.setVisible(false);
 
-            System.out.println("✔ PanelReproductor agregado al dashboard");
+        System.out.println("✔ PanelReproductor agregado al dashboard");
+             */
+            // ❌❌❌ HASTA AQUÍ ❌❌❌
             System.out.println("✔ Mostrando ventana del dashboard...");
             this.setVisible(true);
+            this.setLocationRelativeTo(null); // Centrar ventana
+            System.out.println("✅ Dashboard completamente cargado");
 
         } catch (Exception e) {
             System.out.println("❌ ERROR dentro del constructor del dashboard:");
             e.printStackTrace();
         }
-
     }
 
     private void cargarUsuario() {
