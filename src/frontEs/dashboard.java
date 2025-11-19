@@ -4,10 +4,14 @@
  */
 package frontEs;
 
+import Materia.PanelReproductor;
 import back.Session;
 import back.Usuario;
 import front.login;
 import back.Actualizable;
+import java.util.List;
+import javax.swing.JOptionPane;
+import main.DBConnection;
 //
 
 /**
@@ -16,10 +20,39 @@ import back.Actualizable;
  */
 public class dashboard extends javax.swing.JFrame implements Actualizable {
 
-    public dashboard() {
+    private PanelReproductor panelReproductor;
 
+    public dashboard() {
+        
         initComponents();
-        cargarUsuario(); // <-- IMPORTANTE
+        System.out.println("📌 Constructor dashboard iniciado");
+
+        try {
+            initComponents();
+            System.out.println("✔ initComponents ejecutado");
+
+            cargarUsuario();
+            System.out.println("✔ cargarUsuario ejecutado");
+
+            cargarVideosRecientes();
+            System.out.println("✔ cargarVideosRecientes ejecutado");
+
+            panelReproductor = new PanelReproductor();
+            System.out.println("✔ PanelReproductor creado");
+
+            panelReproductor.setBounds(0, 320, 980, 300);
+            mainCont.add(panelReproductor);
+            panelReproductor.setVisible(false);
+
+            System.out.println("✔ PanelReproductor agregado al dashboard");
+            System.out.println("✔ Mostrando ventana del dashboard...");
+            this.setVisible(true);
+
+        } catch (Exception e) {
+            System.out.println("❌ ERROR dentro del constructor del dashboard:");
+            e.printStackTrace();
+        }
+
     }
 
     private void cargarUsuario() {
@@ -31,6 +64,61 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             userName.setText("Usuario");
         }
 
+    }
+
+    private void cargarVideosRecientes() {
+        System.out.println("📌 Ejecutando cargarVideosRecientes()...");
+        System.out.println("📌 Agregando panelReproductor...");
+
+        //panelReproductor = new PanelReproductor();
+        //System.out.println("✔ PanelReproductor creado");
+        //panelReproductor.setBounds(0, 320, 980, 300);
+        //mainCont.add(panelReproductor);
+        //panelReproductor.setVisible(false);
+        System.out.println("✔ PanelReproductor agregado al dashboard");
+
+        vidRecientes.removeAll();
+        vidRecientes.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 20));
+
+        List<String[]> lista = DBConnection.obtenerVideosRecientes();
+
+        for (String[] v : lista) {
+
+            String titulo = v[0];
+            String descripcion = v[1];
+            String asignatura = v[2];
+            String rutaVideo = v[3];
+
+            Dashboard.videoDash item = new Dashboard.videoDash();
+            item.setVideoData(titulo, descripcion, asignatura, rutaVideo);
+
+            // ⭐ LISTENER REAL DEL BOTÓN PLAY
+            item.getPlayBtn().addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                    String ruta = item.getVideoURL();
+
+                    if (ruta == null || ruta.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Este video no tiene ruta válida.");
+                        return;
+                    }
+
+                    System.out.println("▶ Reproduciendo video: " + ruta);
+
+                    // ✔ Mostrar el panel reproductor
+                    panelReproductor.setVisible(true);
+
+                    // ✔ Reproducir el video con VLCJ
+                    panelReproductor.reproducirVideo(ruta);
+                }
+            });
+
+            vidRecientes.add(item);
+        }
+
+        vidRecientes.revalidate();
+        vidRecientes.repaint();
     }
 
     public void actualizarNombreEnUI() {
@@ -48,6 +136,9 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         this.repaint();
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
     }
+    // ===============================================
+// CARGAR VIDEOS RECIENTES EN EL DASHBOARD
+// ===============================================
 
     /**
      * This method is called from within the constructor to initialize the form.

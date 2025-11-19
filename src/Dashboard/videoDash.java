@@ -4,6 +4,8 @@
  */
 package Dashboard;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author Mi PC
@@ -13,17 +15,12 @@ public class videoDash extends javax.swing.JPanel {
     /**
      * Creates new form videoDash
      */
-
     public videoDash() {
         initComponents();
-        }
+    }
 
+    private String videoURL;
 
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARN
-     */
     // ==================== GETTERS PARA EL DASHBOARD ====================
     public javax.swing.JLabel getPlayBtn() {
         return bigplayBtn;
@@ -39,6 +36,22 @@ public class videoDash extends javax.swing.JPanel {
 
     public javax.swing.JLabel getAsigName() {
         return asigName;
+    }
+
+// ===============================================================
+// 🚀 MÉTODOS QUE DEBES AÑADIR AQUÍ (debajo de los getters)
+// ===============================================================
+// private String videoURL;
+    public void setVideoData(String titulo, String descripcion, String asignatura, String videoURL) {
+        this.videoName.setText(titulo);
+        this.descripTxt.setText(descripcion);
+        this.asigName.setText(asignatura);
+        this.videoURL = videoURL;
+    }
+
+
+    public String getVideoURL() {
+        return videoURL; // el atributo donde guardas videourl
     }
 
     @SuppressWarnings("unchecked")

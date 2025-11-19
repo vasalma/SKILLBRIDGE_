@@ -54,6 +54,29 @@ public class DBConnection {
         return conn;
     }
 
+    public static List<String[]> obtenerVideosRecientes() {
+        List<String[]> lista = new ArrayList<>();
+
+        String sql = "SELECT titulo, descripcion, idMateria, videourl FROM videos";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String titulo = rs.getString("titulo");
+                String descripcion = rs.getString("descripcion");
+                String idMateria = rs.getString("idMateria");
+                String rutaVideo = rs.getString("videourl");
+
+                lista.add(new String[]{titulo, descripcion, idMateria, rutaVideo});
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
     // ------------------------------
     // Cerrar conexión
     // ------------------------------
