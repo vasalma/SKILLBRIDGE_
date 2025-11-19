@@ -1,5 +1,6 @@
 package Materia;
 //mammama
+
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -239,8 +240,6 @@ public class panelAsig extends javax.swing.JPanel {
     }
 
 // Asumo que tienes un JPanel o JLabel para el botón 'Retroceder' llamado 'backBtn'
-
-
     public javax.swing.JPanel getBackBtn() {
         return backBtn;
     }

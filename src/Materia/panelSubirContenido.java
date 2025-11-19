@@ -1,4 +1,3 @@
-
 package Materia;
 
 import back.Session;
@@ -23,14 +22,13 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.swing.JOptionPane;
 
-
 public class panelSubirContenido extends javax.swing.JPanel {
-    private panelAsig panelAsigRef; 
+
+    private panelAsig panelAsigRef;
     private File videoFile;
     private File actividadFile;
     private final String idDocente;
     private final String idMateria;
-   
 
     // Constructor ORIGINAL - para mantener compatibilidad
     public panelSubirContenido(Asignatura materiaActual) {
@@ -65,16 +63,12 @@ public class panelSubirContenido extends javax.swing.JPanel {
 
     private void setListeners() {
 
-        
-
         subirVidTxt.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 subirVideo();
             }
         });
-
-      
 
         subirActTxt.addMouseListener(new MouseAdapter() {
             @Override
@@ -86,159 +80,156 @@ public class panelSubirContenido extends javax.swing.JPanel {
 
     // Subir Video - MODIFICADO para refrescar panelAsig si está disponible
     private void subirVideo() {
-    if (videoFile == null || vidTitleTxt.getText().isEmpty() || vidDescripTxt.getText().isEmpty()) {
-        
-        return;
-    }
+        if (videoFile == null || vidTitleTxt.getText().isEmpty() || vidDescripTxt.getText().isEmpty()) {
 
-    if (idDocente == null) {
-        JOptionPane.showMessageDialog(this, "Error de Sesión: No se pudo obtener el ID del Docente.");
-        return;
-    }
-
-    // ⭐ PASO 1: DEFINIR LA RUTA DE DESTINO DEL ARCHIVO FÍSICO ⭐
-    // Usaremos una carpeta llamada 'uploads/videos' dentro de tu directorio de proyecto.
-    final String BASE_UPLOAD_PATH = "uploads" + File.separator + "videos";
-    
-    // Crear la carpeta si no existe
-    File uploadDir = new File(BASE_UPLOAD_PATH);
-    if (!uploadDir.exists()) {
-        // La función mkdirs() crea todos los directorios padre necesarios
-        if (!uploadDir.mkdirs()) {
-            JOptionPane.showMessageDialog(this, "Error: No se pudo crear el directorio de subida.");
             return;
         }
-    }
-    
-    // Crear un nombre de archivo único (usando timestamp + nombre original)
-    String uniqueFileName = System.currentTimeMillis() + "_" + videoFile.getName();
-    File targetFile = new File(uploadDir, uniqueFileName);
-    
-    // La RUTA ABSOLUTA que guardaremos como String en la DB
-    String dbVideoPath = BASE_UPLOAD_PATH + File.separator + uniqueFileName;
 
-    try {
-        // ⭐ PASO 2: MOVER/COPIAR EL ARCHIVO FÍSICAMENTE AL DIRECTORIO DE SUBIDA ⭐
-        // Usamos Files.copy para un manejo eficiente de archivos
-        Files.copy(videoFile.toPath(), targetFile.toPath(), 
-                   StandardCopyOption.REPLACE_EXISTING);
-        
-        // ⭐ PASO 3: GUARDAR SÓLO LA RUTA (STRING) EN LA BASE DE DATOS ⭐
-        try (Connection conn = DBConnection.getConnection()) {
-            
-            // CAMBIAR LA SENTENCIA SQL: ya no se usa setBinaryStream
-            String sql = "INSERT INTO videos (idDocente, titulo, descripcion, idMateria, videourl) VALUES (?, ?, ?, ?, ?)";
-
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, idDocente);
-            pst.setString(2, vidTitleTxt.getText());
-            pst.setString(3, vidDescripTxt.getText());
-            pst.setString(4, idMateria);
-            // PASAMOS LA RUTA DEL ARCHIVO COMO STRING
-            pst.setString(5, dbVideoPath); 
-
-            int rows = pst.executeUpdate();
-
-            if (rows > 0) {
-                JOptionPane.showMessageDialog(this, "Video subido correctamente.\n" + "Ruta guardada: " + dbVideoPath);
-                limpiarCamposVideo();
-                
-                // Refrescar panelAsig si está disponible
-                if (panelAsigRef != null) {
-                    panelAsigRef.refrescarVideos();
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al subir video a la base de datos.");
-                // Si la inserción en DB falla, eliminamos el archivo físico copiado
-                targetFile.delete(); 
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage());
-            targetFile.delete(); // Asegura la limpieza si falla la DB
+        if (idDocente == null) {
+            JOptionPane.showMessageDialog(this, "Error de Sesión: No se pudo obtener el ID del Docente.");
+            return;
         }
 
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error de E/S al copiar el archivo: " + e.getMessage());
-        e.printStackTrace();
+        // ⭐ PASO 1: DEFINIR LA RUTA DE DESTINO DEL ARCHIVO FÍSICO ⭐
+        // Usaremos una carpeta llamada 'uploads/videos' dentro de tu directorio de proyecto.
+        final String BASE_UPLOAD_PATH = "uploads" + File.separator + "videos";
+
+        // Crear la carpeta si no existe
+        File uploadDir = new File(BASE_UPLOAD_PATH);
+        if (!uploadDir.exists()) {
+            // La función mkdirs() crea todos los directorios padre necesarios
+            if (!uploadDir.mkdirs()) {
+                JOptionPane.showMessageDialog(this, "Error: No se pudo crear el directorio de subida.");
+                return;
+            }
+        }
+
+        // Crear un nombre de archivo único (usando timestamp + nombre original)
+        String uniqueFileName = System.currentTimeMillis() + "_" + videoFile.getName();
+        File targetFile = new File(uploadDir, uniqueFileName);
+
+        // La RUTA ABSOLUTA que guardaremos como String en la DB
+        String dbVideoPath = BASE_UPLOAD_PATH + File.separator + uniqueFileName;
+
+        try {
+            // ⭐ PASO 2: MOVER/COPIAR EL ARCHIVO FÍSICAMENTE AL DIRECTORIO DE SUBIDA ⭐
+            // Usamos Files.copy para un manejo eficiente de archivos
+            Files.copy(videoFile.toPath(), targetFile.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING);
+
+            // ⭐ PASO 3: GUARDAR SÓLO LA RUTA (STRING) EN LA BASE DE DATOS ⭐
+            try (Connection conn = DBConnection.getConnection()) {
+
+                // CAMBIAR LA SENTENCIA SQL: ya no se usa setBinaryStream
+                String sql = "INSERT INTO videos (idDocente, titulo, descripcion, idMateria, videourl) VALUES (?, ?, ?, ?, ?)";
+
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, idDocente);
+                pst.setString(2, vidTitleTxt.getText());
+                pst.setString(3, vidDescripTxt.getText());
+                pst.setString(4, idMateria);
+                // PASAMOS LA RUTA DEL ARCHIVO COMO STRING
+                pst.setString(5, dbVideoPath);
+
+                int rows = pst.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Video subido correctamente.\n" + "Ruta guardada: " + dbVideoPath);
+                    limpiarCamposVideo();
+
+                    // Refrescar panelAsig si está disponible
+                    if (panelAsigRef != null) {
+                        panelAsigRef.refrescarVideos();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al subir video a la base de datos.");
+                    // Si la inserción en DB falla, eliminamos el archivo físico copiado
+                    targetFile.delete();
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage());
+                targetFile.delete(); // Asegura la limpieza si falla la DB
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error de E/S al copiar el archivo: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
 
     // Subir Actividad
-  // Archivo: Materia/panelSubirContenido.java
+    // Archivo: Materia/panelSubirContenido.java
+    private void subirActividad() {
+        if (actividadFile == null || actTitleTxt.getText().isEmpty() || actDescripTxt.getText().isEmpty()) {
 
-private void subirActividad() {
-    if (actividadFile == null || actTitleTxt.getText().isEmpty() || actDescripTxt.getText().isEmpty()) {
-        
-        return;
-    }
-
-    final String BASE_UPLOAD_PATH = "uploads" + File.separator + "actividades";
-    File uploadDir = new File(BASE_UPLOAD_PATH);
-    if (!uploadDir.exists() && !uploadDir.mkdirs()) {
-        JOptionPane.showMessageDialog(this, "Error: No se pudo crear el directorio de subida para actividades.");
-        return;
-    }
-    
-    String uniqueFileName = System.currentTimeMillis() + "_" + actividadFile.getName();
-    File targetFile = new File(uploadDir, uniqueFileName);
-   String dbActividadPath = BASE_UPLOAD_PATH + File.separator + uniqueFileName; // ✅ AÑADIR ESTA LÍNEA String dbActividadPath = targetFile.getAbsolutePath();
-
-    try {
-        Files.copy(actividadFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-        try (Connection conn = DBConnection.getConnection()) {
-            
-            // EL CAMPO 'actividadurl' AHORA DEBE SER TEXT
-            String sql = "INSERT INTO actividades (idDocente, titulo, descripcion, idMateria, actividadurl) VALUES (?, ?, ?, ?, ?)";
-
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, idDocente);
-            pst.setString(2, actTitleTxt.getText());
-            pst.setString(3, actDescripTxt.getText());
-            pst.setString(4, idMateria);
-            pst.setString(5, dbActividadPath); // Guardamos la RUTA
-
-            int rows = pst.executeUpdate();
-
-            if (rows > 0) {
-                JOptionPane.showMessageDialog(this, "Actividad subida correctamente.");
-                limpiarCamposActividad();
-                
-                // ⭐ LÍNEA IMPLEMENTADA AQUÍ: LLAMADA DE REFRESH ⭐
-                if (panelAsigRef != null) {
-                    panelAsigRef.refrescarActividades(); 
-                }
-                
-            } else {
-                 JOptionPane.showMessageDialog(this, "Error al subir actividad.");
-                 targetFile.delete(); // Limpia si falla la DB
-            }
-            
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage());
-            targetFile.delete();
+            return;
         }
 
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error de E/S al copiar el archivo: " + e.getMessage());
-        e.printStackTrace();
+        final String BASE_UPLOAD_PATH = "uploads" + File.separator + "actividades";
+        File uploadDir = new File(BASE_UPLOAD_PATH);
+        if (!uploadDir.exists() && !uploadDir.mkdirs()) {
+            JOptionPane.showMessageDialog(this, "Error: No se pudo crear el directorio de subida para actividades.");
+            return;
+        }
+
+        String uniqueFileName = System.currentTimeMillis() + "_" + actividadFile.getName();
+        File targetFile = new File(uploadDir, uniqueFileName);
+        String dbActividadPath = BASE_UPLOAD_PATH + File.separator + uniqueFileName; // ✅ AÑADIR ESTA LÍNEA String dbActividadPath = targetFile.getAbsolutePath();
+
+        try {
+            Files.copy(actividadFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            try (Connection conn = DBConnection.getConnection()) {
+
+                // EL CAMPO 'actividadurl' AHORA DEBE SER TEXT
+                String sql = "INSERT INTO actividades (idDocente, titulo, descripcion, idMateria, actividadurl) VALUES (?, ?, ?, ?, ?)";
+
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, idDocente);
+                pst.setString(2, actTitleTxt.getText());
+                pst.setString(3, actDescripTxt.getText());
+                pst.setString(4, idMateria);
+                pst.setString(5, dbActividadPath); // Guardamos la RUTA
+
+                int rows = pst.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Actividad subida correctamente.");
+                    limpiarCamposActividad();
+
+                    // ⭐ LÍNEA IMPLEMENTADA AQUÍ: LLAMADA DE REFRESH ⭐
+                    if (panelAsigRef != null) {
+                        panelAsigRef.refrescarActividades();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al subir actividad.");
+                    targetFile.delete(); // Limpia si falla la DB
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage());
+                targetFile.delete();
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error de E/S al copiar el archivo: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
-
-}
-
 
     public javax.swing.JLabel getTitulo() {
         return vidTitle;
     }
-    
+
     private Runnable onBack;
 
     public void setOnBack(Runnable r) {
         this.onBack = r;
     }
-    
+
     private void limpiarCamposVideo() {
         vidTitleTxt.setText("");
         vidDescripTxt.setText("");
@@ -254,8 +245,6 @@ private void subirActividad() {
         plusActs.setFont(new java.awt.Font("Poppins", 0, 35)); // Restaurar tamaño de fuente
         actividadFile = null;
     }
-    
-
 
     /**
      * This method is called from within the constructor to initialize the form.

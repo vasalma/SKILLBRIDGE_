@@ -493,7 +493,7 @@
         <Container class="javax.swing.JTabbedPane" name="tabbed">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="-30" width="1010" height="580"/>
+              <AbsoluteConstraints x="0" y="60" width="1010" height="490"/>
             </Constraint>
           </Constraints>
 
