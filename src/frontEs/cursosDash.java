@@ -67,6 +67,8 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
         mainCont = new javax.swing.JPanel();
         coursesHead = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -100,6 +102,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         coursesHead.setForeground(new java.awt.Color(0, 0, 0));
         coursesHead.setText("Mis cursos");
         mainCont.add(coursesHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        mainCont.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 700, 490));
+        mainCont.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 310, 550));
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
 
@@ -330,6 +336,8 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel dashTxt;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JLabel logoutIcon;
     private javax.swing.JLabel logoutTxt;

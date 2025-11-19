@@ -254,6 +254,7 @@ private void subirActividad() {
         plusActs.setFont(new java.awt.Font("Poppins", 0, 35)); // Restaurar tamaño de fuente
         actividadFile = null;
     }
+    
 
 
     /**

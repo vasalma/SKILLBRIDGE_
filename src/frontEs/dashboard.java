@@ -61,6 +61,13 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         mainCont = new javax.swing.JPanel();
         actsHead = new javax.swing.JLabel();
         videosHead = new javax.swing.JLabel();
+        vidRecientes = new javax.swing.JPanel();
+        actRecientes = new javax.swing.JPanel();
+        actRecientesHeader = new javax.swing.JPanel();
+        actividad = new javax.swing.JLabel();
+        asignatura = new javax.swing.JLabel();
+        docente = new javax.swing.JLabel();
+        actRecientesExcel = new javax.swing.JPanel();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -87,18 +94,93 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        mainCont.setBackground(new java.awt.Color(153, 153, 153));
-        mainCont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        mainCont.setBackground(new java.awt.Color(255, 255, 255));
 
         actsHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
         actsHead.setForeground(new java.awt.Color(0, 0, 0));
         actsHead.setText("Actividades recientes");
-        mainCont.add(actsHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, -1));
 
         videosHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
         videosHead.setForeground(new java.awt.Color(0, 0, 0));
         videosHead.setText("Seguir viendo...");
-        mainCont.add(videosHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        vidRecientes.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout vidRecientesLayout = new javax.swing.GroupLayout(vidRecientes);
+        vidRecientes.setLayout(vidRecientesLayout);
+        vidRecientesLayout.setHorizontalGroup(
+            vidRecientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        vidRecientesLayout.setVerticalGroup(
+            vidRecientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 252, Short.MAX_VALUE)
+        );
+
+        actRecientes.setBackground(new java.awt.Color(204, 204, 204));
+        actRecientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        actRecientesHeader.setBackground(new java.awt.Color(255, 255, 255));
+        actRecientesHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        actividad.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        actividad.setForeground(new java.awt.Color(145, 145, 145));
+        actividad.setText("Actividad");
+        actRecientesHeader.add(actividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 30));
+
+        asignatura.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        asignatura.setForeground(new java.awt.Color(145, 145, 145));
+        asignatura.setText("Asignatura");
+        actRecientesHeader.add(asignatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, -1, 30));
+
+        docente.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        docente.setForeground(new java.awt.Color(145, 145, 145));
+        docente.setText("Docente/Monitor");
+        actRecientesHeader.add(docente, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, 30));
+
+        actRecientes.add(actRecientesHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 30));
+
+        javax.swing.GroupLayout actRecientesExcelLayout = new javax.swing.GroupLayout(actRecientesExcel);
+        actRecientesExcel.setLayout(actRecientesExcelLayout);
+        actRecientesExcelLayout.setHorizontalGroup(
+            actRecientesExcelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 990, Short.MAX_VALUE)
+        );
+        actRecientesExcelLayout.setVerticalGroup(
+            actRecientesExcelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 220, Short.MAX_VALUE)
+        );
+
+        actRecientes.add(actRecientesExcel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 990, 220));
+
+        javax.swing.GroupLayout mainContLayout = new javax.swing.GroupLayout(mainCont);
+        mainCont.setLayout(mainContLayout);
+        mainContLayout.setHorizontalGroup(
+            mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainContLayout.createSequentialGroup()
+                .addGroup(mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(vidRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(mainContLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(videosHead)
+                            .addComponent(actsHead)))
+                    .addComponent(actRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
+        );
+        mainContLayout.setVerticalGroup(
+            mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainContLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(videosHead)
+                .addGap(13, 13, 13)
+                .addComponent(vidRecientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(actsHead)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(actRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
 
@@ -310,11 +392,16 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel actRecientes;
+    private javax.swing.JPanel actRecientesExcel;
+    private javax.swing.JPanel actRecientesHeader;
+    private javax.swing.JLabel actividad;
     private javax.swing.JPanel actsBtn;
     private javax.swing.JLabel actsHead;
     private javax.swing.JLabel actsIcon;
     private javax.swing.JLabel actsTxt;
     private javax.swing.JLabel appName;
+    private javax.swing.JLabel asignatura;
     private javax.swing.JLabel configArrow;
     private javax.swing.JPanel coursesBtn;
     private javax.swing.JLabel coursesIcon;
@@ -322,6 +409,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JPanel dashBtn;
     private javax.swing.JLabel dashIcon;
     private javax.swing.JLabel dashTxt;
+    private javax.swing.JLabel docente;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel logoutBtn;
@@ -333,6 +421,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchIcon;
     private javax.swing.JLabel userName;
+    private javax.swing.JPanel vidRecientes;
     private javax.swing.JLabel videosHead;
     // End of variables declaration//GEN-END:variables
 
