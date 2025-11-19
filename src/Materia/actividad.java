@@ -1,0 +1,230 @@
+package Materia;
+
+import java.awt.Color;
+// 📌 IMPORTS AÑADIDOS para manejar archivos y diálogos
+import java.awt.Desktop;
+import java.io.File;
+import javax.swing.JOptionPane;
+import java.net.URI;
+
+public class actividad extends javax.swing.JPanel {
+
+    // NUEVAS variables para almacenar los datos
+    private final String titulo;
+    private final String actividadUrl;
+    
+    // ⭐ NUEVO LISTENER para la acción principal (Abrir/Descargar)
+    private Runnable onAbrirListener; 
+
+    // Constructor ORIGINAL (si lo necesitas para el editor de diseño, déjalo)
+    public actividad() {
+        // Llama al constructor con datos nulos para evitar NullPointerException en el diseñador
+        this(new String[]{"Actividad sin título", "", ""});
+    }
+
+    // ⭐ CONSTRUCTOR AJUSTADO: Recibe el String[] [titulo, descripcion, actividadurl]
+    public actividad(String[] actividadData) {
+        initComponents();
+
+        // Asignación de datos
+        this.titulo = actividadData[0];
+        // actividadData[1] es la descripción (la ignoramos visualmente por ahora)
+        this.actividadUrl = actividadData[2];
+
+        // Asignar el título al JLabel actName
+        actName.setText(this.titulo);
+    }
+
+    // ... (El resto de tu código mouseMoved, etc.)
+    // Puedes añadir un getter si el título o URL se necesitan fuera
+    public String getActividadUrl() {
+        return actividadUrl;
+    }
+    
+    // Declaración existente
+    private Runnable onEliminarListener;
+
+    // Método público para establecer el callback de eliminación
+    public void setOnEliminarListener(Runnable listener) {
+        this.onEliminarListener = listener;
+    }
+    
+    // ⭐ NUEVO MÉTODO: Método público para establecer el callback de apertura
+    public void setOnAbrirListener(Runnable listener) {
+        this.onAbrirListener = listener;
+    }
+
+    // ⭐ MÉTODO DE ACCIÓN: Muestra el diálogo de confirmación y ejecuta el callback de eliminación
+    private void eliminarActividadConfirm() {
+        int confirm = JOptionPane.showConfirmDialog(
+            this, 
+            "¿Está seguro que desea eliminar la actividad:\n" + titulo + "?", 
+            "Confirmar eliminación", 
+            JOptionPane.YES_NO_OPTION
+        );
+        
+        // Llama al callback si se confirma la eliminación
+        if (confirm == JOptionPane.YES_OPTION && onEliminarListener != null) {
+            onEliminarListener.run();
+        }
+    }
+
+    // ⭐ MÉTODO DE ACCIÓN: Abre la actividad (archivo local o URL web)
+    private void abrirActividad() {
+        if (actividadUrl == null || actividadUrl.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Error: No se encontró la ruta o URL de la actividad.", 
+                "Error de Apertura", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            File activityFile = new File(actividadUrl);
+            
+            // 1. Intentar abrir como archivo local (si existe)
+            if (Desktop.isDesktopSupported() && activityFile.exists()) {
+                Desktop.getDesktop().open(activityFile);
+                JOptionPane.showMessageDialog(this, "Archivo de actividad abierto: " + titulo);
+            } 
+            // 2. Intentar abrir como URL web (si comienza con http)
+            else if (actividadUrl.toLowerCase().startsWith("http")) {
+                Desktop.getDesktop().browse(new URI(actividadUrl));
+                 JOptionPane.showMessageDialog(this, "URL de actividad abierta: " + titulo);
+            }
+            // 3. El archivo no existe
+            else if (!activityFile.exists()) {
+                 JOptionPane.showMessageDialog(this, 
+                    "Error: Archivo de actividad no encontrado en la ruta:\n" + actividadUrl, 
+                    "Archivo No Encontrado", JOptionPane.ERROR_MESSAGE);
+            } else {
+                 JOptionPane.showMessageDialog(this, 
+                    "Error: La apertura externa no está soportada en este sistema.", 
+                    "Error de Sistema", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) { 
+            JOptionPane.showMessageDialog(this, 
+                "Ocurrió un error al intentar abrir la actividad. Detalle: " + ex.getMessage(), 
+                "Error I/O/URL", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
+
+
+// 📌 Modifica el MouseListener del botón 'X' de eliminación (si lo tienes)
+// Busca el código donde manejas el clic en el botón de eliminar (la 'X' roja)
+// y llama al listener:
+    private void eliminarBtnMouseClicked(java.awt.event.MouseEvent evt) {
+        // Llama al callback si está configurado
+        if (onEliminarListener != null) {
+            onEliminarListener.run();
+        }
+    
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        background = new javax.swing.JPanel();
+        actPanel = new javax.swing.JPanel();
+        deleteactBtn = new javax.swing.JPanel();
+        deleteactTxt = new javax.swing.JLabel();
+        actName = new javax.swing.JLabel();
+
+        background.setBackground(new java.awt.Color(255, 255, 255));
+        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        actPanel.setBackground(new java.awt.Color(15, 96, 99));
+        actPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actPanelMouseClicked(evt);
+            }
+        });
+        actPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        deleteactBtn.setBackground(new java.awt.Color(223, 91, 91));
+
+        deleteactTxt.setFont(new java.awt.Font("Questrial", 0, 17)); // NOI18N
+        deleteactTxt.setForeground(new java.awt.Color(255, 255, 255));
+        deleteactTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        deleteactTxt.setText("x");
+        deleteactTxt.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                deleteactTxtMouseMoved(evt);
+            }
+        });
+        deleteactTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteactTxtMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                deleteactTxtMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout deleteactBtnLayout = new javax.swing.GroupLayout(deleteactBtn);
+        deleteactBtn.setLayout(deleteactBtnLayout);
+        deleteactBtnLayout.setHorizontalGroup(
+            deleteactBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, deleteactBtnLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(deleteactTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        deleteactBtnLayout.setVerticalGroup(
+            deleteactBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, deleteactBtnLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(deleteactTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        actPanel.add(deleteactBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, -1));
+
+        background.add(actPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 100));
+
+        actName.setFont(new java.awt.Font("Questrial", 0, 17)); // NOI18N
+        actName.setForeground(new java.awt.Color(0, 0, 0));
+        actName.setText("Actividad");
+        background.add(actName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, 40));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void deleteactTxtMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteactTxtMouseMoved
+        deleteactBtn.setBackground(new Color(191, 40, 40));
+    }//GEN-LAST:event_deleteactTxtMouseMoved
+
+    private void deleteactTxtMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteactTxtMouseExited
+        deleteactBtn.setBackground(new Color(223, 91, 91));
+    }//GEN-LAST:event_deleteactTxtMouseExited
+
+    private void deleteactTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteactTxtMouseClicked
+        eliminarActividadConfirm();
+    }//GEN-LAST:event_deleteactTxtMouseClicked
+
+    private void actPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actPanelMouseClicked
+       abrirActividad();
+    }//GEN-LAST:event_actPanelMouseClicked
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel actName;
+    private javax.swing.JPanel actPanel;
+    private javax.swing.JPanel background;
+    private javax.swing.JPanel deleteactBtn;
+    private javax.swing.JLabel deleteactTxt;
+    // End of variables declaration//GEN-END:variables
+}
