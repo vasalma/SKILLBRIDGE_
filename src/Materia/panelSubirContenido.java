@@ -141,7 +141,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
 
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "Video subido correctamente.\n" + "Ruta guardada: " + dbVideoPath);
-                
+                limpiarCamposVideo();
                 
                 // Refrescar panelAsig si está disponible
                 if (panelAsigRef != null) {
@@ -203,7 +203,7 @@ private void subirActividad() {
 
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "Actividad subida correctamente.");
-                
+                limpiarCamposActividad();
                 
                 // ⭐ LÍNEA IMPLEMENTADA AQUÍ: LLAMADA DE REFRESH ⭐
                 if (panelAsigRef != null) {
@@ -238,6 +238,23 @@ private void subirActividad() {
     public void setOnBack(Runnable r) {
         this.onBack = r;
     }
+    
+    private void limpiarCamposVideo() {
+        vidTitleTxt.setText("");
+        vidDescripTxt.setText("");
+        plusVideos.setText("+");
+        plusVideos.setFont(new java.awt.Font("Poppins", 0, 35)); // Restaurar tamaño de fuente
+        videoFile = null;
+    }
+
+    private void limpiarCamposActividad() {
+        actTitleTxt.setText("");
+        actDescripTxt.setText("");
+        plusActs.setText("+");
+        plusActs.setFont(new java.awt.Font("Poppins", 0, 35)); // Restaurar tamaño de fuente
+        actividadFile = null;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
