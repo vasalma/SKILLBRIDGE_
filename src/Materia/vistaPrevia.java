@@ -1,4 +1,3 @@
-
 package Materia;
 
 import Materia.Asignatura;
@@ -8,12 +7,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-
 public class vistaPrevia extends JPanel {
+
     private final Asignatura asignatura;
     private boolean seleccionada = false;
     private Runnable onClickeador;
-private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" holiiii sis is si
+    private Runnable onVolverMenu;
+
     public vistaPrevia() {
         this(new Asignatura("0", "Sin nombre", "Sin descripción"));
     }
@@ -26,7 +26,7 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
         this.asignatura = asignatura;
         this.onClickeador = onClickeador;
 
-        initComponents(); // Este método lo genera NetBeans automáticamente
+        initComponents();
 
         asigName.setText(asignatura.getNombre());
         descrpTxt.setText(asignatura.getDescripcion());
@@ -36,8 +36,8 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 seleccionada = !seleccionada;
                 setBorder(seleccionada
-                    ? BorderFactory.createLineBorder(new Color(4, 174, 178), 2)
-                    : BorderFactory.createEmptyBorder());
+                        ? BorderFactory.createLineBorder(new Color(4, 174, 178), 2)
+                        : BorderFactory.createEmptyBorder());
             }
         });
 
@@ -48,6 +48,11 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
                 }
             }
         });
+    }
+
+    // 🔥 NUEVO MÉTODO: Obtener ID único de la materia
+    public String getMateriaId() {
+        return asignatura.getId();
     }
 
     public void setOnAcceder(Runnable r) {
@@ -67,8 +72,6 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
     // - JLabel llamado asigName
     // - JTextArea llamado descrpTxt
     // - JLabel llamado accTxt
-
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -158,7 +161,7 @@ private Runnable onVolverMenu; // Variable para la acción "Volver al Menú" hol
         if (onClickeador != null) {
             onClickeador.run();
         }
-    
+
     }//GEN-LAST:event_accTxtMouseClicked
 
 

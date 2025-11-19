@@ -20,7 +20,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap; // 🔥 IMPORTAR HASHMAP
 import java.util.List;
+import java.util.Map; // 🔥 IMPORTAR MAP
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,17 +35,16 @@ import main.DBConnection;
 public class docente extends javax.swing.JFrame implements Actualizable {
 
     private final List<vistaPrevia> vistas = new ArrayList<>();
+    private final Map<String, List<Integer>> materiaTabsMap = new HashMap<>(); // 🔥 CORREGIDO
 
     public docente() {
         initComponents();
         cargarUsuario();
         cargarAsignaturasDesdeBD();
-        // Activar Scroll en contenedorVistas
+
         JScrollPane scroll = new JScrollPane(contenedorVistas);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        // Reemplaza el añadido original
         menuTab.add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 440));
     }
 
@@ -57,17 +58,16 @@ public class docente extends javax.swing.JFrame implements Actualizable {
     }
 
     // -------------------------------------------------------------
-    // 🔥 MODIFICACIÓN 3: AGREGARASIGNATURA - CONEXIÓN CLAVE
+    // 🔥 MÉTODO CORREGIDO: agregarAsignatura - USAR ID ÚNICO
     // -------------------------------------------------------------
     private void agregarAsignatura(Asignatura nueva) {
+        String materiaId = nueva.getId(); // ID único
 
         // --------------------- VISTA PREVIA ---------------------
         vistaPrevia vp = new vistaPrevia(nueva);
         vp.setOnAcceder(() -> {
-            int idx = encontrarIndiceTabPorNombre(nueva.getNombre());
-            if (idx >= 0) {
-                tabbed.setSelectedIndex(idx);
-            }
+            // 🔥 CAMBIO: Usar ID único en lugar del nombre
+            accederAMateria(materiaId);
         });
 
         vistas.add(vp);
@@ -75,31 +75,47 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         contenedorVistas.revalidate();
         contenedorVistas.repaint();
 
-        // --------------------- TAB 1: Panel principal ---------------------
-        // Capturamos el objeto específico panelAsig
-        panelAsig panelPrincipal = crearPanelAsignatura(nueva);
-        tabbed.addTab(nueva.getNombre(), panelPrincipal);
-
-        // --------------------- TAB 2: Panel adicional ---------------------
-        // Capturamos el objeto específico panelSubirContenido
-        panelSubirContenido panelExtra = crearPanelExtra(nueva);
-        tabbed.addTab(nueva.getNombre() + " (Extra)", panelExtra);
-
-        // 🔑 CONEXIÓN CLAVE: Inyectamos la referencia del panel principal al panel extra
-        panelExtra.setPanelAsigRef(panelPrincipal);
+        // Crear tabs específicos para esta materia
+        crearTabsParaMateria(nueva, materiaId);
     }
 
     // -------------------------------------------------------------
-    // 🔥 MODIFICACIÓN 1: crearPanelAsignatura - CAMBIO DE RETORNO
+    // 🔥 NUEVO MÉTODO: crearTabsParaMateria - TÍTULOS ÚNICOS
     // -------------------------------------------------------------
-    private panelAsig crearPanelAsignatura(Asignatura a) { // 👈 CAMBIAR: de JPanel a panelAsig
+    private void crearTabsParaMateria(Asignatura materia, String materiaId) {
+        List<Integer> indicesTabs = new ArrayList<>();
 
+        // 🔥 CAMBIO: Incluir ID único en el título del tab
+        String tituloPrincipal = materia.getNombre() + " [" + materiaId + "] - Principal";
+        String tituloContenido = materia.getNombre() + " [" + materiaId + "] - Contenido";
+
+        // Tab 1: Panel principal
+        panelAsig panelPrincipal = crearPanelAsignatura(materia);
+        int idxPrincipal = tabbed.getTabCount();
+        tabbed.addTab(tituloPrincipal, panelPrincipal);
+        indicesTabs.add(idxPrincipal);
+
+        // Tab 2: Panel contenido
+        panelSubirContenido panelExtra = crearPanelExtra(materia);
+        int idxExtra = tabbed.getTabCount();
+        tabbed.addTab(tituloContenido, panelExtra);
+        indicesTabs.add(idxExtra);
+
+        // Conexión entre paneles
+        panelExtra.setPanelAsigRef(panelPrincipal);
+
+        // Guardar relación
+        materiaTabsMap.put(materiaId, indicesTabs);
+    }
+
+    // -------------------------------------------------------------
+    // 🔥 MÉTODO ACTUALIZADO: crearPanelAsignatura - USAR ID
+    // -------------------------------------------------------------
+    private panelAsig crearPanelAsignatura(Asignatura a) {
         panelAsig p = new panelAsig(a.getId());
-
-        // Nombre de la asignatura en el panel
         p.getAsigName().setText(a.getNombre());
 
-        // Botón retroceder → vuelve al tab 0
+        // Botón retroceder
         p.getBackBtn().addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -107,46 +123,66 @@ public class docente extends javax.swing.JFrame implements Actualizable {
             }
         });
 
-        // callback para que los botones (videos/actividades) pasen al Tab Extra
+        // Callback para ir al tab de contenido de ESTA materia
         p.setOnIrExtra(() -> {
-            int idx = encontrarIndiceTabPorNombre(a.getNombre() + " (Extra)");
-            if (idx >= 0) {
-                tabbed.setSelectedIndex(idx);
+            List<Integer> indices = materiaTabsMap.get(a.getId());
+            if (indices != null && indices.size() > 1) {
+                tabbed.setSelectedIndex(indices.get(1));
             }
         });
 
-        return p; // p es de tipo panelAsig
+        return p;
     }
 
     // -------------------------------------------------------------
-    // 🔥 MODIFICACIÓN 2: crearPanelExtra - CAMBIO DE RETORNO
+    // 🔥 MÉTODO ACTUALIZADO: crearPanelExtra - USAR ID
     // -------------------------------------------------------------
-    private panelSubirContenido crearPanelExtra(Asignatura a) { // 👈 CAMBIAR: de JPanel a panelSubirContenido
-
-        // Usamos el constructor que recibe la asignatura como parámetro
+    private panelSubirContenido crearPanelExtra(Asignatura a) {
         panelSubirContenido panel = new panelSubirContenido(a);
 
-        // CALLBACK DE RETROCESO PARA EL PANEL EXTRA
+        // Volver al panel principal de ESTA materia
         panel.setOnBack(() -> {
-            // Volver al panel principal de la asignatura
-            int idx = encontrarIndiceTabPorNombre(a.getNombre());
-            if (idx >= 0) {
-                tabbed.setSelectedIndex(idx);
+            List<Integer> indices = materiaTabsMap.get(a.getId());
+            if (indices != null && !indices.isEmpty()) {
+                tabbed.setSelectedIndex(indices.get(0));
             }
         });
 
         return panel;
     }
 
-    private int encontrarIndiceTabPorNombre(String nombre) {
-        for (int i = 0; i < tabbed.getTabCount(); i++) {
-            if (tabbed.getTitleAt(i).equals(nombre)) {
-                return i;
-            }
+    // -------------------------------------------------------------
+    // 🔥 NUEVO MÉTODO: accederAMateria - USAR MAPA CON ID
+    // -------------------------------------------------------------
+    private void accederAMateria(String materiaId) {
+        List<Integer> indices = materiaTabsMap.get(materiaId);
+        if (indices != null && !indices.isEmpty()) {
+            tabbed.setSelectedIndex(indices.get(0));
+            System.out.println("✅ Accediendo a materia ID: " + materiaId + ", Tab: " + indices.get(0));
+        } else {
+            System.out.println("❌ No se encontraron tabs para materia ID: " + materiaId);
         }
-        return -1;
     }
 
+    // -------------------------------------------------------------
+    // 🔥 IMPLEMENTAR MÉTODO DE LA INTERFAZ Actualizable
+    // -------------------------------------------------------------
+    @Override
+    public void actualizarNombreEnUI() {
+        Usuario u = Session.getUsuario();
+        if (u != null) {
+            userName.setText(u.getNombre() + " " + u.getApellido());
+        } else {
+            userName.setText("Usuario");
+        }
+        this.revalidate();
+        this.repaint();
+        System.out.println("✅ Dashboard: Nombre de usuario recargado.");
+    }
+
+    // -------------------------------------------------------------
+    // 🔥 MÉTODO ACTUALIZADO: cargarAsignaturasDesdeBD - LIMPIAR MAPA
+    // -------------------------------------------------------------
     private void cargarAsignaturasDesdeBD() {
         Usuario u = Session.getUsuario();
         String idDocente = u.getId();
@@ -157,9 +193,10 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         java.util.Set<Asignatura> asignaturasUnicas = new java.util.HashSet<>(listaAsignaturasConDuplicados);
         List<Asignatura> listaAsignaturas = new java.util.ArrayList<>(asignaturasUnicas);
 
-        // --- LIMPIAR VISTAS Y TABS ---
+        // --- LIMPIAR TODO ---
         contenedorVistas.removeAll();
         vistas.clear();
+        materiaTabsMap.clear(); // 🔥 LIMPIAR MAPA DE TABS
         for (int i = tabbed.getTabCount() - 1; i > 0; i--) {
             tabbed.removeTabAt(i);
         }
@@ -174,42 +211,10 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         this.revalidate();
         this.repaint();
     }
+    // -------------------------------------------------------------
+    // 🔥 MÉTODO ACTUALIZADO: deleteAsigTxtMouseClicked - USAR ID
+    // -------------------------------------------------------------
 
-    private void abrirAsignatura(Asignatura asig) {
-
-        // Crear ventana
-        javax.swing.JFrame ventana = new javax.swing.JFrame("Asignatura: " + asig.getNombre());
-        ventana.setSize(1050, 500);
-        ventana.setLocationRelativeTo(null);
-        ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-
-        // Crear tabs
-        javax.swing.JTabbedPane tabs = new javax.swing.JTabbedPane();
-
-        // Primer tab: VIDEOS
-        Materia.panelAsig panelVideos = new Materia.panelAsig();
-        tabs.addTab("Videos", panelVideos);
-
-        // Segundo tab: ACTIVIDADES
-        Materia.panelAsig panelActividades = new Materia.panelAsig();
-        tabs.addTab("Actividades", panelActividades);
-
-        ventana.add(tabs);
-        ventana.setVisible(true);
-    }
-
-    @Override
-    public void actualizarNombreEnUI() {
-        Usuario u = Session.getUsuario();
-        if (u != null) {
-            userName.setText(u.getNombre() + " " + u.getApellido());
-        } else {
-            userName.setText("Usuario");
-        }
-        this.revalidate();
-        this.repaint();
-        System.out.println("✅ Dashboard: Nombre de usuario recargado.");
-    }
 
     // ... Código generado por NetBeans (initComponents, variables, etc.) ...
     /**
@@ -499,7 +504,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
 
         tabbed.addTab("tab1", menuTab);
 
-        mainCont.add(tabbed, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1010, 490));
+        mainCont.add(tabbed, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 1010, 580));
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 1010, 550));
 
@@ -620,6 +625,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         try {
             for (vistaPrevia vp : seleccionadas) {
                 Asignatura a = vp.getAsignatura();
+                String materiaId = a.getId();
 
                 DBConnection.eliminarAsignaturaDocente(idDocente, a.getNombre(), a.getDescripcion());
 
@@ -627,13 +633,16 @@ public class docente extends javax.swing.JFrame implements Actualizable {
                 contenedorVistas.remove(vp);
                 vistas.remove(vp);
 
-                // 🔥 ELIMINAR LOS DOS TABS
-                String nombrePrincipal = a.getNombre();
-                String nombreExtra = a.getNombre() + " (Extra)";
+                // Eliminar tabs del mapa
+                materiaTabsMap.remove(materiaId);
+
+                // Eliminar tabs de la interfaz
+                String tituloPrincipal = a.getNombre() + " [" + materiaId + "] - Principal";
+                String tituloContenido = a.getNombre() + " [" + materiaId + "] - Contenido";
 
                 for (int i = tabbed.getTabCount() - 1; i >= 0; i--) {
                     String titulo = tabbed.getTitleAt(i);
-                    if (titulo.equals(nombrePrincipal) || titulo.equals(nombreExtra)) {
+                    if (titulo.equals(tituloPrincipal) || titulo.equals(tituloContenido)) {
                         tabbed.removeTabAt(i);
                     }
                 }
