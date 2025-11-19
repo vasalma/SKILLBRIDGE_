@@ -9,6 +9,8 @@ import back.Session;
 import back.Usuario;
 import front.login;
 import back.Actualizable;
+import java.awt.Desktop;
+import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import main.DBConnection;
@@ -23,12 +25,11 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     private PanelReproductor panelReproductor;
 
     public dashboard() {
-        
+
         initComponents();
         System.out.println("📌 Constructor dashboard iniciado");
 
         try {
-            initComponents();
             System.out.println("✔ initComponents ejecutado");
 
             cargarUsuario();
@@ -67,15 +68,8 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     }
 
     private void cargarVideosRecientes() {
-        System.out.println("📌 Ejecutando cargarVideosRecientes()...");
-        System.out.println("📌 Agregando panelReproductor...");
 
-        //panelReproductor = new PanelReproductor();
-        //System.out.println("✔ PanelReproductor creado");
-        //panelReproductor.setBounds(0, 320, 980, 300);
-        //mainCont.add(panelReproductor);
-        //panelReproductor.setVisible(false);
-        System.out.println("✔ PanelReproductor agregado al dashboard");
+        System.out.println("📌 Ejecutando cargarVideosRecientes()...");
 
         vidRecientes.removeAll();
         vidRecientes.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 20));
@@ -87,30 +81,36 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             String titulo = v[0];
             String descripcion = v[1];
             String asignatura = v[2];
-            String rutaVideo = v[3];
+            String rutaEnBD = v[3];
+
+            // Convertir a ruta absoluta relativa al proyecto
+            File f = new File(rutaEnBD);
+            String rutaFinal = f.getAbsolutePath();
 
             Dashboard.videoDash item = new Dashboard.videoDash();
-            item.setVideoData(titulo, descripcion, asignatura, rutaVideo);
+            item.setVideoData(titulo, descripcion, asignatura, rutaFinal);
 
-            // ⭐ LISTENER REAL DEL BOTÓN PLAY
+            // --- LISTENER DEL PLAY ---
             item.getPlayBtn().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
 
-                    String ruta = item.getVideoURL();
+                    File videoFile = new File(rutaFinal);
 
-                    if (ruta == null || ruta.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Este video no tiene ruta válida.");
+                    if (!videoFile.exists()) {
+                        JOptionPane.showMessageDialog(null,
+                                "No se encontró el archivo del video:\n" + rutaFinal);
                         return;
                     }
 
-                    System.out.println("▶ Reproduciendo video: " + ruta);
-
-                    // ✔ Mostrar el panel reproductor
-                    panelReproductor.setVisible(true);
-
-                    // ✔ Reproducir el video con VLCJ
-                    panelReproductor.reproducirVideo(ruta);
+                    try {
+                        System.out.println("▶ Abriendo video: " + videoFile.getAbsolutePath());
+                        Desktop.getDesktop().open(videoFile); // ✔ ABRE LA APP POR DEFECTO
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null,
+                                "No fue posible abrir el video.");
+                        ex.printStackTrace();
+                    }
                 }
             });
 
@@ -253,7 +253,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         mainCont.add(actRecientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 380, -1, -1));
 
         filter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        mainCont.add(filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 21, -1, -1));
+        mainCont.add(filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, -1, -1));
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
 

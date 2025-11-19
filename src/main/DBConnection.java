@@ -78,7 +78,7 @@ public class DBConnection {
     }
 
     // ------------------------------
-    // Cerrar conexión
+    // Cerrar conexión HOLIIIIIIIII
     // ------------------------------
     public static void closeConnection() {
         try {

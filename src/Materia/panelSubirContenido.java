@@ -30,7 +30,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
     private final String idDocente;
     private final String idMateria;
 
-    // Constructor ORIGINAL - para mantener compatibilidad
+    // Constructor ORIGINAL - para mantener compatibilidad HOLIIIIIIII
     public panelSubirContenido(Asignatura materiaActual) {
         this(materiaActual, null); // Llama al nuevo constructor con null
     }
