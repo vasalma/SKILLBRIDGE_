@@ -87,7 +87,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
     // Subir Video - MODIFICADO para refrescar panelAsig si está disponible
     private void subirVideo() {
     if (videoFile == null || vidTitleTxt.getText().isEmpty() || vidDescripTxt.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Completa todos los campos y selecciona el archivo del video.");
+        
         return;
     }
 
@@ -169,7 +169,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
 
 private void subirActividad() {
     if (actividadFile == null || actTitleTxt.getText().isEmpty() || actDescripTxt.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Completa todos los campos y selecciona el archivo de actividad.");
+        
         return;
     }
 
