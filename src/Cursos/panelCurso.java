@@ -1,7 +1,4 @@
-
-
 package Cursos;
-
 
 import Materia.Asignatura; // Ejemplo: Si está en el paquete Materia
 // import Materia.ClaseDeAsignatura; // Usa el nombre correcto de tu clase de modelo
@@ -13,11 +10,12 @@ import Materia.Asignatura; // Ejemplo: Si está en el paquete Materia
 public class panelCurso extends javax.swing.JPanel {
 
     // Variable para almacenar el objeto Asignatura si es necesario para acciones posteriores
-    private Asignatura asignaturaActual; 
+    private Asignatura asignaturaActual;
 
     /**
-     * Constructor por defecto (mantener si es necesario para el diseñador de NetBeans).
-     * Nota: En la aplicación, usaremos el constructor con parámetros.
+     * Constructor por defecto (mantener si es necesario para el diseñador de
+     * NetBeans). Nota: En la aplicación, usaremos el constructor con
+     * parámetros.
      */
     public panelCurso() {
         initComponents();
@@ -29,30 +27,30 @@ public class panelCurso extends javax.swing.JPanel {
     // -------------------------------------------------------------
     /**
      * Crea un nuevo panelCurso y lo inicializa con los datos de la asignatura.
+     *
      * @param asig El objeto Asignatura que contiene el nombre y descripción.
      */
     public panelCurso(Asignatura asig) {
         initComponents();
         this.asignaturaActual = asig;
-        cargarDatosAsignatura(); 
+        cargarDatosAsignatura();
     }
-    
+
     // -------------------------------------------------------------
     // 🔥 MÉTODO: Carga los datos de la Asignatura en los JLabel
     // -------------------------------------------------------------
     private void cargarDatosAsignatura() {
         if (asignaturaActual != null) {
             // Asumo que tu clase Asignatura tiene métodos getNombre() y getDescripcion()
-            
+
             // Asigna el nombre de la asignatura al JLabel videoName
-            videoName.setText(asignaturaActual.getNombre()); 
-            
+            videoName.setText(asignaturaActual.getNombre());
+
             // Asigna la descripción de la asignatura al JLabel descripTxt
             descripTxt.setText(asignaturaActual.getDescripcion());
-            
+
             // Opcional: Podrías querer configurar la acción del botón "Acceder" aquí
             // accAsigBtn.addMouseListener(new java.awt.event.MouseAdapter() { ... });
-            
         } else {
             videoName.setText("Error: Asignatura no cargada");
             descripTxt.setText("Verifique el objeto Asignatura pasado al constructor.");
@@ -90,7 +88,7 @@ public class panelCurso extends javax.swing.JPanel {
         descripTxt.setForeground(new java.awt.Color(0, 0, 0));
         descripTxt.setText("Descripción...");
         descripTxt.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel1.add(descripTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 240, 140));
+        jPanel1.add(descripTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 170, 140));
 
         imgAsig.setBackground(new java.awt.Color(64, 174, 178));
 
@@ -114,6 +112,11 @@ public class panelCurso extends javax.swing.JPanel {
         accAsigTxt.setForeground(new java.awt.Color(64, 174, 178));
         accAsigTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         accAsigTxt.setText("Acceder");
+        accAsigTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accAsigTxtMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout accAsigBtnLayout = new javax.swing.GroupLayout(accAsigBtn);
         accAsigBtn.setLayout(accAsigBtnLayout);
@@ -134,6 +137,12 @@ public class panelCurso extends javax.swing.JPanel {
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 215));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void accAsigTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigTxtMouseClicked
+
+        frontEs.dashboard nuevaventana = new frontEs.dashboard();
+        nuevaventana.setVisible(true);
+    }//GEN-LAST:event_accAsigTxtMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
