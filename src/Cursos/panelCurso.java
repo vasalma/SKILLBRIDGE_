@@ -106,6 +106,11 @@ public class panelCurso extends javax.swing.JPanel {
 
         accAsigBtn.setBackground(new java.awt.Color(247, 247, 247));
         accAsigBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(64, 174, 178), 2));
+        accAsigBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accAsigBtnMouseClicked(evt);
+            }
+        });
 
         accAsigTxt.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
         accAsigTxt.setForeground(new java.awt.Color(64, 174, 178));
@@ -136,6 +141,10 @@ public class panelCurso extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void accAsigBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigBtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_accAsigBtnMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -3,37 +3,41 @@ package frontEs;
 // -------------------------------------------------------------------
 // 🔥 IMPORTS NECESARIOS (Asegúrate de que estas clases existan)
 // -------------------------------------------------------------------
-import Cursos.panelCurso;
+import Cursos.panelCurso; // Tu tarjeta de curso individual
 import back.Session;
 import back.Usuario;
-import front.login;
-import frontEs.dashboard;
 import back.Actualizable;
-
-import Materia.Asignatura; // Necesario para la lista de asignaturas
+import main.DBConnection; // Importa tu clase de conexión a la BD
+import Materia.Asignatura; // Importa tu clase de modelo
+import front.login;
 import java.util.List;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import Cursos.panelCurso; // Ajusta este import si panelCurso está en otro paquete
+import java.awt.Dimension;
 // -------------------------------------------------------------------
 
 /**
- *
- * @author Mi PC
+ * Clase principal que actúa como el dashboard de cursos (vista del Estudiante).
+ * Se ha cambiado para cargar automáticamente todos los cursos disponibles.
  */
 public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
-    /**
-     * Creates new form login
-     */
+    // Asegúrate de que estas variables existan en tus componentes (diseñador):
+    // private javax.swing.JLabel userName;
+    // private javax.swing.JPanel jPanel5; // El contenedor de las tarjetas
+
     public cursosDash() {
         initComponents();
-        // Aseguramos que jPanel5 tenga el BoxLayout para apilar tarjetas
-        if (jPanel5 != null) {
-            jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
+        
+        // 1. Configurar el layout del contenedor (jPanel5) para que apile las tarjetas verticalmente
+        if (jPanel2 != null) {
+            jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
         }
-        cargarUsuario(); // <-- IMPORTANTE
+        
+        cargarUsuario();
+        
+        // 🔥 LÍNEA CRÍTICA: Llamar a la función que carga los cursos para el ESTUDIANTE
+        cargarCursosDisponibles(); 
     }
 
     private void cargarUsuario() {
@@ -44,20 +48,33 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         } else {
             userName.setText("Usuario");
         }
-
     }
 
-    public void actualizarUsuario() {
-        cargarUsuario();    // reutiliza lo que ya hiciste
+    // Método para ser llamado desde el constructor
+    private void cargarCursosDisponibles() {
+        try {
+            System.out.println("⏳ Cargando cursos disponibles para el estudiante...");
+            
+            // 1. Llama al método de la BD para obtener TODAS las asignaturas
+            List<Asignatura> listaCursos = DBConnection.obtenerTodasLasAsignaturas();
+            
+            // 2. Llama a tu propio método para dibujar las tarjetas
+            mostrarAsignaturas(listaCursos);
+            
+            System.out.println("✅ Cursos cargados exitosamente: " + listaCursos.size());
+            
+        } catch (Exception e) {
+            System.err.println("❌ Error al intentar cargar los cursos: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-
+    
+    // Métodos Actualizable (se mantienen)
+    @Override
     public void actualizarNombreEnUI() {
-        // Asegúrate de usar la misma lógica que usabas para cargar el nombre
         Usuario u = back.Session.getUsuario();
-        // O Usuario u = back.Manager.getUsuarioActual(); (depende de tu clase de sesión)
 
         if (u != null) {
-            // 'userName' debe ser el nombre de tu JLabel en la esquina superior
             userName.setText(u.getNombre() + " " + u.getApellido());
         } else {
             userName.setText("Usuario");
@@ -66,28 +83,26 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         this.repaint();
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
     }
-
+    
     // -------------------------------------------------------------
-    // 🔥 PARTE NUEVA: Método para dibujar las asignaturas como tarjetas
+    // 🔥 MÉTODO PRINCIPAL: Dibujar las asignaturas como tarjetas
     // -------------------------------------------------------------
     /**
-     * Recibe la lista de asignaturas filtradas y las dibuja como tarjetas
-     * (panelCurso) en jPanel5.
+     * Recibe la lista de asignaturas y las dibuja como tarjetas (panelCurso) en jPanel5.
      */
     public void mostrarAsignaturas(List<Asignatura> listaAsignaturas) {
 
-        // Revisión de seguridad, aunque debe estar inicializado por initComponents
-        if (jPanel5 == null) {
+        if (jPanel2 == null) {
             System.err.println("❌ ERROR: jPanel5 no está inicializado. No se pueden mostrar asignaturas.");
             return;
         }
 
         // 1. Limpiar el panel antes de dibujar
-        jPanel5.removeAll();
+        jPanel2.removeAll();
 
         if (listaAsignaturas == null || listaAsignaturas.isEmpty()) {
             // Muestra un mensaje si no hay asignaturas
-            jPanel5.add(new javax.swing.JLabel("No hay asignaturas asignadas a este docente."));
+            jPanel2.add(new javax.swing.JLabel("No hay asignaturas disponibles en el catálogo."));
         } else {
             // 2. Iterar sobre la lista y añadir la tarjeta con sus datos
             for (Asignatura asig : listaAsignaturas) {
@@ -96,25 +111,24 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
                 panelCurso tarjeta = new panelCurso(asig);
 
                 // Configuración para BoxLayout (importante para que se vean bien)
-                tarjeta.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 220));
+                tarjeta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 220));
                 tarjeta.setAlignmentX(LEFT_ALIGNMENT);
 
-                jPanel5.add(tarjeta); // Añadir la tarjeta a jPanel5
+                jPanel2.add(tarjeta); // Añadir la tarjeta a jPanel5
 
                 // 3. Agregar un separador visual para espacio entre tarjetas
                 JPanel separator = new JPanel();
-                separator.setPreferredSize(new java.awt.Dimension(Integer.MAX_VALUE, 10)); // 10px de espacio
-                separator.setBackground(jPanel5.getBackground());
+                separator.setPreferredSize(new Dimension(Integer.MAX_VALUE, 10)); // 10px de espacio
+                separator.setBackground(jPanel2.getBackground());
                 separator.setAlignmentX(LEFT_ALIGNMENT);
-                jPanel5.add(separator);
+                jPanel2.add(separator);
             }
         }
 
         // 4. Actualizar la Interfaz (esencial)
-        jPanel5.revalidate();
-        jPanel5.repaint();
-    }
-    // -------------------------------------------------------------
+        jPanel2.revalidate();
+        jPanel2.repaint();
+    }    // -------------------------------------------------------------
 
     // ... El resto de tus métodos (initComponents, listeners, main, y variables)
     /**
@@ -132,7 +146,9 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         coursesHead = new javax.swing.JLabel();
         cont1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel5 = new javax.swing.JPanel();
+        menuTab = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
         cont2 = new javax.swing.JPanel();
         panelNotif = new javax.swing.JPanel();
         nuevasTitle = new javax.swing.JLabel();
@@ -186,11 +202,45 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         mainCont.add(coursesHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         cont1.setBackground(new java.awt.Color(102, 102, 102));
-        cont1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTabbedPane1.addTab("tab1", jPanel5);
+        menuTab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                menuTabKeyPressed(evt);
+            }
+        });
 
-        cont1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 5, 700, 560));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane2.setViewportView(jPanel2);
+
+        javax.swing.GroupLayout menuTabLayout = new javax.swing.GroupLayout(menuTab);
+        menuTab.setLayout(menuTabLayout);
+        menuTabLayout.setHorizontalGroup(
+            menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+        );
+        menuTabLayout.setVerticalGroup(
+            menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+        );
+
+        jTabbedPane1.addTab("tab1", menuTab);
+
+        javax.swing.GroupLayout cont1Layout = new javax.swing.GroupLayout(cont1);
+        cont1.setLayout(cont1Layout);
+        cont1Layout.setHorizontalGroup(
+            cont1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        cont1Layout.setVerticalGroup(
+            cont1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cont1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         mainCont.add(cont1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 700, 570));
 
@@ -489,6 +539,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
 
+    private void menuTabKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuTabKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuTabKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -547,9 +601,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel dashTxt;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
@@ -564,6 +619,7 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel logoutTxt;
     private javax.swing.JPanel mainCont;
     private javax.swing.JPanel menuBar;
+    private javax.swing.JPanel menuTab;
     private javax.swing.JLabel moniandtutoTitle;
     private javax.swing.JPanel notifs;
     private javax.swing.JLabel nuevasTitle;
