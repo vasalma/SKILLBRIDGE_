@@ -264,6 +264,7 @@ public class panelAsig extends javax.swing.JPanel {
         actsTitle = new javax.swing.JLabel();
         loadactsBtn = new javax.swing.JPanel();
         loadIcon = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         acts = new javax.swing.JPanel();
         videosSection = new javax.swing.JPanel();
         videosTitle = new javax.swing.JLabel();
@@ -352,20 +353,14 @@ public class panelAsig extends javax.swing.JPanel {
 
         actsSection.add(loadactsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 37, -1, -1));
 
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
         acts.setBackground(new java.awt.Color(153, 153, 153));
+        acts.setLayout(new javax.swing.BoxLayout(acts, javax.swing.BoxLayout.X_AXIS));
+        jScrollPane2.setViewportView(acts);
 
-        javax.swing.GroupLayout actsLayout = new javax.swing.GroupLayout(acts);
-        acts.setLayout(actsLayout);
-        actsLayout.setHorizontalGroup(
-            actsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 796, Short.MAX_VALUE)
-        );
-        actsLayout.setVerticalGroup(
-            actsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
-        );
-
-        actsSection.add(acts, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 6, 796, 180));
+        actsSection.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 6, 796, 190));
 
         background.add(actsSection, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 950, 210));
 
@@ -477,6 +472,7 @@ public class panelAsig extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel loadIcon;
     private javax.swing.JLabel loadIcon1;
     private javax.swing.JPanel loadactsBtn;

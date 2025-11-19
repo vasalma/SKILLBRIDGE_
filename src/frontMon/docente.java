@@ -499,7 +499,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
 
         contenedorVistas.setBackground(new java.awt.Color(255, 255, 255));
         contenedorVistas.setLayout(new javax.swing.BoxLayout(contenedorVistas, javax.swing.BoxLayout.Y_AXIS));
-        menuTab.add(contenedorVistas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 440));
+        menuTab.add(contenedorVistas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 1010, 470));
 
         tabbed.addTab("tab1", menuTab);
 
