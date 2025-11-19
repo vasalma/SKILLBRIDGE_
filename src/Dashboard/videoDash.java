@@ -14,17 +14,9 @@ public class videoDash extends javax.swing.JPanel {
      * Creates new form videoDash
      */
 
-    public videoDash(String titulo, String ruta, ) {
+    public videoDash() {
         initComponents();
-        videoName.setText(titulo);
-
-
-        this.rutaVideo = ruta;
-    }
-
-    public JButton getPlayBtn() {
-        return playBtn;
-    }
+        }
 
 
 
