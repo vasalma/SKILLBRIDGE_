@@ -133,7 +133,7 @@ public class curso extends javax.swing.JFrame implements Actualizable {
         dashIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/houseBicon.png"))); // NOI18N
         dashBtn.add(dashIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 260, 40));
+        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
 
         coursesBtn.setBackground(new java.awt.Color(255, 255, 255));
         coursesBtn.setForeground(new java.awt.Color(0, 0, 0));
@@ -148,7 +148,7 @@ public class curso extends javax.swing.JFrame implements Actualizable {
         coursesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hatGicon.png"))); // NOI18N
         coursesBtn.add(coursesIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 260, 40));
+        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
 
         actsBtn.setBackground(new java.awt.Color(255, 255, 255));
         actsBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

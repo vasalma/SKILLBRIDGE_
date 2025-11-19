@@ -8,7 +8,7 @@ public class Asignatura {
 
     // -------------------------------------------------------------
     // CONSTRUCTOR 1: Completo (id, nombre, descripcion)
-    // Usado si obtienes el ID de la tabla 'materias'
+    // Usado si obtienes el ID único y dedicado de la tabla 'materias'
     // -------------------------------------------------------------
     public Asignatura(String id, String nombre, String descripcion) {
         this.id = id;
@@ -17,12 +17,16 @@ public class Asignatura {
     }
     
     // -------------------------------------------------------------
-    // 🔥 CONSTRUCTOR 2: Requerido (nombre, descripcion)
+    // 🔥 CONSTRUCTOR 2: Corregido (nombre, descripcion)
     // Usado por DBConnection al consultar la tabla 'docente'
+    // 
+    // Si la tabla 'docente' no tiene una columna 'idMateria', usamos el 'nombre'
+    // como ID temporal para evitar el error de BD al subir contenido.
     // -------------------------------------------------------------
     public Asignatura(String nombre, String descripcion) {
-        // Inicializa 'id' como null o un valor predeterminado, ya que no se proporciona.
-        this.id = null; 
+        // CORRECCIÓN: Asignamos el nombre al ID para garantizar que no sea NULL
+        // cuando se suba a la base de datos (videos.idMateria y actividades.idMateria).
+        this.id = nombre; 
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
@@ -35,7 +39,7 @@ public class Asignatura {
     public String getDescripcion() { return descripcion; }
     
     // -------------------------------------------------------------
-    // Setters (Opcional, pero útil si necesitas modificar datos)
+    // Setters
     // -------------------------------------------------------------
     public void setId(String id) { this.id = id; }
     public void setNombre(String nombre) { this.nombre = nombre; }
