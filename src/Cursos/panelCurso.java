@@ -1,8 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
+
 package Cursos;
+
+
+import Materia.Asignatura; // Ejemplo: Si está en el paquete Materia
+// import Materia.ClaseDeAsignatura; // Usa el nombre correcto de tu clase de modelo
 
 /**
  *
@@ -10,11 +12,51 @@ package Cursos;
  */
 public class panelCurso extends javax.swing.JPanel {
 
+    // Variable para almacenar el objeto Asignatura si es necesario para acciones posteriores
+    private Asignatura asignaturaActual; 
+
     /**
-     * Creates new form panelCurso
+     * Constructor por defecto (mantener si es necesario para el diseñador de NetBeans).
+     * Nota: En la aplicación, usaremos el constructor con parámetros.
      */
     public panelCurso() {
         initComponents();
+        // Si usas este constructor, las etiquetas tendrán los valores por defecto
+    }
+
+    // -------------------------------------------------------------
+    // 🔥 NUEVO CONSTRUCTOR: Recibe la Asignatura y actualiza la UI
+    // -------------------------------------------------------------
+    /**
+     * Crea un nuevo panelCurso y lo inicializa con los datos de la asignatura.
+     * @param asig El objeto Asignatura que contiene el nombre y descripción.
+     */
+    public panelCurso(Asignatura asig) {
+        initComponents();
+        this.asignaturaActual = asig;
+        cargarDatosAsignatura(); 
+    }
+    
+    // -------------------------------------------------------------
+    // 🔥 MÉTODO: Carga los datos de la Asignatura en los JLabel
+    // -------------------------------------------------------------
+    private void cargarDatosAsignatura() {
+        if (asignaturaActual != null) {
+            // Asumo que tu clase Asignatura tiene métodos getNombre() y getDescripcion()
+            
+            // Asigna el nombre de la asignatura al JLabel videoName
+            videoName.setText(asignaturaActual.getNombre()); 
+            
+            // Asigna la descripción de la asignatura al JLabel descripTxt
+            descripTxt.setText(asignaturaActual.getDescripcion());
+            
+            // Opcional: Podrías querer configurar la acción del botón "Acceder" aquí
+            // accAsigBtn.addMouseListener(new java.awt.event.MouseAdapter() { ... });
+            
+        } else {
+            videoName.setText("Error: Asignatura no cargada");
+            descripTxt.setText("Verifique el objeto Asignatura pasado al constructor.");
+        }
     }
 
     /**

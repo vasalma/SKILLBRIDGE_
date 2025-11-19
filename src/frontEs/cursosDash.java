@@ -1,15 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package frontEs;
 
+// -------------------------------------------------------------------
+// 🔥 IMPORTS NECESARIOS (Asegúrate de que estas clases existan)
+// -------------------------------------------------------------------
+import Cursos.panelCurso;
 import back.Session;
 import back.Usuario;
 import front.login;
 import frontEs.dashboard;
 import back.Actualizable;
 
+import Materia.Asignatura; // Necesario para la lista de asignaturas
+import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import Cursos.panelCurso; // Ajusta este import si panelCurso está en otro paquete
+// -------------------------------------------------------------------
 
 /**
  *
@@ -22,6 +29,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
      */
     public cursosDash() {
         initComponents();
+        // Aseguramos que jPanel5 tenga el BoxLayout para apilar tarjetas
+        if (jPanel5 != null) {
+            jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
+        }
         cargarUsuario(); // <-- IMPORTANTE
     }
 
@@ -37,7 +48,7 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     }
 
     public void actualizarUsuario() {
-        cargarUsuario();   // reutiliza lo que ya hiciste
+        cargarUsuario();    // reutiliza lo que ya hiciste
     }
 
     public void actualizarNombreEnUI() {
@@ -56,6 +67,56 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
     }
 
+    // -------------------------------------------------------------
+    // 🔥 PARTE NUEVA: Método para dibujar las asignaturas como tarjetas
+    // -------------------------------------------------------------
+    /**
+     * Recibe la lista de asignaturas filtradas y las dibuja como tarjetas
+     * (panelCurso) en jPanel5.
+     */
+    public void mostrarAsignaturas(List<Asignatura> listaAsignaturas) {
+
+        // Revisión de seguridad, aunque debe estar inicializado por initComponents
+        if (jPanel5 == null) {
+            System.err.println("❌ ERROR: jPanel5 no está inicializado. No se pueden mostrar asignaturas.");
+            return;
+        }
+
+        // 1. Limpiar el panel antes de dibujar
+        jPanel5.removeAll();
+
+        if (listaAsignaturas == null || listaAsignaturas.isEmpty()) {
+            // Muestra un mensaje si no hay asignaturas
+            jPanel5.add(new javax.swing.JLabel("No hay asignaturas asignadas a este docente."));
+        } else {
+            // 2. Iterar sobre la lista y añadir la tarjeta con sus datos
+            for (Asignatura asig : listaAsignaturas) {
+
+                // --- INSTANCIACIÓN DE LA TARJETA panelCurso ---
+                panelCurso tarjeta = new panelCurso(asig);
+
+                // Configuración para BoxLayout (importante para que se vean bien)
+                tarjeta.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 220));
+                tarjeta.setAlignmentX(LEFT_ALIGNMENT);
+
+                jPanel5.add(tarjeta); // Añadir la tarjeta a jPanel5
+
+                // 3. Agregar un separador visual para espacio entre tarjetas
+                JPanel separator = new JPanel();
+                separator.setPreferredSize(new java.awt.Dimension(Integer.MAX_VALUE, 10)); // 10px de espacio
+                separator.setBackground(jPanel5.getBackground());
+                separator.setAlignmentX(LEFT_ALIGNMENT);
+                jPanel5.add(separator);
+            }
+        }
+
+        // 4. Actualizar la Interfaz (esencial)
+        jPanel5.revalidate();
+        jPanel5.repaint();
+    }
+    // -------------------------------------------------------------
+
+    // ... El resto de tus métodos (initComponents, listeners, main, y variables)
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +126,8 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         mainCont = new javax.swing.JPanel();
         coursesHead = new javax.swing.JLabel();
         cont1 = new javax.swing.JPanel();
@@ -77,6 +140,13 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         bellicon = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         notifs = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -98,6 +168,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         userName = new javax.swing.JLabel();
         configArrow = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -144,6 +218,73 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         panelNotif.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 290, 20));
 
         notifs.setBackground(new java.awt.Color(153, 153, 153));
+        notifs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        notifs.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 50));
+
+        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField2.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField2.setText("jTextField1");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        notifs.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 50));
+
+        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField3.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField3.setText("jTextField1");
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        notifs.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 50));
+
+        jTextField4.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField4.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField4.setText("jTextField1");
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+        notifs.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 50));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextField5.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField5.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField5.setText("jTextField5");
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 50));
+
+        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField6.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField6.setText("jTextField5");
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 22, 270, 50));
+
+        notifs.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 270, 220));
+
         panelNotif.add(notifs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 270, 500));
 
         cont2.add(panelNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 290, 600));
@@ -324,6 +465,30 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         this.setVisible(false);
     }//GEN-LAST:event_jPanel1MouseClicked
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -382,9 +547,18 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel dashTxt;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JLabel logoutIcon;
     private javax.swing.JLabel logoutTxt;
