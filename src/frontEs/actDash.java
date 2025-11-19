@@ -64,15 +64,9 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
     private void initComponents() {
 
         sectionName = new javax.swing.JPanel();
-        completeTxt = new javax.swing.JLabel();
-        activesTxt = new javax.swing.JLabel();
-        allTxt = new javax.swing.JLabel();
         actsTitle = new javax.swing.JLabel();
         filterIcon = new javax.swing.JLabel();
         listIcon = new javax.swing.JLabel();
-        allBtn = new javax.swing.JLabel();
-        activesBtn = new javax.swing.JLabel();
-        completeBtn = new javax.swing.JLabel();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -95,10 +89,12 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
         configArrow = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         mainCont = new javax.swing.JPanel();
-        tabbed = new javax.swing.JTabbedPane();
-        allTab = new javax.swing.JTabbedPane();
-        activesTab = new javax.swing.JTabbedPane();
-        completeTab = new javax.swing.JTabbedPane();
+        cont = new javax.swing.JPanel();
+        actName = new javax.swing.JLabel();
+        descripTxt = new javax.swing.JLabel();
+        docenteName = new javax.swing.JLabel();
+        downloadBtn = new javax.swing.JPanel();
+        downloadTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -106,24 +102,6 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
 
         sectionName.setBackground(new java.awt.Color(153, 153, 153));
         sectionName.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        completeTxt.setFont(new java.awt.Font("Open Sans", 0, 9)); // NOI18N
-        completeTxt.setForeground(new java.awt.Color(0, 0, 0));
-        completeTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        completeTxt.setText("Terminadas");
-        sectionName.add(completeTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 20));
-
-        activesTxt.setFont(new java.awt.Font("Open Sans", 0, 9)); // NOI18N
-        activesTxt.setForeground(new java.awt.Color(0, 0, 0));
-        activesTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        activesTxt.setText("Activas");
-        sectionName.add(activesTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 40, 20));
-
-        allTxt.setFont(new java.awt.Font("Open Sans", 1, 9)); // NOI18N
-        allTxt.setForeground(new java.awt.Color(255, 255, 255));
-        allTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        allTxt.setText("Todas");
-        sectionName.add(allTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 50, 40, 20));
 
         actsTitle.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
         actsTitle.setForeground(new java.awt.Color(0, 0, 0));
@@ -135,15 +113,6 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
 
         listIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
         sectionName.add(listIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 40, 40));
-
-        allBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/filterGreen.png"))); // NOI18N
-        sectionName.add(allBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 20));
-
-        activesBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/filterGray.png"))); // NOI18N
-        sectionName.add(activesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, -1, 20));
-
-        completeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/filterGraybigger.png"))); // NOI18N
-        sectionName.add(completeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 89, 20));
 
         getContentPane().add(sectionName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 80));
 
@@ -277,14 +246,48 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
 
         mainCont.setBackground(new java.awt.Color(102, 102, 102));
         mainCont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 660, 550));
 
-        tabbed.addTab("tab1", allTab);
-        tabbed.addTab("tab2", activesTab);
-        tabbed.addTab("tab3", completeTab);
+        cont.setBackground(new java.awt.Color(255, 255, 255));
+        cont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        mainCont.add(tabbed, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 550));
+        actName.setFont(new java.awt.Font("Questrial", 0, 26)); // NOI18N
+        actName.setForeground(new java.awt.Color(0, 0, 0));
+        actName.setText("Actividad");
+        cont.add(actName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 1010, 550));
+        descripTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
+        descripTxt.setForeground(new java.awt.Color(0, 0, 0));
+        descripTxt.setText("Descripción...");
+        descripTxt.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        cont.add(descripTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 300, 100));
+
+        docenteName.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
+        docenteName.setForeground(new java.awt.Color(64, 174, 178));
+        docenteName.setText("Autor");
+        cont.add(docenteName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 46, -1, 20));
+
+        downloadBtn.setBackground(new java.awt.Color(64, 174, 178));
+
+        downloadTxt.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
+        downloadTxt.setForeground(new java.awt.Color(255, 255, 255));
+        downloadTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        downloadTxt.setText("Descargar");
+
+        javax.swing.GroupLayout downloadBtnLayout = new javax.swing.GroupLayout(downloadBtn);
+        downloadBtn.setLayout(downloadBtnLayout);
+        downloadBtnLayout.setHorizontalGroup(
+            downloadBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(downloadTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+        );
+        downloadBtnLayout.setVerticalGroup(
+            downloadBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(downloadTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        cont.add(downloadBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 110, 30));
+
+        getContentPane().add(cont, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 160, 350, 470));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -426,27 +429,24 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel activesBtn;
-    private javax.swing.JTabbedPane activesTab;
-    private javax.swing.JLabel activesTxt;
+    private javax.swing.JLabel actName;
     private javax.swing.JPanel actsBtn;
     private javax.swing.JLabel actsIcon;
     private javax.swing.JLabel actsTitle;
     private javax.swing.JLabel actsTxt;
-    private javax.swing.JLabel allBtn;
-    private javax.swing.JTabbedPane allTab;
-    private javax.swing.JLabel allTxt;
     private javax.swing.JLabel appName;
-    private javax.swing.JLabel completeBtn;
-    private javax.swing.JTabbedPane completeTab;
-    private javax.swing.JLabel completeTxt;
     private javax.swing.JLabel configArrow;
+    private javax.swing.JPanel cont;
     private javax.swing.JPanel coursesBtn;
     private javax.swing.JLabel coursesIcon;
     private javax.swing.JLabel coursesTxt;
     private javax.swing.JPanel dashBtn;
     private javax.swing.JLabel dashIcon;
     private javax.swing.JLabel dashTxt;
+    private javax.swing.JLabel descripTxt;
+    private javax.swing.JLabel docenteName;
+    private javax.swing.JPanel downloadBtn;
+    private javax.swing.JLabel downloadTxt;
     private javax.swing.JLabel filterIcon;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
@@ -460,7 +460,6 @@ public class actDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchIcon;
     private javax.swing.JPanel sectionName;
-    private javax.swing.JTabbedPane tabbed;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
 }

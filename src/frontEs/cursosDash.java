@@ -67,8 +67,16 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
         mainCont = new javax.swing.JPanel();
         coursesHead = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        cont1 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel5 = new javax.swing.JPanel();
+        cont2 = new javax.swing.JPanel();
+        panelNotif = new javax.swing.JPanel();
+        nuevasTitle = new javax.swing.JLabel();
+        moniandtutoTitle = new javax.swing.JLabel();
+        bellicon = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        notifs = new javax.swing.JPanel();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -95,7 +103,7 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        mainCont.setBackground(new java.awt.Color(153, 153, 153));
+        mainCont.setBackground(new java.awt.Color(255, 255, 255));
         mainCont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         coursesHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
@@ -103,9 +111,44 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         coursesHead.setText("Mis cursos");
         mainCont.add(coursesHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-        mainCont.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 700, 490));
-        mainCont.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 310, 550));
+        cont1.setBackground(new java.awt.Color(102, 102, 102));
+        cont1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTabbedPane1.addTab("tab1", jPanel5);
+
+        cont1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 5, 700, 560));
+
+        mainCont.add(cont1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 700, 570));
+
+        cont2.setBackground(new java.awt.Color(204, 204, 204));
+        cont2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelNotif.setBackground(new java.awt.Color(255, 255, 255));
+        panelNotif.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelNotif.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        nuevasTitle.setFont(new java.awt.Font("Poppins SemiBold", 0, 22)); // NOI18N
+        nuevasTitle.setForeground(new java.awt.Color(92, 225, 230));
+        nuevasTitle.setText("Nuevas");
+        panelNotif.add(nuevasTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        moniandtutoTitle.setFont(new java.awt.Font("Poppins Light", 0, 20)); // NOI18N
+        moniandtutoTitle.setForeground(new java.awt.Color(0, 0, 0));
+        moniandtutoTitle.setText("Monitorias/Tutorías");
+        panelNotif.add(moniandtutoTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 20));
+
+        bellicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bellicon.png"))); // NOI18N
+        panelNotif.add(bellicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, -1, -1));
+
+        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+        panelNotif.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 290, 20));
+
+        notifs.setBackground(new java.awt.Color(153, 153, 153));
+        panelNotif.add(notifs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 270, 500));
+
+        cont2.add(panelNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 290, 600));
+
+        mainCont.add(cont2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 310, 630));
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
 
@@ -326,7 +369,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel actsIcon;
     private javax.swing.JLabel actsTxt;
     private javax.swing.JLabel appName;
+    private javax.swing.JLabel bellicon;
     private javax.swing.JLabel configArrow;
+    private javax.swing.JPanel cont1;
+    private javax.swing.JPanel cont2;
     private javax.swing.JPanel coursesBtn;
     private javax.swing.JLabel coursesHead;
     private javax.swing.JLabel coursesIcon;
@@ -336,13 +382,18 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel dashTxt;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JLabel logoutIcon;
     private javax.swing.JLabel logoutTxt;
     private javax.swing.JPanel mainCont;
     private javax.swing.JPanel menuBar;
+    private javax.swing.JLabel moniandtutoTitle;
+    private javax.swing.JPanel notifs;
+    private javax.swing.JLabel nuevasTitle;
+    private javax.swing.JPanel panelNotif;
     private javax.swing.JLabel profilePic;
     private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchIcon;
