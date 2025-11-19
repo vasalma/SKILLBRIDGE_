@@ -10,12 +10,42 @@ package Dashboard;
  */
 public class actDash extends javax.swing.JPanel {
 
-    /**
+ /**
      * Creates new form act
      */
-    public actDash() {
+  public actDash() {
         initComponents();
     }
+    private String actividadURL;
+
+    // ==================== GETTERS CORREGIDOS ====================
+    public javax.swing.JPanel getDownloadBtn() {  // ← MANTÉN ESTE
+        return downloadBtn;
+    }
+
+    public javax.swing.JLabel getActividadName() {
+        return actName;
+    }
+
+    public javax.swing.JLabel getDocenteName() {
+        return docenteName;
+    }
+
+    public javax.swing.JLabel getAsigName() {
+        return asigTxt;
+    }
+
+    // ==================== SET DATA ====================
+    public void setActividadData(String titulo, String docente, String asignatura, String actividadURL) {
+        this.actName.setText(titulo);
+        this.docenteName.setText(docente);
+        this.asigTxt.setText(asignatura);
+        this.actividadURL = actividadURL;
+    }
+
+    public String getActividadURL() {
+        return actividadURL;
+}
 
     /**
      * This method is called from within the constructor to initialize the form.

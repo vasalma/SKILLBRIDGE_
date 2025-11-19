@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import main.DBConnection;
+import Dashboard.actDash;        
 //
 
 /**
@@ -19,7 +20,7 @@ import main.DBConnection;
 public class dashboard extends javax.swing.JFrame implements Actualizable {
 
     //private PanelReproductor panelReproductor;
-
+    //private PanelReproductor panelReproductor;
     public dashboard() {
         initComponents();
         System.out.println("📌 Constructor dashboard iniciado");
@@ -33,21 +34,12 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             cargarVideosRecientes();
             System.out.println("✔ cargarVideosRecientes ejecutado");
 
-            // ❌❌❌ COMENTA TEMPORALMENTE ESTO ❌❌❌
-            /*
-        panelReproductor = new PanelReproductor();
-        System.out.println("✔ PanelReproductor creado");
+            cargarActividadesRecientes();  // ← NUEVA LÍNEA
+            System.out.println("✔ cargarActividadesRecientes ejecutado");
 
-        panelReproductor.setBounds(0, 320, 980, 300);
-        mainCont.add(panelReproductor);
-        panelReproductor.setVisible(false);
-
-        System.out.println("✔ PanelReproductor agregado al dashboard");
-             */
-            // ❌❌❌ HASTA AQUÍ ❌❌❌
             System.out.println("✔ Mostrando ventana del dashboard...");
             this.setVisible(true);
-            this.setLocationRelativeTo(null); // Centrar ventana
+
             System.out.println("✅ Dashboard completamente cargado");
 
         } catch (Exception e) {
@@ -65,6 +57,50 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             userName.setText("Usuario");
         }
 
+    }
+
+    private void cargarActividadesRecientes() {
+        System.out.println("📌 Ejecutando cargarActividadesRecientes()...");
+
+        actRecientesExcel.removeAll();
+        actRecientesExcel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
+
+        List<String[]> lista = DBConnection.obtenerActividadesRecientes();
+
+        for (String[] a : lista) {
+            String titulo = a[0];
+            String descripcion = a[1];
+            String materia = a[2];
+            String rutaRelativa = a[3];  // ✅ Ruta relativa directa de la BD
+            String nombreDocente = a[4];
+
+            actDash item = new actDash();
+            item.setActividadData(titulo, nombreDocente, materia, rutaRelativa);
+
+            // LISTENER
+            item.getDownloadBtn().addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    File archivo = new File(rutaRelativa);  // ✅ Usa ruta relativa directamente
+
+                    if (!archivo.exists()) {
+                        JOptionPane.showMessageDialog(null, "Archivo no encontrado:\n" + rutaRelativa);
+                        return;
+                    }
+
+                    try {
+                        Desktop.getDesktop().open(archivo);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error al abrir archivo");
+                    }
+                }
+            });
+
+            actRecientesExcel.add(item);
+        }
+
+        actRecientesExcel.revalidate();
+        actRecientesExcel.repaint();
     }
 
     private void cargarVideosRecientes() {
@@ -159,7 +195,6 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         asignatura = new javax.swing.JLabel();
         docente = new javax.swing.JLabel();
         actRecientesExcel = new javax.swing.JPanel();
-        filter = new javax.swing.JComboBox<>();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -252,9 +287,6 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
 
         mainCont.add(actRecientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 380, -1, -1));
 
-        filter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        mainCont.add(filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, -1, -1));
-
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
 
         menuBar.setBackground(new java.awt.Color(255, 255, 255));
@@ -276,7 +308,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         dashIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/houseGicon.png"))); // NOI18N
         dashBtn.add(dashIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
+        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
 
         coursesBtn.setBackground(new java.awt.Color(255, 255, 255));
         coursesBtn.setForeground(new java.awt.Color(0, 0, 0));
@@ -295,7 +327,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         coursesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hatBicon.png"))); // NOI18N
         coursesBtn.add(coursesIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
+        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 260, 40));
 
         actsBtn.setBackground(new java.awt.Color(255, 255, 255));
         actsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -483,7 +515,6 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel dashIcon;
     private javax.swing.JLabel dashTxt;
     private javax.swing.JLabel docente;
-    private javax.swing.JComboBox<String> filter;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel logoutBtn;

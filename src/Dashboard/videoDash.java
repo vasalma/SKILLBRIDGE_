@@ -15,6 +15,9 @@ public class videoDash extends javax.swing.JPanel {
     /**
      * Creates new form videoDash
      */
+/**
+     * Creates new form videoDash
+     */
     public videoDash() {
         initComponents();
     }
@@ -51,8 +54,8 @@ public class videoDash extends javax.swing.JPanel {
 
 
     public String getVideoURL() {
-        return videoURL; // el atributo donde guardas videourl
-    }
+        return videoURL; // el atributo donde guardas videourl
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

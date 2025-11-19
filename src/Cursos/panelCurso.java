@@ -4,6 +4,9 @@ package Cursos;
 
 
 import Materia.Asignatura; // Ejemplo: Si está en el paquete Materia
+import Materia.Asignatura; 
+import javax.swing.SwingUtilities;
+import java.awt.Component;
 // import Materia.ClaseDeAsignatura; // Usa el nombre correcto de tu clase de modelo
 
 /**
@@ -143,7 +146,7 @@ public class panelCurso extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void accAsigBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigBtnMouseClicked
-        // TODO add your handling code here:
+        //:
     }//GEN-LAST:event_accAsigBtnMouseClicked
 
 

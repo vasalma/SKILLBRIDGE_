@@ -334,4 +334,32 @@ public class DBConnection {
         }
         return videos;
     }
+    public static List<String[]> obtenerActividadesRecientes() {
+        List<String[]> lista = new ArrayList<>();
+
+        String sql = "SELECT a.titulo, a.descripcion, m.nombre as materia, a.actividadurl, u.nombre, u.apellido "
+                + "FROM actividades a "
+                + "INNER JOIN materias m ON a.idMateria = m.id "
+                + "INNER JOIN usuarios u ON a.idDocente = u.id "
+                + "ORDER BY a.titulo";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String titulo = rs.getString("titulo");
+                String descripcion = rs.getString("descripcion");
+                String materia = rs.getString("materia");  // ✅ Nombre real de la materia
+                String rutaActividad = rs.getString("actividadurl");
+                String nombreDocente = rs.getString("nombre") + " " + rs.getString("apellido");  // ✅ Nombre completo del docente
+
+                lista.add(new String[]{titulo, descripcion, materia, rutaActividad, nombreDocente});
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error en obtenerActividadesRecientes: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return lista;
+}
 }
