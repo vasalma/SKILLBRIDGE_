@@ -264,7 +264,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        sectionName.setBackground(new java.awt.Color(153, 153, 153));
+        sectionName.setBackground(new java.awt.Color(255, 255, 255));
         sectionName.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         actsTitle.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
@@ -272,7 +272,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         actsTitle.setText("Docente");
         sectionName.add(actsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        getContentPane().add(sectionName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 80));
+        getContentPane().add(sectionName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 90));
 
         menuBar.setBackground(new java.awt.Color(255, 255, 255));
         menuBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -499,11 +499,11 @@ public class docente extends javax.swing.JFrame implements Actualizable {
 
         contenedorVistas.setBackground(new java.awt.Color(255, 255, 255));
         contenedorVistas.setLayout(new javax.swing.BoxLayout(contenedorVistas, javax.swing.BoxLayout.Y_AXIS));
-        menuTab.add(contenedorVistas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 1010, 470));
+        menuTab.add(contenedorVistas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -60, 1010, 500));
 
         tabbed.addTab("tab1", menuTab);
 
-        mainCont.add(tabbed, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 550));
+        mainCont.add(tabbed, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 1010, 580));
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 1010, 550));
 

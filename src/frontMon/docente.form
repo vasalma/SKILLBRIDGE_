@@ -31,12 +31,12 @@
     <Container class="javax.swing.JPanel" name="sectionName">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="99" green="99" red="99" type="rgb"/>
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="260" y="80" width="1010" height="80"/>
+          <AbsoluteConstraints x="260" y="80" width="1010" height="90"/>
         </Constraint>
       </Constraints>
 
@@ -493,7 +493,7 @@
         <Container class="javax.swing.JTabbedPane" name="tabbed">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="1010" height="550"/>
+              <AbsoluteConstraints x="0" y="-30" width="1010" height="580"/>
             </Constraint>
           </Constraints>
 
@@ -613,7 +613,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="0" y="-30" width="1010" height="470"/>
+                      <AbsoluteConstraints x="0" y="-60" width="1010" height="500"/>
                     </Constraint>
                   </Constraints>
 
