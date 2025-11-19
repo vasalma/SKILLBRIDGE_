@@ -145,8 +145,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         mainCont = new javax.swing.JPanel();
         coursesHead = new javax.swing.JLabel();
         cont1 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        menuTab = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         cont2 = new javax.swing.JPanel();
@@ -203,43 +201,22 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
         cont1.setBackground(new java.awt.Color(102, 102, 102));
 
-        menuTab.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                menuTabKeyPressed(evt);
-            }
-        });
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane2.setViewportView(jPanel2);
 
-        javax.swing.GroupLayout menuTabLayout = new javax.swing.GroupLayout(menuTab);
-        menuTab.setLayout(menuTabLayout);
-        menuTabLayout.setHorizontalGroup(
-            menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-        );
-        menuTabLayout.setVerticalGroup(
-            menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
-        );
-
-        jTabbedPane1.addTab("tab1", menuTab);
-
         javax.swing.GroupLayout cont1Layout = new javax.swing.GroupLayout(cont1);
         cont1.setLayout(cont1Layout);
         cont1Layout.setHorizontalGroup(
             cont1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
         cont1Layout.setVerticalGroup(
             cont1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cont1Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
         );
 
         mainCont.add(cont1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 700, 570));
@@ -539,10 +516,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
 
-    private void menuTabKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuTabKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuTabKeyPressed
-
     /**
      * @param args the command line arguments
      */
@@ -606,7 +579,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
@@ -619,7 +591,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel logoutTxt;
     private javax.swing.JPanel mainCont;
     private javax.swing.JPanel menuBar;
-    private javax.swing.JPanel menuTab;
     private javax.swing.JLabel moniandtutoTitle;
     private javax.swing.JPanel notifs;
     private javax.swing.JLabel nuevasTitle;

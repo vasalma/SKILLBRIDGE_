@@ -75,6 +75,9 @@ public class panelCurso extends javax.swing.JPanel {
         accAsigBtn = new javax.swing.JPanel();
         accAsigTxt = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jPanel1.setBackground(new java.awt.Color(247, 247, 247));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -116,25 +119,20 @@ public class panelCurso extends javax.swing.JPanel {
         accAsigBtn.setLayout(accAsigBtnLayout);
         accAsigBtnLayout.setHorizontalGroup(
             accAsigBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(accAsigTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+            .addGap(0, 116, Short.MAX_VALUE)
+            .addGroup(accAsigBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(accAsigTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
         );
         accAsigBtnLayout.setVerticalGroup(
             accAsigBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(accAsigTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+            .addGap(0, 26, Short.MAX_VALUE)
+            .addGroup(accAsigBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(accAsigTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
         );
 
-        jPanel1.add(accAsigBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(564, 170, 120, 30));
+        jPanel1.add(accAsigBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 170, 120, 30));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-        );
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 215));
     }// </editor-fold>//GEN-END:initComponents
 
 
