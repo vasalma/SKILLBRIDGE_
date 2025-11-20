@@ -253,6 +253,7 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         moniandtutoTitle = new javax.swing.JLabel();
         bellicon = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane3 = new javax.swing.JScrollPane();
         notifs = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -416,9 +417,13 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         panelNotif.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 290, 20));
 
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         notifs.setBackground(new java.awt.Color(153, 153, 153));
-        notifs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelNotif.add(notifs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 270, 500));
+        notifs.setLayout(new javax.swing.BoxLayout(notifs, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane3.setViewportView(notifs);
+
+        panelNotif.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 290, 520));
 
         cont2.add(panelNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 290, 600));
 
@@ -530,6 +535,7 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JLabel logoutIcon;
