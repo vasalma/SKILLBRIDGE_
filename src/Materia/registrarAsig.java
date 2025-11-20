@@ -98,6 +98,7 @@ public class registrarAsig extends javax.swing.JFrame {
         asigName.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
         asigName.setForeground(new java.awt.Color(145, 145, 145));
         asigName.setText("Asignatura");
+        asigName.setBorder(null);
         asigName.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 asigNameMouseClicked(evt);
@@ -123,6 +124,7 @@ public class registrarAsig extends javax.swing.JFrame {
         IDAsig.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
         IDAsig.setForeground(new java.awt.Color(145, 145, 145));
         IDAsig.setText("ID de asignatura");
+        IDAsig.setBorder(null);
         IDAsig.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 IDAsigMousePressed(evt);

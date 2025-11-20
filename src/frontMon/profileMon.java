@@ -130,7 +130,6 @@ public class profileMon extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         userName = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JPanel();
@@ -394,9 +393,6 @@ public class profileMon extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Monitor");
         profileData.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(87, 193, 70, -1));
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editPic.png"))); // NOI18N
-        profileData.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 40, 40));
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profilePic.png"))); // NOI18N
         profileData.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 123, 123));
@@ -961,7 +957,6 @@ public class profileMon extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;

@@ -154,13 +154,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         bellicon = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         notifs = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -169,15 +162,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         coursesBtn = new javax.swing.JPanel();
         coursesTxt = new javax.swing.JLabel();
         coursesIcon = new javax.swing.JLabel();
-        actsBtn = new javax.swing.JPanel();
-        actsTxt = new javax.swing.JLabel();
-        actsIcon = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JPanel();
         logoutTxt = new javax.swing.JLabel();
         logoutIcon = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
-        searchIcon = new javax.swing.JButton();
-        searchBar = new javax.swing.JTextField();
         profilePic = new javax.swing.JLabel();
         userName = new javax.swing.JLabel();
         configArrow = new javax.swing.JLabel();
@@ -246,72 +234,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
         notifs.setBackground(new java.awt.Color(153, 153, 153));
         notifs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField1.setText("jTextField1");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        notifs.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 50));
-
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField2.setText("jTextField1");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        notifs.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 50));
-
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField3.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField3.setText("jTextField1");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-        notifs.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 50));
-
-        jTextField4.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField4.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField4.setText("jTextField1");
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-        notifs.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 50));
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTextField5.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField5.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField5.setText("jTextField5");
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 50));
-
-        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField6.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField6.setText("jTextField5");
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 22, 270, 50));
-
-        notifs.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 270, 220));
-
         panelNotif.add(notifs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 270, 500));
 
         cont2.add(panelNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 290, 600));
@@ -344,7 +266,7 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         dashIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/houseBicon.png"))); // NOI18N
         dashBtn.add(dashIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
+        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
 
         coursesBtn.setBackground(new java.awt.Color(255, 255, 255));
         coursesBtn.setForeground(new java.awt.Color(0, 0, 0));
@@ -359,25 +281,7 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         coursesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hatGicon.png"))); // NOI18N
         coursesBtn.add(coursesIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
-
-        actsBtn.setBackground(new java.awt.Color(255, 255, 255));
-        actsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                actsBtnMouseClicked(evt);
-            }
-        });
-        actsBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        actsTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
-        actsTxt.setForeground(new java.awt.Color(0, 0, 0));
-        actsTxt.setText("Actividades");
-        actsBtn.add(actsTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 13, -1, -1));
-
-        actsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/appleBicon.png"))); // NOI18N
-        actsBtn.add(actsIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
-
-        menuBar.add(actsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
+        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
 
         logoutBtn.setBackground(new java.awt.Color(255, 255, 255));
         logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -401,30 +305,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
         header.setBackground(new java.awt.Color(255, 255, 255));
         header.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        searchIcon.setBackground(new java.awt.Color(145, 145, 145));
-        searchIcon.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/searchIcon.png"))); // NOI18N
-        searchIcon.setBorder(null);
-        searchIcon.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        searchIcon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchIconActionPerformed(evt);
-            }
-        });
-        header.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 50, 26));
-
-        searchBar.setBackground(new java.awt.Color(145, 145, 145));
-        searchBar.setFont(new java.awt.Font("Open Sans", 0, 11)); // NOI18N
-        searchBar.setForeground(new java.awt.Color(229, 229, 229));
-        searchBar.setText("    Search");
-        searchBar.setBorder(null);
-        searchBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBarActionPerformed(evt);
-            }
-        });
-        header.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 240, 26));
 
         profilePic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/men.png"))); // NOI18N
         header.add(profilePic, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, -1, -1));
@@ -451,14 +331,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBarActionPerformed
-
-    private void searchIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchIconActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchIconActionPerformed
-
     private void dashBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashBtnMouseClicked
         //Cierra la ventana actual (login)
         this.dispose();
@@ -466,14 +338,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         dashboard nuevaventana = new dashboard();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_dashBtnMouseClicked
-
-    private void actsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actsBtnMouseClicked
-        //Cierra la ventana actual (login)
-        this.dispose();
-        //Abre la ventana nueva 
-        actDash nuevaventana = new actDash();
-        nuevaventana.setVisible(true);
-    }//GEN-LAST:event_actsBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
         //Cierra la ventana actual (login)
@@ -491,30 +355,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         // Ocultar dashboard (no cerrarlo) para poder volver cuando el perfil cierre
         this.setVisible(false);
     }//GEN-LAST:event_jPanel1MouseClicked
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -557,9 +397,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel actsBtn;
-    private javax.swing.JLabel actsIcon;
-    private javax.swing.JLabel actsTxt;
     private javax.swing.JLabel appName;
     private javax.swing.JLabel bellicon;
     private javax.swing.JLabel configArrow;
@@ -575,17 +412,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JLabel logoutIcon;
     private javax.swing.JLabel logoutTxt;
@@ -596,8 +426,6 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel nuevasTitle;
     private javax.swing.JPanel panelNotif;
     private javax.swing.JLabel profilePic;
-    private javax.swing.JTextField searchBar;
-    private javax.swing.JButton searchIcon;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
 }

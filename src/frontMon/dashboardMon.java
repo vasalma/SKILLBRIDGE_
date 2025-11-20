@@ -4,13 +4,19 @@
  */
 package frontMon;
 
+
+
+import front.login;
+import Dashboard.actDash;
+import back.Actualizable;
 import back.Session;
 import back.Usuario;
-import frontEs.actDash;
-import frontEs.cursosDash;
-import front.login;
-import frontEs.profile;
-import back.Actualizable;
+import java.awt.Desktop;
+import java.io.File;
+import java.util.List;
+import javax.swing.JOptionPane;
+import main.DBConnection;
+
 
 /**
  *
@@ -18,12 +24,32 @@ import back.Actualizable;
  */
 public class dashboardMon extends javax.swing.JFrame implements Actualizable {
 
-    /**
-     * Creates new form login
-     */
+    //private PanelReproductor panelReproductor;
     public dashboardMon() {
         initComponents();
-        cargarUsuario(); // <-- IMPORTANTE
+        System.out.println("📌 Constructor dashboard iniciado");
+
+        try {
+            System.out.println("✔ initComponents ejecutado");
+
+            cargarUsuario();
+            System.out.println("✔ cargarUsuario ejecutado");
+
+            cargarVideosRecientes();
+            System.out.println("✔ cargarVideosRecientes ejecutado");
+
+            cargarActividadesRecientes();  // ← NUEVA LÍNEA
+            System.out.println("✔ cargarActividadesRecientes ejecutado");
+
+            System.out.println("✔ Mostrando ventana del dashboard...");
+            this.setVisible(true);
+
+            System.out.println("✅ Dashboard completamente cargado");
+
+        } catch (Exception e) {
+            System.out.println("❌ ERROR dentro del constructor del dashboard:");
+            e.printStackTrace();
+        }
     }
 
     private void cargarUsuario() {
@@ -35,6 +61,111 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
             userName.setText("Usuario");
         }
 
+    }
+
+    private void cargarActividadesRecientes() {
+        System.out.println("📌 Ejecutando cargarActividadesRecientes()...");
+
+        actRecientesExcel.removeAll();
+        // Recomiendo usar un Layout vertical como BoxLayout o GridLayout(0, 1) para componentes de lista
+        // o simplemente quitar la línea de layout si lo manejas con un ScrollPane.
+        // Vamos a mantener tu FlowLayout (aunque no es ideal para listas):
+         // Ajustado a 0, 0 para que sea una lista vertical pegada
+
+        List<String[]> lista = DBConnection.obtenerActividadesRecientes();
+
+        for (String[] a : lista) {
+
+            // 🚨 CAMBIO CLAVE AQUÍ: Asignación correcta de los 4 índices.
+            String titulo = a[0];
+            String nombreDocente = a[1]; // ¡El docente es el índice 1!
+            String materia = a[2];
+            String rutaRelativa = a[3];
+
+            actDash item = new actDash();
+
+            // El orden de setActividadData es: (titulo, docente, asignatura, actividadURL)
+            item.setActividadData(titulo, nombreDocente, materia, rutaRelativa);
+
+            // LISTENER (CORRECTO, no necesita cambios)
+            item.getDownloadBtn1().addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    File archivo = new File(rutaRelativa);
+
+                    if (!archivo.exists()) {
+                        JOptionPane.showMessageDialog(null, "Archivo no encontrado:\n" + rutaRelativa);
+                        return;
+                    }
+
+                    try {
+                        Desktop.getDesktop().open(archivo);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error al abrir archivo");
+                    }
+                }
+            });
+
+            actRecientesExcel.add(item);
+        }
+
+        actRecientesExcel.revalidate();
+        actRecientesExcel.repaint();
+        System.out.println("✅ " + lista.size() + " actividades cargadas.");
+    }
+
+    private void cargarVideosRecientes() {
+
+        System.out.println("📌 Ejecutando cargarVideosRecientes()...");
+
+        vidRecientes.removeAll();
+        vidRecientes.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 20));
+
+        List<String[]> lista = DBConnection.obtenerVideosRecientes();
+
+        for (String[] v : lista) {
+
+            String titulo = v[0];
+            String descripcion = v[1];
+            String asignatura = v[2];
+            String rutaEnBD = v[3];
+
+            // Convertir a ruta absoluta relativa al proyecto
+            File f = new File(rutaEnBD);
+            String rutaFinal = f.getAbsolutePath();
+
+            Dashboard.videoDash item = new Dashboard.videoDash();
+            item.setVideoData(titulo, descripcion, asignatura, rutaFinal);
+
+            // --- LISTENER DEL PLAY ---
+            item.getPlayBtn().addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                    File videoFile = new File(rutaFinal);
+
+                    if (!videoFile.exists()) {
+                        JOptionPane.showMessageDialog(null,
+                                "No se encontró el archivo del video:\n" + rutaFinal);
+                        return;
+                    }
+
+                    try {
+                        System.out.println("▶ Abriendo video: " + videoFile.getAbsolutePath());
+                        Desktop.getDesktop().open(videoFile); // ✔ ABRE LA APP POR DEFECTO
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null,
+                                "No fue posible abrir el video.");
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+            vidRecientes.add(item);
+        }
+
+        vidRecientes.revalidate();
+        vidRecientes.repaint();
     }
 
     public void actualizarNombreEnUI() {
@@ -73,15 +204,10 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         docBtn = new javax.swing.JPanel();
         docTxt = new javax.swing.JLabel();
         docIcon = new javax.swing.JLabel();
-        actsBtn = new javax.swing.JPanel();
-        actsTxt = new javax.swing.JLabel();
-        actsIcon = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JPanel();
         logoutTxt = new javax.swing.JLabel();
         logoutIcon = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
-        searchIcon = new javax.swing.JButton();
-        searchBar = new javax.swing.JTextField();
         profilePic = new javax.swing.JLabel();
         userName = new javax.swing.JLabel();
         configArrow = new javax.swing.JLabel();
@@ -89,13 +215,15 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         mainCont = new javax.swing.JPanel();
         actsHead = new javax.swing.JLabel();
         videosHead = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         vidRecientes = new javax.swing.JPanel();
         actRecientes = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        actRecientesExcel = new javax.swing.JPanel();
         actRecientesHeader = new javax.swing.JPanel();
         actividad = new javax.swing.JLabel();
         asignatura = new javax.swing.JLabel();
         docente = new javax.swing.JLabel();
-        actRecientesExcel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -120,7 +248,7 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         dashIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/houseGicon.png"))); // NOI18N
         dashBtn.add(dashIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
+        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
 
         coursesBtn.setBackground(new java.awt.Color(255, 255, 255));
         coursesBtn.setForeground(new java.awt.Color(0, 0, 0));
@@ -139,7 +267,7 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         coursesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hatBicon.png"))); // NOI18N
         coursesBtn.add(coursesIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
+        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
 
         docBtn.setBackground(new java.awt.Color(255, 255, 255));
         docBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -157,25 +285,7 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         docIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/caseBlack.png"))); // NOI18N
         docBtn.add(docIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(docBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 260, 40));
-
-        actsBtn.setBackground(new java.awt.Color(255, 255, 255));
-        actsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                actsBtnMouseClicked(evt);
-            }
-        });
-        actsBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        actsTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
-        actsTxt.setForeground(new java.awt.Color(0, 0, 0));
-        actsTxt.setText("Actividades");
-        actsBtn.add(actsTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 13, -1, -1));
-
-        actsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/appleBicon.png"))); // NOI18N
-        actsBtn.add(actsIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
-
-        menuBar.add(actsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
+        menuBar.add(docBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
 
         logoutBtn.setBackground(new java.awt.Color(255, 255, 255));
         logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -200,30 +310,6 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         header.setBackground(new java.awt.Color(255, 255, 255));
         header.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        searchIcon.setBackground(new java.awt.Color(145, 145, 145));
-        searchIcon.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/searchIcon.png"))); // NOI18N
-        searchIcon.setBorder(null);
-        searchIcon.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        searchIcon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchIconActionPerformed(evt);
-            }
-        });
-        header.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 50, 26));
-
-        searchBar.setBackground(new java.awt.Color(145, 145, 145));
-        searchBar.setFont(new java.awt.Font("Open Sans", 0, 11)); // NOI18N
-        searchBar.setForeground(new java.awt.Color(229, 229, 229));
-        searchBar.setText("    Search");
-        searchBar.setBorder(null);
-        searchBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBarActionPerformed(evt);
-            }
-        });
-        header.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 240, 26));
-
         profilePic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/men.png"))); // NOI18N
         header.add(profilePic, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, -1, -1));
 
@@ -247,30 +333,41 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         getContentPane().add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 1010, 80));
 
         mainCont.setBackground(new java.awt.Color(255, 255, 255));
+        mainCont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         actsHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
         actsHead.setForeground(new java.awt.Color(0, 0, 0));
         actsHead.setText("Actividades recientes");
+        mainCont.add(actsHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, -1, -1));
 
         videosHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
         videosHead.setForeground(new java.awt.Color(0, 0, 0));
         videosHead.setText("Seguir viendo...");
+        mainCont.add(videosHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
 
-        vidRecientes.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        javax.swing.GroupLayout vidRecientesLayout = new javax.swing.GroupLayout(vidRecientes);
-        vidRecientes.setLayout(vidRecientesLayout);
-        vidRecientesLayout.setHorizontalGroup(
-            vidRecientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        vidRecientesLayout.setVerticalGroup(
-            vidRecientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 252, Short.MAX_VALUE)
-        );
+        vidRecientes.setBackground(new java.awt.Color(255, 255, 255));
+        vidRecientes.setLayout(new javax.swing.BoxLayout(vidRecientes, javax.swing.BoxLayout.LINE_AXIS));
+        jScrollPane1.setViewportView(vidRecientes);
 
-        actRecientes.setBackground(new java.awt.Color(204, 204, 204));
+        mainCont.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 33, 980, 280));
+
+        actRecientes.setBackground(new java.awt.Color(255, 255, 255));
         actRecientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        actRecientesExcel.setBackground(new java.awt.Color(255, 255, 255));
+        actRecientesExcel.setLayout(new javax.swing.BoxLayout(actRecientesExcel, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane2.setViewportView(actRecientesExcel);
+
+        actRecientes.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 36, 990, 211));
 
         actRecientesHeader.setBackground(new java.awt.Color(255, 255, 255));
         actRecientesHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -292,60 +389,12 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
 
         actRecientes.add(actRecientesHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 30));
 
-        javax.swing.GroupLayout actRecientesExcelLayout = new javax.swing.GroupLayout(actRecientesExcel);
-        actRecientesExcel.setLayout(actRecientesExcelLayout);
-        actRecientesExcelLayout.setHorizontalGroup(
-            actRecientesExcelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 990, Short.MAX_VALUE)
-        );
-        actRecientesExcelLayout.setVerticalGroup(
-            actRecientesExcelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 220, Short.MAX_VALUE)
-        );
-
-        actRecientes.add(actRecientesExcel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 990, 220));
-
-        javax.swing.GroupLayout mainContLayout = new javax.swing.GroupLayout(mainCont);
-        mainCont.setLayout(mainContLayout);
-        mainContLayout.setHorizontalGroup(
-            mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainContLayout.createSequentialGroup()
-                .addGroup(mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(vidRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(mainContLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(videosHead)
-                            .addComponent(actsHead)))
-                    .addComponent(actRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20))
-        );
-        mainContLayout.setVerticalGroup(
-            mainContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainContLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(videosHead)
-                .addGap(13, 13, 13)
-                .addComponent(vidRecientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(actsHead)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(actRecientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        mainCont.add(actRecientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 380, -1, -1));
 
         getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBarActionPerformed
-
-    private void searchIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchIconActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchIconActionPerformed
 
     private void coursesBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coursesBtnMouseClicked
         //Cierra la ventana actual (login)
@@ -354,13 +403,6 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         cursosDashMon nuevaventana = new cursosDashMon();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_coursesBtnMouseClicked
-
-    private void actsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actsBtnMouseClicked
-        //Cierra la ventana actual (login)
-        this.dispose();
-        //Abre la ventana nueva 
-        actDashMon nuevaventana = new actDashMon();
-        nuevaventana.setVisible(true);    }//GEN-LAST:event_actsBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
         //Cierra la ventana actual (login)
@@ -432,10 +474,7 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JPanel actRecientesExcel;
     private javax.swing.JPanel actRecientesHeader;
     private javax.swing.JLabel actividad;
-    private javax.swing.JPanel actsBtn;
     private javax.swing.JLabel actsHead;
-    private javax.swing.JLabel actsIcon;
-    private javax.swing.JLabel actsTxt;
     private javax.swing.JLabel appName;
     private javax.swing.JLabel asignatura;
     private javax.swing.JLabel configArrow;
@@ -451,14 +490,14 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel docente;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JLabel logoutIcon;
     private javax.swing.JLabel logoutTxt;
     private javax.swing.JPanel mainCont;
     private javax.swing.JPanel menuBar;
     private javax.swing.JLabel profilePic;
-    private javax.swing.JTextField searchBar;
-    private javax.swing.JButton searchIcon;
     private javax.swing.JLabel userName;
     private javax.swing.JPanel vidRecientes;
     private javax.swing.JLabel videosHead;

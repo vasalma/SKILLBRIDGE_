@@ -147,7 +147,9 @@
                 <Property name="text" type="java.lang.String" value="Acceder"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="accAsigTxtMouseMoved"/>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="accAsigTxtMouseClicked"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="accAsigTxtMouseExited"/>
               </Events>
             </Component>
           </SubComponents>

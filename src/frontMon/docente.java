@@ -9,7 +9,6 @@ import back.Session;
 import back.Usuario;
 import back.Actualizable;
 import front.login;
-import frontMon.actDashMon;
 import frontMon.cursosDashMon;
 import frontMon.dashboardMon;
 import frontMon.profileMon;
@@ -242,12 +241,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         docBtn = new javax.swing.JPanel();
         docTxt = new javax.swing.JLabel();
         docIcon = new javax.swing.JLabel();
-        actsBtn = new javax.swing.JPanel();
-        actsTxt = new javax.swing.JLabel();
-        actsIcon = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
-        searchIcon = new javax.swing.JButton();
-        searchBar = new javax.swing.JTextField();
         profilePic = new javax.swing.JLabel();
         userName = new javax.swing.JLabel();
         configArrow = new javax.swing.JLabel();
@@ -299,7 +293,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         dashIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/houseBicon.png"))); // NOI18N
         dashBtn.add(dashIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
+        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
 
         coursesBtn.setBackground(new java.awt.Color(255, 255, 255));
         coursesBtn.setForeground(new java.awt.Color(0, 0, 0));
@@ -319,7 +313,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         coursesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hatBicon.png"))); // NOI18N
         coursesBtn.add(coursesIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
+        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
 
         logoutBtn.setBackground(new java.awt.Color(255, 255, 255));
         logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -355,54 +349,12 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         docIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/caseGreen.png"))); // NOI18N
         docBtn.add(docIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(docBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 260, 40));
-
-        actsBtn.setBackground(new java.awt.Color(255, 255, 255));
-        actsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                actsBtnMouseClicked(evt);
-            }
-        });
-        actsBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        actsTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
-        actsTxt.setForeground(new java.awt.Color(0, 0, 0));
-        actsTxt.setText("Actividades");
-        actsBtn.add(actsTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 13, -1, -1));
-
-        actsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/appleBicon.png"))); // NOI18N
-        actsBtn.add(actsIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
-
-        menuBar.add(actsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
+        menuBar.add(docBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
 
         getContentPane().add(menuBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 710));
 
         header.setBackground(new java.awt.Color(255, 255, 255));
         header.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        searchIcon.setBackground(new java.awt.Color(145, 145, 145));
-        searchIcon.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/searchIcon.png"))); // NOI18N
-        searchIcon.setBorder(null);
-        searchIcon.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        searchIcon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchIconActionPerformed(evt);
-            }
-        });
-        header.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 50, 26));
-
-        searchBar.setBackground(new java.awt.Color(145, 145, 145));
-        searchBar.setFont(new java.awt.Font("Open Sans", 0, 11)); // NOI18N
-        searchBar.setForeground(new java.awt.Color(229, 229, 229));
-        searchBar.setText("    Search");
-        searchBar.setBorder(null);
-        searchBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBarActionPerformed(evt);
-            }
-        });
-        header.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 240, 26));
 
         profilePic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/men.png"))); // NOI18N
         header.add(profilePic, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, -1, -1));
@@ -511,14 +463,6 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBarActionPerformed
-
-    private void searchIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchIconActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchIconActionPerformed
-
     private void coursesBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coursesBtnMouseClicked
         //Cierra la ventana actual (login)
         this.dispose();
@@ -558,14 +502,6 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         docente nuevaventana = new docente();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_docBtnMouseClicked
-
-    private void actsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actsBtnMouseClicked
-        //Cierra la ventana actual (login)
-        this.dispose();
-        //Abre la ventana nueva 
-        actDashMon nuevaventana = new actDashMon();
-        nuevaventana.setVisible(true);
-    }//GEN-LAST:event_actsBtnMouseClicked
 
     private void addAsigTxtMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addAsigTxtMouseMoved
         addAsigBtn.setBackground(new Color(38, 114, 116));
@@ -1204,10 +1140,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel actsBtn;
-    private javax.swing.JLabel actsIcon;
     private javax.swing.JLabel actsTitle;
-    private javax.swing.JLabel actsTxt;
     private javax.swing.JPanel addAsigBtn;
     private javax.swing.JLabel addAsigTxt;
     private javax.swing.JLabel appName;
@@ -1233,8 +1166,6 @@ public class docente extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JPanel menuBar;
     private javax.swing.JPanel menuTab;
     private javax.swing.JLabel profilePic;
-    private javax.swing.JTextField searchBar;
-    private javax.swing.JButton searchIcon;
     private javax.swing.JPanel sectionName;
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JLabel userName;

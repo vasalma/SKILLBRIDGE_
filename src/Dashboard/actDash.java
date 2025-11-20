@@ -1,5 +1,7 @@
 package Dashboard;
 
+import java.awt.Color;
+
 /**
  *
  * @author Mi PC
@@ -68,6 +70,19 @@ public class actDash extends javax.swing.JPanel {
         downloadTxt1.setForeground(new java.awt.Color(255, 255, 255));
         downloadTxt1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         downloadTxt1.setText("Descargar");
+        downloadTxt1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                downloadTxt1MouseMoved(evt);
+            }
+        });
+        downloadTxt1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                downloadTxt1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                downloadTxt1MouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout downloadBtn1Layout = new javax.swing.GroupLayout(downloadBtn1);
         downloadBtn1.setLayout(downloadBtn1Layout);
@@ -98,14 +113,24 @@ public class actDash extends javax.swing.JPanel {
         add(docenteName, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 180, 30));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void downloadTxt1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTxt1MouseMoved
+        downloadBtn1.setBackground(new Color(38, 114, 116));
+    }//GEN-LAST:event_downloadTxt1MouseMoved
+
+    private void downloadTxt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTxt1MouseClicked
+        
+    }//GEN-LAST:event_downloadTxt1MouseClicked
+
+    private void downloadTxt1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTxt1MouseExited
+        downloadBtn1.setBackground(new Color(4, 174, 178));
+    }//GEN-LAST:event_downloadTxt1MouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actName;
     private javax.swing.JLabel asigTxt;
     private javax.swing.JLabel docenteName;
-    private javax.swing.JPanel downloadBtn;
     private javax.swing.JPanel downloadBtn1;
-    private javax.swing.JLabel downloadTxt;
     private javax.swing.JLabel downloadTxt1;
     // End of variables declaration//GEN-END:variables
 }

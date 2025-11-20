@@ -1,6 +1,9 @@
 package Cursos;
 
 import Materia.Asignatura; // Ejemplo: Si está en el paquete Materia
+import frontEs.dashboard;
+import frontMon.dashboardMon;
+import java.awt.Color;
 // import Materia.ClaseDeAsignatura; // Usa el nombre correcto de tu clase de modelo
 
 /**
@@ -112,9 +115,17 @@ public class panelCurso extends javax.swing.JPanel {
         accAsigTxt.setForeground(new java.awt.Color(64, 174, 178));
         accAsigTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         accAsigTxt.setText("Acceder");
+        accAsigTxt.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                accAsigTxtMouseMoved(evt);
+            }
+        });
         accAsigTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 accAsigTxtMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                accAsigTxtMouseExited(evt);
             }
         });
 
@@ -140,9 +151,50 @@ public class panelCurso extends javax.swing.JPanel {
 
     private void accAsigTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigTxtMouseClicked
 
-        frontEs.dashboard nuevaventana = new frontEs.dashboard();
+        back.Usuario usuario = back.Session.getUsuario(); 
+
+    if (usuario == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+                "❌ Error: No hay sesión de usuario activa. Vuelva a iniciar sesión.", 
+                "Error de Sesión", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // 2. Redirigir según el rol
+    String rol = usuario.getRol();
+    System.out.println("Rol del usuario: " + rol); // Para depuración
+
+    if ("Estudiante".equalsIgnoreCase(rol)) {
+        dashboard nuevaventana = new dashboard();
         nuevaventana.setVisible(true);
+
+    } else if ("Monitor/tutor".equalsIgnoreCase(rol)) {
+        dashboardMon nuevaventana = new dashboardMon();
+        nuevaventana.setVisible(true);
+
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(this,
+                "⚠️ Rol desconocido (" + rol + "). Contacte al administrador.");
+        return; // Detener la ejecución si el rol es desconocido
+    }
+    
+    // 3. Cierre de la ventana actual
+    // Como estás en un JPanel (panelCurso), debes cerrar el JFrame padre.
+    java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+    if (window != null) {
+        window.dispose(); }// Cierra el JFrame que contiene este panel
+    
     }//GEN-LAST:event_accAsigTxtMouseClicked
+
+    private void accAsigTxtMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigTxtMouseMoved
+       accAsigBtn.setBackground(new Color(64,174,178));
+       accAsigTxt.setForeground(new Color(247,247,247));
+    }//GEN-LAST:event_accAsigTxtMouseMoved
+
+    private void accAsigTxtMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigTxtMouseExited
+       accAsigBtn.setBackground(new Color(247,247,247));
+       accAsigTxt.setForeground(new Color(64,174,178));
+    }//GEN-LAST:event_accAsigTxtMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -132,6 +132,9 @@
               <Color blue="91" green="91" red="91" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Asignatura"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="asigNameMouseClicked"/>
@@ -177,6 +180,9 @@
               <Color blue="91" green="91" red="91" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="ID de asignatura"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="IDAsigMousePressed"/>

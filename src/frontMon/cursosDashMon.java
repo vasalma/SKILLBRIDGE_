@@ -4,14 +4,21 @@
  */
 package frontMon;
 
+import Cursos.panelCurso;
+import Materia.Asignatura;
 import back.Session;
 import back.Usuario;
-import frontEs.actDash;
+
 import front.login;
 import frontEs.profile;
 import frontEs.dashboard;
 import javax.swing.UIManager;
 import back.Actualizable;
+import static java.awt.Component.LEFT_ALIGNMENT;
+import java.awt.Dimension;
+import java.util.List;
+import javax.swing.JPanel;
+import main.DBConnection;
 
 /**
  *
@@ -24,10 +31,19 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
      */
     public cursosDashMon() {
         initComponents();
-        cargarUsuario(); // <-- IMPORTANTE
+        
+        // 1. Configurar el layout del contenedor (jPanel5) para que apile las tarjetas verticalmente
+        if (jPanel2 != null) {
+            jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+        }
+        
+        cargarUsuario();
+        
+        // 🔥 LÍNEA CRÍTICA: Llamar a la función que carga los cursos para el ESTUDIANTE
+        cargarCursosDisponibles(); 
     }
 
-    private void cargarUsuario() {
+     private void cargarUsuario() {
         Usuario u = Session.getUsuario();
 
         if (u != null) {
@@ -35,16 +51,33 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         } else {
             userName.setText("Usuario");
         }
-
     }
 
+    // Método para ser llamado desde el constructor
+    private void cargarCursosDisponibles() {
+        try {
+            System.out.println("⏳ Cargando cursos disponibles para el estudiante...");
+            
+            // 1. Llama al método de la BD para obtener TODAS las asignaturas
+            List<Asignatura> listaCursos = DBConnection.obtenerTodasLasAsignaturas();
+            
+            // 2. Llama a tu propio método para dibujar las tarjetas
+            mostrarAsignaturas(listaCursos);
+            
+            System.out.println("✅ Cursos cargados exitosamente: " + listaCursos.size());
+            
+        } catch (Exception e) {
+            System.err.println("❌ Error al intentar cargar los cursos: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    // Métodos Actualizable (se mantienen)
+    @Override
     public void actualizarNombreEnUI() {
-        // Asegúrate de usar la misma lógica que usabas para cargar el nombre
         Usuario u = back.Session.getUsuario();
-        // O Usuario u = back.Manager.getUsuarioActual(); (depende de tu clase de sesión)
 
         if (u != null) {
-            // 'userName' debe ser el nombre de tu JLabel en la esquina superior
             userName.setText(u.getNombre() + " " + u.getApellido());
         } else {
             userName.setText("Usuario");
@@ -52,6 +85,52 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         this.revalidate();
         this.repaint();
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
+    }
+    
+    // -------------------------------------------------------------
+    // 🔥 MÉTODO PRINCIPAL: Dibujar las asignaturas como tarjetas
+    // -------------------------------------------------------------
+    /**
+     * Recibe la lista de asignaturas y las dibuja como tarjetas (panelCurso) en jPanel5.
+     */
+    public void mostrarAsignaturas(List<Asignatura> listaAsignaturas) {
+
+        if (jPanel2 == null) {
+            System.err.println("❌ ERROR: jPanel5 no está inicializado. No se pueden mostrar asignaturas.");
+            return;
+        }
+
+        // 1. Limpiar el panel antes de dibujar
+        jPanel2.removeAll();
+
+        if (listaAsignaturas == null || listaAsignaturas.isEmpty()) {
+            // Muestra un mensaje si no hay asignaturas
+            jPanel2.add(new javax.swing.JLabel("No hay asignaturas disponibles en el catálogo."));
+        } else {
+            // 2. Iterar sobre la lista y añadir la tarjeta con sus datos
+            for (Asignatura asig : listaAsignaturas) {
+
+                // --- INSTANCIACIÓN DE LA TARJETA panelCurso ---
+                panelCurso tarjeta = new panelCurso(asig);
+
+                // Configuración para BoxLayout (importante para que se vean bien)
+                tarjeta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 220));
+                tarjeta.setAlignmentX(LEFT_ALIGNMENT);
+
+                jPanel2.add(tarjeta); // Añadir la tarjeta a jPanel5
+
+                // 3. Agregar un separador visual para espacio entre tarjetas
+                JPanel separator = new JPanel();
+                separator.setPreferredSize(new Dimension(Integer.MAX_VALUE, 10)); // 10px de espacio
+                separator.setBackground(jPanel2.getBackground());
+                separator.setAlignmentX(LEFT_ALIGNMENT);
+                jPanel2.add(separator);
+            }
+        }
+
+        // 4. Actualizar la Interfaz (esencial)
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
     /**
@@ -66,8 +145,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         docBtn = new javax.swing.JPanel();
         docTxt = new javax.swing.JLabel();
         docIcon = new javax.swing.JLabel();
-        mainCont = new javax.swing.JPanel();
-        coursesHead = new javax.swing.JLabel();
         menuBar = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         dashBtn = new javax.swing.JPanel();
@@ -76,19 +153,26 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         coursesBtn = new javax.swing.JPanel();
         coursesTxt = new javax.swing.JLabel();
         coursesIcon = new javax.swing.JLabel();
-        actsBtn = new javax.swing.JPanel();
-        actsTxt = new javax.swing.JLabel();
-        actsIcon = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JPanel();
         logoutTxt = new javax.swing.JLabel();
         logoutIcon = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
-        searchIcon = new javax.swing.JButton();
-        searchBar = new javax.swing.JTextField();
         profilePic = new javax.swing.JLabel();
         userName = new javax.swing.JLabel();
         configArrow = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        mainCont = new javax.swing.JPanel();
+        coursesHead = new javax.swing.JLabel();
+        cont1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        cont2 = new javax.swing.JPanel();
+        panelNotif = new javax.swing.JPanel();
+        nuevasTitle = new javax.swing.JLabel();
+        moniandtutoTitle = new javax.swing.JLabel();
+        bellicon = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        notifs = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -110,17 +194,7 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         docIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/caseBlack.png"))); // NOI18N
         docBtn.add(docIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        getContentPane().add(docBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 260, 40));
-
-        mainCont.setBackground(new java.awt.Color(153, 153, 153));
-        mainCont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        coursesHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
-        coursesHead.setForeground(new java.awt.Color(0, 0, 0));
-        coursesHead.setText("Mis cursos");
-        mainCont.add(coursesHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
-
-        getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
+        getContentPane().add(docBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
 
         menuBar.setBackground(new java.awt.Color(255, 255, 255));
         menuBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -146,7 +220,7 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         dashIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/houseBicon.png"))); // NOI18N
         dashBtn.add(dashIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
+        menuBar.add(dashBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
 
         coursesBtn.setBackground(new java.awt.Color(255, 255, 255));
         coursesBtn.setForeground(new java.awt.Color(0, 0, 0));
@@ -161,25 +235,7 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         coursesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hatGicon.png"))); // NOI18N
         coursesBtn.add(coursesIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 40));
-
-        actsBtn.setBackground(new java.awt.Color(255, 255, 255));
-        actsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                actsBtnMouseClicked(evt);
-            }
-        });
-        actsBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        actsTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
-        actsTxt.setForeground(new java.awt.Color(0, 0, 0));
-        actsTxt.setText("Actividades");
-        actsBtn.add(actsTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 13, -1, -1));
-
-        actsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/appleBicon.png"))); // NOI18N
-        actsBtn.add(actsIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
-
-        menuBar.add(actsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 40));
+        menuBar.add(coursesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 40));
 
         logoutBtn.setBackground(new java.awt.Color(255, 255, 255));
         logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -204,30 +260,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         header.setBackground(new java.awt.Color(255, 255, 255));
         header.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        searchIcon.setBackground(new java.awt.Color(145, 145, 145));
-        searchIcon.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/searchIcon.png"))); // NOI18N
-        searchIcon.setBorder(null);
-        searchIcon.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        searchIcon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchIconActionPerformed(evt);
-            }
-        });
-        header.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 50, 26));
-
-        searchBar.setBackground(new java.awt.Color(145, 145, 145));
-        searchBar.setFont(new java.awt.Font("Open Sans", 0, 11)); // NOI18N
-        searchBar.setForeground(new java.awt.Color(229, 229, 229));
-        searchBar.setText("    Search");
-        searchBar.setBorder(null);
-        searchBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBarActionPerformed(evt);
-            }
-        });
-        header.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 240, 26));
-
         profilePic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/men.png"))); // NOI18N
         header.add(profilePic, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, -1, -1));
 
@@ -250,16 +282,71 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
 
         getContentPane().add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 1010, 80));
 
+        mainCont.setBackground(new java.awt.Color(255, 255, 255));
+        mainCont.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        coursesHead.setFont(new java.awt.Font("Questrial", 0, 35)); // NOI18N
+        coursesHead.setForeground(new java.awt.Color(0, 0, 0));
+        coursesHead.setText("Mis cursos");
+        mainCont.add(coursesHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        cont1.setBackground(new java.awt.Color(102, 102, 102));
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane2.setViewportView(jPanel2);
+
+        javax.swing.GroupLayout cont1Layout = new javax.swing.GroupLayout(cont1);
+        cont1.setLayout(cont1Layout);
+        cont1Layout.setHorizontalGroup(
+            cont1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+        );
+        cont1Layout.setVerticalGroup(
+            cont1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+        );
+
+        mainCont.add(cont1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 700, 570));
+
+        cont2.setBackground(new java.awt.Color(204, 204, 204));
+        cont2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelNotif.setBackground(new java.awt.Color(255, 255, 255));
+        panelNotif.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelNotif.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        nuevasTitle.setFont(new java.awt.Font("Poppins SemiBold", 0, 22)); // NOI18N
+        nuevasTitle.setForeground(new java.awt.Color(92, 225, 230));
+        nuevasTitle.setText("Nuevas");
+        panelNotif.add(nuevasTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        moniandtutoTitle.setFont(new java.awt.Font("Poppins Light", 0, 20)); // NOI18N
+        moniandtutoTitle.setForeground(new java.awt.Color(0, 0, 0));
+        moniandtutoTitle.setText("Monitorias/Tutorías");
+        panelNotif.add(moniandtutoTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 20));
+
+        bellicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bellicon.png"))); // NOI18N
+        panelNotif.add(bellicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, -1, -1));
+
+        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+        panelNotif.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 290, 20));
+
+        notifs.setBackground(new java.awt.Color(153, 153, 153));
+        notifs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelNotif.add(notifs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 270, 500));
+
+        cont2.add(panelNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 290, 600));
+
+        mainCont.add(cont2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 310, 630));
+
+        getContentPane().add(mainCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1010, 630));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBarActionPerformed
-
-    private void searchIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchIconActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchIconActionPerformed
 
     private void dashBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashBtnMouseClicked
         //Cierra la ventana actual (login)
@@ -268,14 +355,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         dashboardMon nuevaventana = new dashboardMon();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_dashBtnMouseClicked
-
-    private void actsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actsBtnMouseClicked
-        //Cierra la ventana actual (login)
-        this.dispose();
-        //Abre la ventana nueva 
-        actDashMon nuevaventana = new actDashMon();
-        nuevaventana.setVisible(true);
-    }//GEN-LAST:event_actsBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
         //Cierra la ventana actual (login)
@@ -351,11 +430,11 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel actsBtn;
-    private javax.swing.JLabel actsIcon;
-    private javax.swing.JLabel actsTxt;
     private javax.swing.JLabel appName;
+    private javax.swing.JLabel bellicon;
     private javax.swing.JLabel configArrow;
+    private javax.swing.JPanel cont1;
+    private javax.swing.JPanel cont2;
     private javax.swing.JPanel coursesBtn;
     private javax.swing.JLabel coursesHead;
     private javax.swing.JLabel coursesIcon;
@@ -368,14 +447,19 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
     private javax.swing.JLabel docTxt;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel logoutBtn;
     private javax.swing.JLabel logoutIcon;
     private javax.swing.JLabel logoutTxt;
     private javax.swing.JPanel mainCont;
     private javax.swing.JPanel menuBar;
+    private javax.swing.JLabel moniandtutoTitle;
+    private javax.swing.JPanel notifs;
+    private javax.swing.JLabel nuevasTitle;
+    private javax.swing.JPanel panelNotif;
     private javax.swing.JLabel profilePic;
-    private javax.swing.JTextField searchBar;
-    private javax.swing.JButton searchIcon;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
 }
