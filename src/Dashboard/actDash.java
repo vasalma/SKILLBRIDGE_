@@ -1,4 +1,7 @@
+
 package Dashboard;
+
+import javax.swing.JPanel;
 
 /**
  *
@@ -52,81 +55,77 @@ public class actDash extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        activity = new javax.swing.JPanel();
-        downloadBtn = new javax.swing.JPanel();
-        downloadTxt = new javax.swing.JLabel();
+        downloadBtn1 = new javax.swing.JPanel();
+        downloadTxt1 = new javax.swing.JLabel();
         actName = new javax.swing.JLabel();
         asigTxt = new javax.swing.JLabel();
         docenteName = new javax.swing.JLabel();
 
-        activity.setBackground(new java.awt.Color(255, 255, 255));
-        activity.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        activity.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        downloadBtn.setBackground(new java.awt.Color(64, 174, 178));
+        downloadBtn1.setBackground(new java.awt.Color(64, 174, 178));
 
-        downloadTxt.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
-        downloadTxt.setForeground(new java.awt.Color(255, 255, 255));
-        downloadTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        downloadTxt.setText("Descargar");
+        downloadTxt1.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
+        downloadTxt1.setForeground(new java.awt.Color(255, 255, 255));
+        downloadTxt1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        downloadTxt1.setText("Descargar");
 
-        javax.swing.GroupLayout downloadBtnLayout = new javax.swing.GroupLayout(downloadBtn);
-        downloadBtn.setLayout(downloadBtnLayout);
-        downloadBtnLayout.setHorizontalGroup(
-            downloadBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(downloadTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+        javax.swing.GroupLayout downloadBtn1Layout = new javax.swing.GroupLayout(downloadBtn1);
+        downloadBtn1.setLayout(downloadBtn1Layout);
+        downloadBtn1Layout.setHorizontalGroup(
+            downloadBtn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(downloadTxt1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
-        downloadBtnLayout.setVerticalGroup(
-            downloadBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(downloadTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+        downloadBtn1Layout.setVerticalGroup(
+            downloadBtn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(downloadTxt1, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
         );
-
-        activity.add(downloadBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(856, 4, 130, 22));
 
         actName.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         actName.setForeground(new java.awt.Color(0, 0, 0));
         actName.setText("Actividad.pdf");
-        activity.add(actName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 260, 30));
 
         asigTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         asigTxt.setForeground(new java.awt.Color(0, 0, 0));
         asigTxt.setText("Asignatura");
-        activity.add(asigTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 210, 30));
 
         docenteName.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         docenteName.setForeground(new java.awt.Color(0, 0, 0));
         docenteName.setText("Nombre");
-        activity.add(docenteName, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 180, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 990, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(activity, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(actName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(asigTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(docenteName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(downloadBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(activity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(actName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(asigTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(docenteName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addComponent(downloadBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actName;
-    private javax.swing.JPanel activity;
     private javax.swing.JLabel asigTxt;
     private javax.swing.JLabel docenteName;
     private javax.swing.JPanel downloadBtn;
+    private javax.swing.JPanel downloadBtn1;
     private javax.swing.JLabel downloadTxt;
+    private javax.swing.JLabel downloadTxt1;
     // End of variables declaration//GEN-END:variables
 }

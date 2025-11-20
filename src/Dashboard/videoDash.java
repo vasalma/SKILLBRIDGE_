@@ -82,8 +82,8 @@ public class videoDash extends javax.swing.JPanel {
         bigvideoPanelLayout.setVerticalGroup(
             bigvideoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bigvideoPanelLayout.createSequentialGroup()
-                .addComponent(bigplayBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addComponent(bigplayBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         videoName.setFont(new java.awt.Font("Poppins SemiBold", 0, 26)); // NOI18N

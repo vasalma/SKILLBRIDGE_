@@ -146,39 +146,30 @@ public class DBConnection {
     // OBTENER ASIGNATURAS ASIGNADAS AL DOCENTE 
     // -------------------------------------------------------------
     public static List<Asignatura> obtenerAsignaturasDocente(String idDocente) {
-
         List<Asignatura> asignaturas = new ArrayList<>();
 
-        // Asumimos que la tabla 'docente' no tiene un campo id propio, solo la info de la materia
-        String sql = "SELECT asignatura, descripcion FROM docente WHERE idDocente = ?";
+        // 🚀 CONSULTA CORREGIDA: Se añade la DESCRIPCIÓN a la cláusula ON para asegurar que solo una asignatura 
+        // de la tabla 'materias' coincida con la asignación del docente.
+        String sql = "SELECT m.id, m.nombre, m.descripcion FROM materias m "
+                + "INNER JOIN docente d ON m.nombre = d.asignatura AND m.descripcion = d.descripcion "
+                + "WHERE d.idDocente = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, idDocente);
 
             try (ResultSet rs = stmt.executeQuery()) {
-
                 while (rs.next()) {
-
-                    String nombre = rs.getString("asignatura");
-
+                    String id = rs.getString("id");
+                    String nombre = rs.getString("nombre");
                     String descripcion = rs.getString("descripcion");
-
-                    // Usa el constructor de 2 parámetros que, idealmente, asigna el 'nombre' como 'id'.
-                    asignaturas.add(new Asignatura(nombre, descripcion));
-
+                    asignaturas.add(new Asignatura(id, nombre, descripcion));
                 }
-
             }
-
         } catch (SQLException e) {
-
             System.out.println("❌ Error al obtener asignaturas del docente: " + e.getMessage());
-
         }
-
         return asignaturas;
-
     }
 
     // ------------------------------
@@ -319,45 +310,16 @@ public class DBConnection {
     // Se usa PreparedStatement directo para un mejor manejo de excepciones de BD (como NOT NULL)
     // ------------------------------
     public static boolean insertarActividad(String idDocente, String titulo, String descripcion, String idMateria, String actividadurl) {
-
         String sql = "INSERT INTO actividades (idDocente, titulo, descripcion, idMateria, actividadurl) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, idDocente);
-
-            stmt.setString(2, titulo);
-
-            stmt.setString(3, descripcion);
-
-            stmt.setString(4, idMateria); // Aquí el valor que debe ser NOT NULL
-
-            stmt.setString(5, actividadurl);
-
-            int filasAfectadas = stmt.executeUpdate();
-
-            if (filasAfectadas > 0) {
-
-                System.out.println("✔ Actividad '" + titulo + "' insertada.");
-
-                return true;
-
-            } else {
-
-                System.out.println("❌ Error al insertar actividad (0 filas afectadas).");
-
-                return false;
-
-            }
-
-        } catch (SQLException e) {
-
-            System.out.println("❌ Error al insertar actividad: " + e.getMessage());
-
-            return false;
-
+        // Usamos los 5 parámetros que requiere tu tabla
+        boolean exito = ejecutarUpdate(sql, idDocente, titulo, descripcion, idMateria, actividadurl);
+        if (exito) {
+            System.out.println("✔ Actividad '" + titulo + "' insertada.");
+        } else {
+            System.out.println("❌ Error al insertar actividad.");
         }
-
+        return exito;
     }
 
     // ------------------------------
@@ -517,30 +479,24 @@ public class DBConnection {
     public static List<String[]> obtenerActividadesRecientes() {
         List<String[]> lista = new ArrayList<>();
 
-    String sql = "SELECT a.titulo, a.descripcion, m.nombre as materia, a.actividadurl, u.nombre, u.apellido "
-
+        // CAMBIAMOS A LEFT JOIN TEMPORALMENTE
+        String sql = "SELECT a.titulo, a.descripcion, m.nombre as materia, a.actividadurl, u.nombre, u.apellido "
                 + "FROM actividades a "
+                + "LEFT JOIN materias m ON a.idMateria = m.id " // <-- LEFT JOIN
+                + "LEFT JOIN usuarios u ON a.idDocente = u.id";  // <-- LEFT JOIN
 
-                + "INNER JOIN materias m ON a.idMateria = m.id "
-
-                + "INNER JOIN usuarios u ON a.idDocente = u.id";
-
-                // Se ha quitado: + "ORDER BY a.id DESC";
-
-
-
-    try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-
-    // ... (resto del código igual)
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 String titulo = rs.getString("titulo");
-                String descripcion = rs.getString("descripcion");
+                // Se asume que tu tabla 'materias' tiene una columna 'id' y 'nombre'
                 String materia = rs.getString("materia");
                 String rutaActividad = rs.getString("actividadurl");
+                // Se asume que tu tabla 'usuarios' tiene columnas 'nombre' y 'apellido'
                 String nombreDocente = rs.getString("nombre") + " " + rs.getString("apellido");
 
-                lista.add(new String[]{titulo, descripcion, materia, rutaActividad, nombreDocente});
+                // Solo necesitas estos 4 valores para el componente actDash: Título, Docente, Asignatura, URL
+                lista.add(new String[]{titulo, nombreDocente, materia, rutaActividad});
             }
 
         } catch (SQLException e) {
@@ -549,5 +505,6 @@ public class DBConnection {
         }
 
         return lista;
+
     }
 }
