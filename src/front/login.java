@@ -8,6 +8,8 @@ import java.awt.Color;
 import frontEs.dashboard;
 import frontMon.dashboardMon;
 import back.Usuario;
+import frontEs.cursosDash;
+import frontMon.cursosDashMon;
 
 /**
  *
@@ -301,10 +303,10 @@ public class login extends javax.swing.JFrame {
         String rol = usuario.getRol();
 
         if ("Estudiante".equalsIgnoreCase(rol)) {
-            new dashboard().setVisible(true);
+            new cursosDash().setVisible(true);
 
         } else if ("Monitor/tutor".equalsIgnoreCase(rol)) {
-            new dashboardMon().setVisible(true);
+            new cursosDashMon().setVisible(true);
 
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
