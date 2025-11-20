@@ -9,109 +9,103 @@ import java.net.URI;
 
 public class actividad extends javax.swing.JPanel {
 
- 
     private final String titulo;
     private final String actividadUrl;
-    
-  
-    private Runnable onAbrirListener; 
 
-  
+    private Runnable onAbrirListener;
+
     public actividad() {
 
         this(new String[]{"Actividad sin título", "", ""});
     }
 
-  
     public actividad(String[] actividadData) {
         initComponents();
 
-  
         this.titulo = actividadData[0];
-   
+
         this.actividadUrl = actividadData[2];
 
-     
         actName.setText(this.titulo);
     }
 
     public String getActividadUrl() {
         return actividadUrl;
     }
-    
-   
+
     private Runnable onEliminarListener;
 
-    
     public void setOnEliminarListener(Runnable listener) {
         this.onEliminarListener = listener;
     }
-    
-   
+
     public void setOnAbrirListener(Runnable listener) {
         this.onAbrirListener = listener;
     }
 
     private void eliminarActividadConfirm() {
         int confirm = JOptionPane.showConfirmDialog(
-            this, 
-            "¿Está seguro que desea eliminar la actividad:\n" + titulo + "?", 
-            "Confirmar eliminación", 
-            JOptionPane.YES_NO_OPTION
+                this,
+                "¿Está seguro que desea eliminar la actividad:\n" + titulo + "?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION
         );
-        
-       
+
         if (confirm == JOptionPane.YES_OPTION && onEliminarListener != null) {
             onEliminarListener.run();
         }
     }
 
     //  Metodo que abre la actividad //
+    // Metodo que abre la actividad //
     private void abrirActividad() {
         if (actividadUrl == null || actividadUrl.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Error: No se encontró la ruta o URL de la actividad.", 
-                "Error de Apertura", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error: No se encontró la ruta o URL de la actividad.",
+                    "Error de Apertura", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            File activityFile = new File(actividadUrl);
-            
-          
+            // CORRECCIÓN CLAVE: Usamos .getAbsoluteFile() para resolver la ruta si es relativa
+            File activityFile = new File(actividadUrl).getAbsoluteFile();
+
+            // 1. INTENTO DE ABRIR COMO ARCHIVO LOCAL
             if (Desktop.isDesktopSupported() && activityFile.exists()) {
                 Desktop.getDesktop().open(activityFile);
                 JOptionPane.showMessageDialog(this, "Archivo de actividad abierto: " + titulo);
-            } 
-        
+
+            } // 2. INTENTO DE ABRIR COMO URL WEB
             else if (actividadUrl.toLowerCase().startsWith("http")) {
                 Desktop.getDesktop().browse(new URI(actividadUrl));
-                 JOptionPane.showMessageDialog(this, "URL de actividad abierta: " + titulo);
-            }
-           
+                JOptionPane.showMessageDialog(this, "URL de actividad abierta: " + titulo);
+            } // 3. ARCHIVO NO ENCONTRADO
             else if (!activityFile.exists()) {
-                 JOptionPane.showMessageDialog(this, 
-                    "Error: Archivo de actividad no encontrado en la ruta:\n" + actividadUrl, 
-                    "Archivo No Encontrado", JOptionPane.ERROR_MESSAGE);
-            } else {
-                 JOptionPane.showMessageDialog(this, 
-                    "Error: La apertura externa no está soportada en este sistema.", 
-                    "Error de Sistema", JOptionPane.ERROR_MESSAGE);
+                // Muestra la ruta absoluta que se intentó usar para la depuración
+                JOptionPane.showMessageDialog(this,
+                        "Error: Archivo de actividad no encontrado en la ruta:\n" + activityFile.getPath(),
+                        "Archivo No Encontrado", JOptionPane.ERROR_MESSAGE);
+                System.err.println("Ruta de archivo no encontrada: " + activityFile.getPath());
+
+            } // 4. OTROS ERRORES DE SISTEMA
+            else {
+                JOptionPane.showMessageDialog(this,
+                        "Error: La apertura externa no está soportada en este sistema.",
+                        "Error de Sistema", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception ex) { 
-            JOptionPane.showMessageDialog(this, 
-                "Ocurrió un error al intentar abrir la actividad. Detalle: " + ex.getMessage(), 
-                "Error I/O/URL", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Ocurrió un error al intentar abrir la actividad. Detalle: " + ex.getMessage(),
+                    "Error I/O/URL", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
-
 
     private void eliminarBtnMouseClicked(java.awt.event.MouseEvent evt) {
         if (onEliminarListener != null) {
             onEliminarListener.run();
         }
-    
+
     }
 
     /**
@@ -209,7 +203,7 @@ public class actividad extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteactTxtMouseClicked
 
     private void actPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actPanelMouseClicked
-       abrirActividad();
+        abrirActividad();
     }//GEN-LAST:event_actPanelMouseClicked
 
 

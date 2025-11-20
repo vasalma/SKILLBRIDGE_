@@ -51,11 +51,13 @@ public class video extends javax.swing.JPanel {
         });
         
  
+        // ... [Código anterior omitido]
+
         playBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-               
                 
+                // 1. Verificar que la ruta esté configurada
                 if (videoFilePath == null || videoFilePath.isEmpty()) {
                     JOptionPane.showMessageDialog(video.this, 
                         "Error: La ruta del archivo no ha sido configurada.", 
@@ -64,21 +66,27 @@ public class video extends javax.swing.JPanel {
                 }
 
                 try {
-                    File videoFile = new File(videoFilePath);
+                    // 🔥 CORRECCIÓN CLAVE: Usar la ruta absoluta para resolver cualquier ruta relativa
+                    File videoFile = new File(videoFilePath).getAbsoluteFile();
                     
                     if (Desktop.isDesktopSupported() && videoFile.exists()) {
-                   
+                        
+                        // Abrir el archivo. Usamos el objeto File directamente.
                         Desktop.getDesktop().open(videoFile);
                         
                         JOptionPane.showMessageDialog(video.this, 
-                            "Intentando reproducir: " + videoTitulo + "\nDescripción: " + videoDescripcion);
+                            "Intentando reproducir: " + videoTitulo);
 
                     } else if (!videoFile.exists()) {
                         JOptionPane.showMessageDialog(video.this, 
-                            "Error: Archivo de video no encontrado en la ruta:\n" + videoFilePath, 
+                            "Error: Archivo de video no encontrado. La ruta absoluta verificada es:\n" + videoFile.getPath(), 
                             "Archivo No Encontrado", JOptionPane.ERROR_MESSAGE);
+                        
+                        // Opcional: Imprimir la ruta en la consola para depuración
+                        System.err.println("Ruta de archivo no encontrada: " + videoFile.getPath()); 
+                        
                     } else {
-                         JOptionPane.showMessageDialog(video.this, 
+                        JOptionPane.showMessageDialog(video.this, 
                             "Error: La reproducción externa no está soportada en este sistema.", 
                             "Error de Sistema", JOptionPane.ERROR_MESSAGE);
                     }
