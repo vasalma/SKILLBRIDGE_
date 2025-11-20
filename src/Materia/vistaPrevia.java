@@ -50,7 +50,6 @@ public class vistaPrevia extends JPanel {
         });
     }
 
-    // 🔥 NUEVO MÉTODO: Obtener ID único de la materia
     public String getMateriaId() {
         return asignatura.getId();
     }
@@ -67,11 +66,6 @@ public class vistaPrevia extends JPanel {
         return seleccionada;
     }
 
-    // ⚠️ No escribas initComponents() manualmente si usas el diseñador
-    // Asegúrate de que el .form tenga:
-    // - JLabel llamado asigName
-    // - JTextArea llamado descrpTxt
-    // - JLabel llamado accTxt
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

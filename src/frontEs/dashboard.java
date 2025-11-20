@@ -12,13 +12,8 @@ import main.DBConnection;
 import Dashboard.actDash;
 //
 
-/**
- *
- * @author Mi PC
- */
 public class dashboard extends javax.swing.JFrame implements Actualizable {
 
-    //private PanelReproductor panelReproductor;
     public dashboard() {
         initComponents();
         System.out.println("📌 Constructor dashboard iniciado");
@@ -62,7 +57,6 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
 
         actRecientesExcel.removeAll();
 
-        // 1. Obtener y declarar la Ruta Base del Proyecto (final para el listener)
         final String rutaBase = System.getProperty("user.dir");
         System.out.println("Ruta Base del Proyecto (CWD): " + rutaBase);
 
@@ -73,34 +67,26 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             String titulo = a[0];
             String nombreDocente = a[1];
             String materia = a[2];
-            String rutaRelativa = a[3]; // ej: uploads\actividades\...
+            String rutaRelativa = a[3];
 
-            // 2. Declarar 'item' como final para que pueda ser referenciado en el MouseListener
             final Dashboard.actDash item = new Dashboard.actDash();
 
-            // Establecer los datos y la URL de la actividad
             item.setActividadData(titulo, nombreDocente, materia, rutaRelativa);
 
-            // 3. LISTENER: Se adjunta al botón de descarga para manejar el clic
             item.getDownloadBtn1().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
 
-                    // A. Obtener la ruta relativa guardada en el componente
                     String rutaDB = item.getActividadURL();
 
-                    // B. Ajustar la ruta para usar el separador de sistema operativo
-                    // (Esto maneja rutas con '/' o '\' sin importar el SO)
                     String rutaAjustada = rutaDB
                             .replace('/', File.separatorChar)
                             .replace('\\', File.separatorChar);
 
-                    // C. Construir la ruta absoluta completa
                     String rutaCompleta = rutaBase + File.separator + rutaAjustada;
 
                     File archivo = new File(rutaCompleta);
 
-                    // D. Validación de Existencia y Apertura
                     if (!archivo.exists()) {
                         JOptionPane.showMessageDialog(null,
                                 "❌ Archivo NO encontrado en la ruta:\n" + archivo.getAbsolutePath()
@@ -142,20 +128,17 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             String asignatura = v[2];
             String rutaEnBD = v[3];
 
-            // Convertir a ruta absoluta relativa al proyecto (funciona correctamente)
             File f = new File(rutaEnBD);
-            final String rutaFinal = f.getAbsolutePath(); // Declarada como final aquí
+            final String rutaFinal = f.getAbsolutePath();
 
             Dashboard.videoDash item = new Dashboard.videoDash();
             item.setVideoData(titulo, descripcion, asignatura, rutaFinal);
 
-            // --- LISTENER DEL PLAY ---
             item.getPlayBtn().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
 
-                    // Utiliza la rutaFinal que ya es absoluta.
-                    File videoFile = new File(rutaFinal); 
+                    File videoFile = new File(rutaFinal);
 
                     if (!videoFile.exists()) {
                         JOptionPane.showMessageDialog(null,
@@ -165,7 +148,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
 
                     try {
                         System.out.println("▶ Abriendo video: " + videoFile.getAbsolutePath());
-                        Desktop.getDesktop().open(videoFile); // ✔ ABRE LA APP POR DEFECTO
+                        Desktop.getDesktop().open(videoFile);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null,
                                 "No fue posible abrir el video.");
@@ -182,12 +165,11 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     }
 
     public void actualizarNombreEnUI() {
-        // Asegúrate de usar la misma lógica que usabas para cargar el nombre
+
         Usuario u = back.Session.getUsuario();
-        // O Usuario u = back.Manager.getUsuarioActual(); (depende de tu clase de sesión)
 
         if (u != null) {
-            // 'userName' debe ser el nombre de tu JLabel en la esquina superior
+
             userName.setText(u.getNombre() + " " + u.getApellido());
         } else {
             userName.setText("Usuario");
@@ -196,9 +178,6 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         this.repaint();
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
     }
-    // ===============================================
-// CARGAR VIDEOS RECIENTES EN EL DASHBOARD
-// ===============================================
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -395,19 +374,18 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
     }//GEN-LAST:event_coursesBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
-        //Cierra la ventana actual (login)
+
         this.dispose();
-        //Abre la ventana nueva 
+
         login nuevaventana = new login();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_logoutBtnMouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        // Abrir el perfil pasando la referencia de esta ventana (dashboard)
+
         profile nuevaventana = new profile(this);
         nuevaventana.setVisible(true);
 
-        // Ocultar dashboard (no cerrarlo) para poder volver cuando el perfil cierre
         this.setVisible(false);
 
     }//GEN-LAST:event_jPanel1MouseClicked

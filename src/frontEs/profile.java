@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package frontEs;
 
 import back.Actualizable;
@@ -12,16 +8,11 @@ import front.login;
 import front.Restcontra;
 import java.awt.Color;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import main.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JFrame;
 
-/**
- *
- * @author Mi PC
- */
 public class profile extends javax.swing.JFrame {
 
     private Usuario usuarioActual;
@@ -34,7 +25,6 @@ public class profile extends javax.swing.JFrame {
         cargarDatosUsuario();
 
         IDTxt.setEditable(false);
-        // Mostrar aviso cuando se intente interactuar
         IDTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -53,7 +43,6 @@ public class profile extends javax.swing.JFrame {
         this.usuarioActual = Manager.getUsuarioActual();
         cargarDatosUsuario();
         IDTxt.setEditable(false);
-        // Mostrar aviso cuando se intente interactuar
         IDTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -74,23 +63,20 @@ public class profile extends javax.swing.JFrame {
             IDTxt.setText(usuarioActual.getId());
             phoneTxt.setText(usuarioActual.getTelefono());
 
-            // Actualiza el nombre en la parte superior del perfil
             userName.setText(usuarioActual.getNombre() + " " + usuarioActual.getApellido());
         }
     }
 
-    
-private void descartarCambiosActionPerformed(java.awt.event.ActionEvent evt) {
-    // Vuelve a cargar los valores originales del usuario actual
-    cargarDatosUsuario();
+    private void descartarCambiosActionPerformed(java.awt.event.ActionEvent evt) {
 
-    JOptionPane.showMessageDialog(this,
-            "Los cambios han sido descartados.",
-            "Message",
-            JOptionPane.INFORMATION_MESSAGE
-    );
-}
+        cargarDatosUsuario();
 
+        JOptionPane.showMessageDialog(this,
+                "Los cambios han sido descartados.",
+                "Message",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -548,14 +534,13 @@ private void descartarCambiosActionPerformed(java.awt.event.ActionEvent evt) {
         } else {
             JOptionPane.showMessageDialog(this, "⚠️ No hay usuario cargado.");
         }
-        // Actualiza el objeto usuarioActual con los nuevos datos
+
         usuarioActual.setNombre(nameTxt.getText());
         usuarioActual.setApellido(lastnameTxt.getText());
         usuarioActual.setCorreo(emailTxt.getText());
         usuarioActual.setId(IDTxt.getText());
         usuarioActual.setTelefono(phoneTxt.getText());
 
-        // Actualiza el nombre debajo de la foto de perfil
         userName.setText(usuarioActual.getNombre() + " " + usuarioActual.getApellido());
 
     }//GEN-LAST:event_saveBtnMouseClicked
@@ -567,25 +552,19 @@ private void descartarCambiosActionPerformed(java.awt.event.ActionEvent evt) {
 
     private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
         descartarCambiosActionPerformed(null);
-        
+
     }//GEN-LAST:event_deleteBtnMouseClicked
 
     private void restablecerBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restablecerBtnMouseClicked
-        ventana = new Restcontra();  // ← GUARDA LA VENTANA AQUÍ
+        ventana = new Restcontra();
         ventana.setVisible(true);
-        //Restcontra nuevaventana = new Restcontra(550, 200);
-        //nuevaventana.setVisible(true);
-
     }//GEN-LAST:event_restablecerBtnMouseClicked
 
     private void restablecerTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restablecerTxtMouseClicked
         // TODO add your handling code here
         ventana = new Restcontra();
-        ventana.setLocation(550, 250);// ← GUARDA LA VENTANA AQUÍ
+        ventana.setLocation(550, 250);
         ventana.setVisible(true);
-        //Restcontra nuevaventana = new Restcontra(550, 200);
-        // nuevaventana.setVisible(true);
-
     }//GEN-LAST:event_restablecerTxtMouseClicked
 
     private void guardarTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guardarTxtMouseClicked
@@ -602,22 +581,18 @@ private void descartarCambiosActionPerformed(java.awt.event.ActionEvent evt) {
 
         Usuario u = Session.getUsuario();
 
-        // Validar contraseña actual
         if (!u.getContraseña().equals(actual)) {
             JOptionPane.showMessageDialog(this, "⚠ La contraseña actual es incorrecta.");
             return;
         }
 
-        // Validar coincidencia
         if (!nueva.equals(repetir)) {
             JOptionPane.showMessageDialog(this, "⚠ Las nuevas contraseñas no coinciden.");
             return;
         }
 
-        // Cambiar en el objeto
         u.setContraseña(nueva);
 
-        // Guardar en BD
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "UPDATE usuarios SET contraseña = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -651,22 +626,18 @@ private void descartarCambiosActionPerformed(java.awt.event.ActionEvent evt) {
 
         if (ventanaAnterior != null) {
 
-            // 1. Verificamos si la ventana anterior implementa la interfaz Actualizable.
             if (ventanaAnterior instanceof Actualizable) {
 
-                // 2. Si lo hace, hacemos el casting a la interfaz y llamamos al método.
                 ((Actualizable) ventanaAnterior).actualizarNombreEnUI();
 
                 System.out.println("✅ Ventana Anterior notificada para recargar el nombre.");
             }
 
-            // 3. Hacemos visible la ventana anterior (ya actualizada).
             ventanaAnterior.setVisible(true);
         }
-
-        // 4. Cerrar la ventana de perfil (solo una vez).
+        
         this.dispose();
-        // ⬅️ Fin del método backBtnMouseClicked.
+      
 
     }//GEN-LAST:event_backBtnMouseClicked
 

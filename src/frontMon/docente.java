@@ -12,29 +12,19 @@ import front.login;
 import frontMon.cursosDashMon;
 import frontMon.dashboardMon;
 import frontMon.profileMon;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap; // 🔥 IMPORTAR HASHMAP
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map; // 🔥 IMPORTAR MAP
-import javax.swing.JLabel;
+import java.util.Map;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
-
 import main.DBConnection;
 
 public class docente extends javax.swing.JFrame implements Actualizable {
 
     private final List<vistaPrevia> vistas = new ArrayList<>();
-    private final Map<String, List<Integer>> materiaTabsMap = new HashMap<>(); // 🔥 CORREGIDO
+    private final Map<String, List<Integer>> materiaTabsMap = new HashMap<>();
 
     public docente() {
         initComponents();
@@ -56,16 +46,12 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         }
     }
 
-    // -------------------------------------------------------------
-    // 🔥 MÉTODO CORREGIDO: agregarAsignatura - USAR ID ÚNICO
-    // -------------------------------------------------------------
     private void agregarAsignatura(Asignatura nueva) {
-        String materiaId = nueva.getId(); // ID único
+        String materiaId = nueva.getId();
 
-        // --------------------- VISTA PREVIA ---------------------
         vistaPrevia vp = new vistaPrevia(nueva);
         vp.setOnAcceder(() -> {
-            // 🔥 CAMBIO: Usar ID único en lugar del nombre
+
             accederAMateria(materiaId);
         });
 
@@ -74,47 +60,35 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         contenedorVistas.revalidate();
         contenedorVistas.repaint();
 
-        // Crear tabs específicos para esta materia
         crearTabsParaMateria(nueva, materiaId);
     }
 
-    // -------------------------------------------------------------
-    // 🔥 NUEVO MÉTODO: crearTabsParaMateria - TÍTULOS ÚNICOS
-    // -------------------------------------------------------------
+    //Metodo para crear materias//
     private void crearTabsParaMateria(Asignatura materia, String materiaId) {
         List<Integer> indicesTabs = new ArrayList<>();
 
-        // 🔥 CAMBIO: Incluir ID único en el título del tab
         String tituloPrincipal = materia.getNombre() + " [" + materiaId + "] - Principal";
         String tituloContenido = materia.getNombre() + " [" + materiaId + "] - Contenido";
 
-        // Tab 1: Panel principal
         panelAsig panelPrincipal = crearPanelAsignatura(materia);
         int idxPrincipal = tabbed.getTabCount();
         tabbed.addTab(tituloPrincipal, panelPrincipal);
         indicesTabs.add(idxPrincipal);
 
-        // Tab 2: Panel contenido
         panelSubirContenido panelExtra = crearPanelExtra(materia);
         int idxExtra = tabbed.getTabCount();
         tabbed.addTab(tituloContenido, panelExtra);
         indicesTabs.add(idxExtra);
 
-        // Conexión entre paneles
         panelExtra.setPanelAsigRef(panelPrincipal);
 
-        // Guardar relación
         materiaTabsMap.put(materiaId, indicesTabs);
     }
 
-    // -------------------------------------------------------------
-    // 🔥 MÉTODO ACTUALIZADO: crearPanelAsignatura - USAR ID
-    // -------------------------------------------------------------
     private panelAsig crearPanelAsignatura(Asignatura a) {
         panelAsig p = new panelAsig(a.getId());
         p.getAsigName().setText(a.getNombre());
 
-        // Botón retroceder
         p.getBackBtn().addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -122,7 +96,6 @@ public class docente extends javax.swing.JFrame implements Actualizable {
             }
         });
 
-        // Callback para ir al tab de contenido de ESTA materia
         p.setOnIrExtra(() -> {
             List<Integer> indices = materiaTabsMap.get(a.getId());
             if (indices != null && indices.size() > 1) {
@@ -133,13 +106,9 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         return p;
     }
 
-    // -------------------------------------------------------------
-    // 🔥 MÉTODO ACTUALIZADO: crearPanelExtra - USAR ID
-    // -------------------------------------------------------------
     private panelSubirContenido crearPanelExtra(Asignatura a) {
         panelSubirContenido panel = new panelSubirContenido(a);
 
-        // Volver al panel principal de ESTA materia
         panel.setOnBack(() -> {
             List<Integer> indices = materiaTabsMap.get(a.getId());
             if (indices != null && !indices.isEmpty()) {
@@ -150,9 +119,6 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         return panel;
     }
 
-    // -------------------------------------------------------------
-    // 🔥 NUEVO MÉTODO: accederAMateria - USAR MAPA CON ID
-    // -------------------------------------------------------------
     private void accederAMateria(String materiaId) {
         List<Integer> indices = materiaTabsMap.get(materiaId);
         if (indices != null && !indices.isEmpty()) {
@@ -163,9 +129,6 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         }
     }
 
-    // -------------------------------------------------------------
-    // 🔥 IMPLEMENTAR MÉTODO DE LA INTERFAZ Actualizable
-    // -------------------------------------------------------------
     @Override
     public void actualizarNombreEnUI() {
         Usuario u = Session.getUsuario();
@@ -179,28 +142,22 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
     }
 
-    // -------------------------------------------------------------
-    // 🔥 MÉTODO ACTUALIZADO: cargarAsignaturasDesdeBD - LIMPIAR MAPA
-    // -------------------------------------------------------------
     private void cargarAsignaturasDesdeBD() {
         Usuario u = Session.getUsuario();
         String idDocente = u.getId();
 
         List<Asignatura> listaAsignaturasConDuplicados = DBConnection.obtenerAsignaturasDocente(idDocente);
 
-        // --- FILTRO DE DUPLICADOS ---
         java.util.Set<Asignatura> asignaturasUnicas = new java.util.HashSet<>(listaAsignaturasConDuplicados);
         List<Asignatura> listaAsignaturas = new java.util.ArrayList<>(asignaturasUnicas);
 
-        // --- LIMPIAR TODO ---
         contenedorVistas.removeAll();
         vistas.clear();
-        materiaTabsMap.clear(); // 🔥 LIMPIAR MAPA DE TABS
+        materiaTabsMap.clear();
         for (int i = tabbed.getTabCount() - 1; i > 0; i--) {
             tabbed.removeTabAt(i);
         }
 
-        // --- AGREGAR ASIGNATURAS ---
         for (Asignatura asig : listaAsignaturas) {
             agregarAsignatura(asig);
         }
@@ -210,12 +167,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
         this.revalidate();
         this.repaint();
     }
-    // -------------------------------------------------------------
-    // 🔥 MÉTODO ACTUALIZADO: deleteAsigTxtMouseClicked - USAR ID
-    // -------------------------------------------------------------
 
-
-    // ... Código generado por NetBeans (initComponents, variables, etc.) ...
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -464,41 +416,41 @@ public class docente extends javax.swing.JFrame implements Actualizable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void coursesBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coursesBtnMouseClicked
-        //Cierra la ventana actual (login)
+      
         this.dispose();
-        //Abre la ventana nueva 
+        
         cursosDashMon nuevaventana = new cursosDashMon();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_coursesBtnMouseClicked
 
     private void dashBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashBtnMouseClicked
-        //Cierra la ventana actual (login)
+       
         this.dispose();
-        //Abre la ventana nueva 
+        
         dashboardMon nuevaventana = new dashboardMon();
         nuevaventana.setVisible(true);    }//GEN-LAST:event_dashBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
-        //Cierra la ventana actual (login)
+    
         this.dispose();
-        //Abre la ventana nueva 
+      
         login nuevaventana = new login();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_logoutBtnMouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        // Abrir el perfil pasando la referencia de esta ventana (dashboard)
+      
         profileMon nuevaventana = new profileMon(this);
         nuevaventana.setVisible(true);
 
-        // Ocultar dashboard (no cerrarlo) para poder volver cuando el perfil cierre
+       
         this.setVisible(false);
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void docBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_docBtnMouseClicked
-        //Cierra la ventana actual (login)
+      
         this.dispose();
-        //Abre la ventana nueva
+    
         docente nuevaventana = new docente();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_docBtnMouseClicked
@@ -538,7 +490,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
 
     private void deleteAsigTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteAsigTxtMouseClicked
 
-        // 1. Obtener las asignaturas seleccionadas
+      
         java.util.List<vistaPrevia> seleccionadas = new java.util.ArrayList<>();
         for (vistaPrevia vp : vistas) {
             if (vp.isSeleccionada()) {
@@ -551,7 +503,7 @@ public class docente extends javax.swing.JFrame implements Actualizable {
             return;
         }
 
-        // Id del docente
+     
         String idDocente = Session.getUsuario() != null ? Session.getUsuario().getId() : null;
         if (idDocente == null) {
             JOptionPane.showMessageDialog(this, "Error de sesión");
@@ -565,14 +517,14 @@ public class docente extends javax.swing.JFrame implements Actualizable {
 
                 DBConnection.eliminarAsignaturaDocente(idDocente, a.getNombre(), a.getDescripcion());
 
-                // Quitar vista previa
+            
                 contenedorVistas.remove(vp);
                 vistas.remove(vp);
 
-                // Eliminar tabs del mapa
+               
                 materiaTabsMap.remove(materiaId);
 
-                // Eliminar tabs de la interfaz
+              
                 String tituloPrincipal = a.getNombre() + " [" + materiaId + "] - Principal";
                 String tituloContenido = a.getNombre() + " [" + materiaId + "] - Contenido";
 

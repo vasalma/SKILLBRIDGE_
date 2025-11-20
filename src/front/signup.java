@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package front;
 
 import back.Usuario;
@@ -9,15 +6,10 @@ import front.login;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Mi PC
- */
+
 public class signup extends javax.swing.JFrame {
 
-    /**
-     * Creates new form login
-     */
+   
     public signup() {
         initComponents();
         rsscalelabel.RSScaleLabel.setScaleLabel(bc, "src/images/bc.png");
@@ -308,12 +300,7 @@ public class signup extends javax.swing.JFrame {
     }//GEN-LAST:event_registrarBtnMouseExited
 
     private void registrarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrarBtnMouseClicked
-        //Cierra la ventana actual (login)
-        // this.dispose();
-        //Abre la ventana nueva 
-        //login nuevaventana = new login(); 
-        //nuevaventana.setVisible(true);
-        // Crear el objeto Usuario
+      
         Usuario usuario = new Usuario();
 
         String id = IDTxt.getText();
@@ -336,7 +323,6 @@ public class signup extends javax.swing.JFrame {
             return;
         }
 
-        // Si el rol es "Monitor/tutor", pedir llave
         if (rol.equals("Monitor/tutor")) {
             String llaveIngresada = JOptionPane.showInputDialog(this, "Ingrese la llave de acceso para monitores/tutores:");
             if (llaveIngresada == null || llaveIngresada.trim().isEmpty()) {
@@ -356,7 +342,7 @@ public class signup extends javax.swing.JFrame {
         if (ok) {
             JOptionPane.showMessageDialog(this, "✅ Usuario registrado correctamente.\nAhora puedes iniciar sesión.");
 
-            // 🔹 Redirige al login (no abre el perfil aún)
+           
             this.dispose();
             login ventanaLogin = new login();
             ventanaLogin.setVisible(true);

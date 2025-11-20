@@ -5,10 +5,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import main.DBConnection;
 
-/**
- *
- * @author Mi PC
- */
+
 public class registrarAsig extends javax.swing.JFrame {
 
     public registrarAsig() {
@@ -161,16 +158,14 @@ public class registrarAsig extends javax.swing.JFrame {
         String nombre = asigName.getText().trim();
         String descripcion = descrpTxt.getText().trim();
 
-        // Validación de campos vacíos
+      
         if (id.isEmpty() || nombre.isEmpty() || descripcion.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
 
-        // Obtener el docente actualmente en sesión
         String idDocente = Session.getUsuario().getId();
 
-        // 1️⃣ Registrar asignatura en tabla "materias"
         resultado = DBConnection.registrarAsignaturaEnBD(id, nombre, descripcion);
 
         if (resultado == null) {
@@ -178,7 +173,6 @@ public class registrarAsig extends javax.swing.JFrame {
             return;
         }
 
-        // 2️⃣ Guardar asignatura asociada al docente
         DBConnection.guardarAsignaturaDocente(idDocente, nombre, descripcion);
 
         JOptionPane.showMessageDialog(this, "Asignatura registrada y asociada al docente correctamente.");

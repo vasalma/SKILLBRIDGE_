@@ -2,10 +2,7 @@ package back;
 
 
 
-/**
- *
- * @author PC
- */
+
 public class Manager {
 
     private static Usuario usuarioActual;

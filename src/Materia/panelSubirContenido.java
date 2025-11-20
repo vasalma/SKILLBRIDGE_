@@ -30,17 +30,14 @@ public class panelSubirContenido extends javax.swing.JPanel {
     private final String idDocente;
     private final String idMateria;
 
-    // Constructor ORIGINAL - para mantener compatibilidad HOLIIIIIIII
     public panelSubirContenido(Asignatura materiaActual) {
-        this(materiaActual, null); // Llama al nuevo constructor con null
+        this(materiaActual, null);
     }
 
-    // Constructor NUEVO - con referencia a panelAsig
     public panelSubirContenido(Asignatura materiaActual, panelAsig panelAsigRef) {
         initComponents();
         this.panelAsigRef = panelAsigRef;
 
-        // Obtener datos de sesión
         Usuario usuarioActual = Session.getUsuario();
         if (usuarioActual != null) {
             idDocente = usuarioActual.getId();
@@ -49,14 +46,11 @@ public class panelSubirContenido extends javax.swing.JPanel {
             idDocente = null;
         }
 
-        // Obtener ID de la materia
         this.idMateria = materiaActual.getId();
 
-        // Configuración de eventos
         setListeners();
     }
 
-    // Método para establecer la referencia después de la creación (opcional)
     public void setPanelAsigRef(panelAsig panelAsigRef) {
         this.panelAsigRef = panelAsigRef;
     }
@@ -78,7 +72,6 @@ public class panelSubirContenido extends javax.swing.JPanel {
         });
     }
 
-    // Subir Video - MODIFICADO para refrescar panelAsig si está disponible
     private void subirVideo() {
         if (videoFile == null || vidTitleTxt.getText().isEmpty() || vidDescripTxt.getText().isEmpty()) {
 
@@ -90,37 +83,29 @@ public class panelSubirContenido extends javax.swing.JPanel {
             return;
         }
 
-        // ⭐ PASO 1: DEFINIR LA RUTA DE DESTINO DEL ARCHIVO FÍSICO ⭐
-        // Usaremos una carpeta llamada 'uploads/videos' dentro de tu directorio de proyecto.
         final String BASE_UPLOAD_PATH = "uploads" + File.separator + "videos";
 
-        // Crear la carpeta si no existe
         File uploadDir = new File(BASE_UPLOAD_PATH);
         if (!uploadDir.exists()) {
-            // La función mkdirs() crea todos los directorios padre necesarios
+
             if (!uploadDir.mkdirs()) {
                 JOptionPane.showMessageDialog(this, "Error: No se pudo crear el directorio de subida.");
                 return;
             }
         }
 
-        // Crear un nombre de archivo único (usando timestamp + nombre original)
         String uniqueFileName = System.currentTimeMillis() + "_" + videoFile.getName();
         File targetFile = new File(uploadDir, uniqueFileName);
 
-        // La RUTA ABSOLUTA que guardaremos como String en la DB
         String dbVideoPath = BASE_UPLOAD_PATH + File.separator + uniqueFileName;
 
         try {
-            // ⭐ PASO 2: MOVER/COPIAR EL ARCHIVO FÍSICAMENTE AL DIRECTORIO DE SUBIDA ⭐
-            // Usamos Files.copy para un manejo eficiente de archivos
+
             Files.copy(videoFile.toPath(), targetFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
 
-            // ⭐ PASO 3: GUARDAR SÓLO LA RUTA (STRING) EN LA BASE DE DATOS ⭐
             try (Connection conn = DBConnection.getConnection()) {
 
-                // CAMBIAR LA SENTENCIA SQL: ya no se usa setBinaryStream
                 String sql = "INSERT INTO videos (idDocente, titulo, descripcion, idMateria, videourl) VALUES (?, ?, ?, ?, ?)";
 
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -128,7 +113,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
                 pst.setString(2, vidTitleTxt.getText());
                 pst.setString(3, vidDescripTxt.getText());
                 pst.setString(4, idMateria);
-                // PASAMOS LA RUTA DEL ARCHIVO COMO STRING
+
                 pst.setString(5, dbVideoPath);
 
                 int rows = pst.executeUpdate();
@@ -137,19 +122,18 @@ public class panelSubirContenido extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Video subido correctamente.\n" + "Ruta guardada: " + dbVideoPath);
                     limpiarCamposVideo();
 
-                    // Refrescar panelAsig si está disponible
                     if (panelAsigRef != null) {
                         panelAsigRef.refrescarVideos();
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al subir video a la base de datos.");
-                    // Si la inserción en DB falla, eliminamos el archivo físico copiado
+
                     targetFile.delete();
                 }
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage());
-                targetFile.delete(); // Asegura la limpieza si falla la DB
+                targetFile.delete();
             }
 
         } catch (IOException e) {
@@ -158,8 +142,6 @@ public class panelSubirContenido extends javax.swing.JPanel {
         }
     }
 
-    // Subir Actividad
-    // Archivo: Materia/panelSubirContenido.java
     private void subirActividad() {
         if (actividadFile == null || actTitleTxt.getText().isEmpty() || actDescripTxt.getText().isEmpty()) {
 
@@ -182,7 +164,6 @@ public class panelSubirContenido extends javax.swing.JPanel {
 
             try (Connection conn = DBConnection.getConnection()) {
 
-                // EL CAMPO 'actividadurl' AHORA DEBE SER TEXT
                 String sql = "INSERT INTO actividades (idDocente, titulo, descripcion, idMateria, actividadurl) VALUES (?, ?, ?, ?, ?)";
 
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -190,7 +171,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
                 pst.setString(2, actTitleTxt.getText());
                 pst.setString(3, actDescripTxt.getText());
                 pst.setString(4, idMateria);
-                pst.setString(5, dbActividadPath); // Guardamos la RUTA
+                pst.setString(5, dbActividadPath); // 
 
                 int rows = pst.executeUpdate();
 
@@ -198,14 +179,13 @@ public class panelSubirContenido extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Actividad subida correctamente.");
                     limpiarCamposActividad();
 
-                    // ⭐ LÍNEA IMPLEMENTADA AQUÍ: LLAMADA DE REFRESH ⭐
                     if (panelAsigRef != null) {
                         panelAsigRef.refrescarActividades();
                     }
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al subir actividad.");
-                    targetFile.delete(); // Limpia si falla la DB
+                    targetFile.delete();
                 }
 
             } catch (SQLException e) {
@@ -234,7 +214,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
         vidTitleTxt.setText("");
         vidDescripTxt.setText("");
         plusVideos.setText("+");
-        plusVideos.setFont(new java.awt.Font("Poppins", 0, 35)); // Restaurar tamaño de fuente
+        plusVideos.setFont(new java.awt.Font("Poppins", 0, 35));
         videoFile = null;
     }
 
@@ -242,7 +222,7 @@ public class panelSubirContenido extends javax.swing.JPanel {
         actTitleTxt.setText("");
         actDescripTxt.setText("");
         plusActs.setText("+");
-        plusActs.setFont(new java.awt.Font("Poppins", 0, 35)); // Restaurar tamaño de fuente
+        plusActs.setFont(new java.awt.Font("Poppins", 0, 35));
         actividadFile = null;
     }
 
@@ -953,41 +933,35 @@ public class panelSubirContenido extends javax.swing.JPanel {
     }//GEN-LAST:event_salidaTxtMouseClicked
 
     private void subirScheTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subirScheTxtMouseClicked
-                                    
-        
-        // 1. Obtener datos de los campos de texto
+
         String salon = salonTxt.getText();
-        String diaTexto = diaTxt.getText(); 
+        String diaTexto = diaTxt.getText();
         String horaInicioTexto = inicioTxt.getText();
         String horaFinTexto = salidaTxt.getText();
-        
-        // 2. Validación de Campos de Sesión
+
         if (idDocente == null || idMateria == null || idDocente.isEmpty() || idMateria.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Error de Sesión: Datos del Docente o Materia faltantes.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        // 3. Validación de Campos de Formulario Vacíos/Ejemplo
-        // Se valida que no estén vacíos O que aún contengan el texto de ejemplo ("ej:")
+
         if (diaTexto.contains("ej:") || horaInicioTexto.contains("ej:") || horaFinTexto.contains("ej:") || salon.contains("ej:") || salon.isEmpty() || diaTexto.isEmpty() || horaInicioTexto.isEmpty() || horaFinTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos de la excepción de horario.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // 4. Procesamiento de la Fecha (para guardar solo "DD/MM/YY")
-        String fechaAInsertar; 
+        String fechaAInsertar;
 
         try {
-            // Intenta buscar el formato "DíaSemana, DD/MM/YY"
-            String[] partes = diaTexto.split(", "); 
+
+            String[] partes = diaTexto.split(", ");
             if (partes.length >= 2) {
-                // Obtenemos solo la parte de la fecha (ej: "11/11/25")
-                fechaAInsertar = partes[1].trim(); 
+
+                fechaAInsertar = partes[1].trim();
             } else if (diaTexto.matches("\\d{2}/\\d{2}/\\d{2}")) {
-                // Si el formato es solo "DD/MM/YY"
+
                 fechaAInsertar = diaTexto.trim();
             } else {
-                 throw new IllegalArgumentException("El formato de fecha es incorrecto. Use 'DíaSemana, DD/MM/YY' o 'DD/MM/YY'.");
+                throw new IllegalArgumentException("El formato de fecha es incorrecto. Use 'DíaSemana, DD/MM/YY' o 'DD/MM/YY'.");
             }
 
         } catch (Exception e) {
@@ -996,43 +970,32 @@ public class panelSubirContenido extends javax.swing.JPanel {
             return;
         }
 
-        // 5. Llamada a la Capa de Datos (DBConnection)
         boolean exito = DBConnection.insertarHorarioExcepcion(
-            idDocente, 
-            salon, 
-            fechaAInsertar, 
-            horaInicioTexto, 
-            horaFinTexto, 
-            idMateria
+                idDocente,
+                salon,
+                fechaAInsertar,
+                horaInicioTexto,
+                horaFinTexto,
+                idMateria
         );
 
-        // 6. Mensaje de Respuesta
         if (exito) {
             JOptionPane.showMessageDialog(this, "✅ Excepción de horario para la materia " + idMateria + " guardada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             limpiarCamposHorario();
-            
-            // Opcional: Refrescar el panel de asignaturas para mostrar el horario
-            // if (panelAsigRef != null) {
-            //     panelAsigRef.refrescarHorarios(); // Asumiendo que existe este método
-            // }
-            
+
         } else {
-            // Se asume que DBConnection ya maneja e imprime los errores SQL (como UNIQUE constraint failed)
+
             JOptionPane.showMessageDialog(this, "❌ Error: No se pudo guardar la excepción de horario. Podría ya existir una registrada para este docente.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // -------------------------------------------------------------------------
-    // MÉTODOS DE UTILIDAD (Limpieza del nuevo formulario)
-    // -------------------------------------------------------------------------
-    
+
     private void limpiarCamposHorario() {
         salonTxt.setText("ej: Salon 305");
         diaTxt.setText("ej: Miércoles, 11/11/25");
         inicioTxt.setText("ej: 2:00 pm");
         salidaTxt.setText("ej: 4:00 pm");
-    
-    
+
+
     }//GEN-LAST:event_subirScheTxtMouseClicked
 
 

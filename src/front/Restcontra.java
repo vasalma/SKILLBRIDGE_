@@ -1,16 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package front;
 
-import back.Session;
-import back.Usuario;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
-import main.DBConnection;
 
 /**
  *
@@ -29,7 +19,7 @@ public class Restcontra extends javax.swing.JFrame {
     }
 
 
-    // Métodos para que PROFILE lea los datos
+    // Métodos para que PROFILE lea los datos//
     public String getActual() {
         return new String(passActualTxt.getPassword());
     }
@@ -204,9 +194,7 @@ public class Restcontra extends javax.swing.JFrame {
     nueva = new String(passNewTxt.getPassword());
     repetir = new String(passAgainTxt.getPassword());
 
-    // NO validar aquí
-    // NO cerrar la ventana
-    // NO mostrar mensajes
+   
     listo = true;
 }
 

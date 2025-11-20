@@ -1,45 +1,41 @@
 package Materia;
 
 import java.awt.Color;
-import java.awt.Desktop; // ¡CAMBIOS AQUÍ! - Importar Desktop
+import java.awt.Desktop; 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File; // ¡CAMBIOS AQUÍ! - Importar File
-import java.io.IOException; // ¡CAMBIOS AQUÍ! - Importar IOException
+import java.io.File; 
+import java.io.IOException; 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Mi PC
- */
+
 public class video extends javax.swing.JPanel {
 
     private String videoTitulo;
     private String videoDescripcion;
     private int videoNumero;
     private Runnable onEliminarListener;
-    private String videoFilePath; // ¡CAMBIOS AQUÍ! - Nuevo campo para la ruta
+    private String videoFilePath; 
     
-    // Constructor modificado para recibir datos
+ 
     public video(String titulo, String descripcion, int numero) {
         initComponents();
         this.videoTitulo = titulo;
         this.videoDescripcion = descripcion;
         this.videoNumero = numero;
-        this.videoFilePath = null; // Inicializar la ruta
+        this.videoFilePath = null; 
         
-        // Configurar los datos en la interfaz
         videoName.setText(titulo + " - " + String.format("%02d", numero));
         setListeners();
     }
     
-    // ¡CAMBIOS AQUÍ! - Método setter para la ruta del archivo
+
     public void setVideoFilePath(String filePath) {
         this.videoFilePath = filePath;
     }
     
     private void setListeners() {
-        // Listener para el botón de eliminar hellooooooo
+ 
         deletevidTxt.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -54,11 +50,11 @@ public class video extends javax.swing.JPanel {
             }
         });
         
-        // Listener para el botón de play - ¡CAMBIOS AQUÍ! - Implementación de reproducción
+ 
         playBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                // Aquí se implementa la funcionalidad de reproducir video
+               
                 
                 if (videoFilePath == null || videoFilePath.isEmpty()) {
                     JOptionPane.showMessageDialog(video.this, 
@@ -71,10 +67,9 @@ public class video extends javax.swing.JPanel {
                     File videoFile = new File(videoFilePath);
                     
                     if (Desktop.isDesktopSupported() && videoFile.exists()) {
-                        // Abrir el archivo con la aplicación predeterminada del sistema
+                   
                         Desktop.getDesktop().open(videoFile);
                         
-                        // Opcional: Mostrar el diálogo original *después* de intentar abrirlo
                         JOptionPane.showMessageDialog(video.this, 
                             "Intentando reproducir: " + videoTitulo + "\nDescripción: " + videoDescripcion);
 
@@ -128,8 +123,6 @@ public class video extends javax.swing.JPanel {
         return videoNumero;
     }
 
-    // ... el resto de tu código generado por NetBeans sin cambios
-    // [Todo el código generado por el Form Editor se mantiene igual]
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

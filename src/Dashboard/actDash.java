@@ -6,23 +6,15 @@ import java.io.File;
 import java.net.URI;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Mi PC
- */
 public class actDash extends javax.swing.JPanel {
 
-    /**
-     * Creates new form act
-     */
     public actDash() {
         initComponents();
     }
     private String actividadURL;
 
-    // ==================== GETTER CLAVE CORREGIDO ====================
-    public javax.swing.JPanel getDownloadBtn1() {  
-        // Esta variable (downloadBtn) se inicializa en initComponents()
+    public javax.swing.JPanel getDownloadBtn1() {
+
         return downloadBtn1;
     }
 
@@ -38,7 +30,6 @@ public class actDash extends javax.swing.JPanel {
         return asigTxt;
     }
 
-    // ==================== SET DATA ====================
     public void setActividadData(String titulo, String docente, String asignatura, String actividadURL) {
         this.actName.setText(titulo);
         this.docenteName.setText(docente);
@@ -49,44 +40,41 @@ public class actDash extends javax.swing.JPanel {
     public String getActividadURL() {
         return actividadURL;
     }
-     private void abrirActividad() {
+
+    private void abrirActividad() {
         if (actividadURL == null || actividadURL.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Error: No se encontró la ruta o URL de la actividad.", 
-                "Error de Apertura", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error: No se encontró la ruta o URL de la actividad.",
+                    "Error de Apertura", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
             File activityFile = new File(actividadURL);
-            
-            // 1. Intentar abrir como archivo local (si existe)
+
             if (Desktop.isDesktopSupported() && activityFile.exists()) {
                 Desktop.getDesktop().open(activityFile);
                 JOptionPane.showMessageDialog(this, "Archivo de actividad abierto");
-            } 
-            // 2. Intentar abrir como URL web (si comienza con http)
-            else if (actividadURL.toLowerCase().startsWith("http")) {
+            } else if (actividadURL.toLowerCase().startsWith("http")) {
                 Desktop.getDesktop().browse(new URI(actividadURL));
-                 JOptionPane.showMessageDialog(this, "URL de actividad abierta");
-            }
-            // 3. El archivo no existe
-            else if (!activityFile.exists()) {
-                 JOptionPane.showMessageDialog(this, 
-                    "Error: Archivo de actividad no encontrado en la ruta:\n" + actividadURL, 
-                    "Archivo No Encontrado", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "URL de actividad abierta");
+            } else if (!activityFile.exists()) {
+                JOptionPane.showMessageDialog(this,
+                        "Error: Archivo de actividad no encontrado en la ruta:\n" + actividadURL,
+                        "Archivo No Encontrado", JOptionPane.ERROR_MESSAGE);
             } else {
-                 JOptionPane.showMessageDialog(this, 
-                    "Error: La apertura externa no está soportada en este sistema.", 
-                    "Error de Sistema", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Error: La apertura externa no está soportada en este sistema.",
+                        "Error de Sistema", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception ex) { 
-            JOptionPane.showMessageDialog(this, 
-                "Ocurrió un error al intentar abrir la actividad. Detalle: " + ex.getMessage(), 
-                "Error I/O/URL", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Ocurrió un error al intentar abrir la actividad. Detalle: " + ex.getMessage(),
+                    "Error I/O/URL", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -159,7 +147,7 @@ public class actDash extends javax.swing.JPanel {
     }//GEN-LAST:event_downloadTxt1MouseMoved
 
     private void downloadTxt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTxt1MouseClicked
-       abrirActividad();
+        abrirActividad();
     }//GEN-LAST:event_downloadTxt1MouseClicked
 
     private void downloadTxt1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTxt1MouseExited

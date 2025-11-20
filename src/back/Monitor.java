@@ -1,21 +1,20 @@
 package back;
 
 public class Monitor extends Usuario {
+
     private String materiaAsignada;
 
-    // 🔹 Constructor vacío
     public Monitor() {
         super();
         this.rol = "Monitor/tutor";
     }
 
-    // 🔹 Constructor completo (coincide con Usuario: id ahora es String)
+    //Constructor para monitor//
     public Monitor(String id, String nombre, String apellido, String correo, String contraseña, String telefono, String materiaAsignada) {
         super(id, nombre, apellido, correo, contraseña, "Monitor/tutor", telefono);
         this.materiaAsignada = materiaAsignada;
     }
 
-    // 🔹 Getter y Setter
     public String getMateriaAsignada() {
         return materiaAsignada;
     }

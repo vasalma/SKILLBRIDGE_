@@ -5,22 +5,15 @@ package front;
 import back.Manager;
 import back.Session;
 import java.awt.Color;
-import frontEs.dashboard;
-import frontMon.dashboardMon;
 import back.Usuario;
 import frontEs.cursosDash;
 import frontMon.cursosDashMon;
 
-/**
- *
- * @author Mi PC
- */
+
 
 public class login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form login
-     */
+   
     public login() {
         initComponents();
         rsscalelabel.RSScaleLabel.setScaleLabel(bc, "src/images/bc.png");
@@ -270,15 +263,11 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_RegistrarMouseClicked
 
     private void AccederMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AccederMouseClicked
-        //Cierra la ventana actual (login)
-        //  this.dispose();
-        //Abre la ventana nueva 
-        //dashboard nuevaventana = new dashboard(); 
-        //nuevaventana.setVisible(true);                                                                  
+                                                                      
         String idTexto = IDTxt.getText().trim();
         String contraseña = new String(passTxt.getPassword()).trim();
 
-        // Crear instancia de Usuario
+        // Crear instancia de Usuario//
         Usuario usuario = new Usuario();
 
         // Validar datos
@@ -289,7 +278,7 @@ public class login extends javax.swing.JFrame {
             return;
         }
 
-        // Guardar el usuario actual
+        // Guardar el usuario actual//
         Session.setUsuario(usuario);
 
         Manager.setUsuarioActual(usuario);
@@ -297,9 +286,9 @@ public class login extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this,
                 "✅ Bienvenido " + usuario.getNombre() + " (" + usuario.getRol() + ")");
 
-        this.dispose(); // Cerrar login
+        this.dispose();
 
-        // Redirigir según el rol
+        // Redirigir según el rol//
         String rol = usuario.getRol();
 
         if ("Estudiante".equalsIgnoreCase(rol)) {

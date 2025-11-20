@@ -8,7 +8,7 @@ import main.DBConnection;
 
 public class Usuario {
 
-    // 🔹 Atributos
+    //  Atributos//
     protected String id;
     protected String nombre;
     protected String apellido;
@@ -17,11 +17,11 @@ public class Usuario {
     protected String rol;
     protected String telefono;
 
-    // 🔹 Constructor vacío
+   
     public Usuario() {
     }
 
-    // 🔹 Constructor completo
+    //Constructor usuario //
     public Usuario(String id, String nombre, String apellido, String correo, String contraseña, String rol, String telefono) {
         this.id = id;
         this.nombre = nombre;

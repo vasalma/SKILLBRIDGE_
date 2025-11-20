@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package frontMon;
 
 import Cursos.panelCurso;
@@ -11,9 +7,6 @@ import back.Session;
 import back.Usuario;
 
 import front.login;
-import frontEs.profile;
-import frontEs.dashboard;
-import javax.swing.UIManager;
 import back.Actualizable;
 import static java.awt.Component.LEFT_ALIGNMENT;
 import java.awt.Dimension;
@@ -21,13 +14,8 @@ import java.util.List;
 import javax.swing.JPanel;
 import main.DBConnection;
 
-/**
- *
- * @author Mi PC
- */
 public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
 
-   
     public cursosDashMon() {
         initComponents();
 
@@ -44,9 +32,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         cargarCursosDisponibles();
         cargarHorariosDeExcepcion();
     }
-    
-    // El bloque initComponents() autogenerado por NetBeans ha sido movido a su lugar correcto al final del código.
-    // Solo queda una única definición.
 
     private void cargarUsuario() {
         Usuario u = Session.getUsuario();
@@ -62,9 +47,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         try {
             System.out.println("⏳ Cargando cursos disponibles para el estudiante...");
 
-            // NOTA: Si solo quieres mostrar los cursos INSCRITOS por el estudiante,
-            // deberías usar un método que filtre por Session.getUsuario().getId().
-            // Por ahora, se mantiene obtenerTodasLasAsignaturas (el catálogo completo).
             List<Asignatura> listaCursos = DBConnection.obtenerTodasLasAsignaturas();
 
             mostrarAsignaturas(listaCursos);
@@ -77,9 +59,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         }
     }
 
-    // -------------------------------------------------------------
-    // FUNCIÓN CLAVE CORREGIDA: Cargar y Mostrar el Horario de Excepción (Notificaciones)
-    // -------------------------------------------------------------
     public void cargarHorariosDeExcepcion() {
         Usuario usuarioActual = Session.getUsuario();
         if (usuarioActual == null) {
@@ -96,30 +75,23 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         }
 
         try {
-            // Retorna 7 campos: {idDocente, salon, fecha, hora_inicio, hora_fin, idMateria, nombreAsignatura}
+
             List<String[]> horarios = DBConnection.consultarHorarioExcepcion(idBusqueda);
 
             if (!horarios.isEmpty()) {
 
                 for (String[] horarioData : horarios) {
-                    // 🔥 Mapeo de datos CORREGIDO (Índices 0 a 6)
+
                     String idDocenteEnHorario = horarioData[0];
                     String salon = horarioData[1];
                     String dia = horarioData[2];
                     String inicio = horarioData[3];
                     String fin = horarioData[4];
                     String idMateria = horarioData[5];
-                    String nombreAsignatura = horarioData[6]; // <--- ¡Nuevo campo que viene de la BD!
+                    String nombreAsignatura = horarioData[6];
 
-                    // Obtener nombre del docente
                     String nombreDocente = DBConnection.obtenerNombreCompletoUsuario(idDocenteEnHorario);
-                    
-                    // Si el nombre de la asignatura es "Materia Desconocida" (por si el join falló)
-                    // se puede optar por llamar al método, pero ya viene en la consulta.
-                    // Si prefieres usar el método anterior:
-                    // String nombreAsignatura = DBConnection.obtenerNombreMateria(idMateria);
 
-                    // Crear la tarjeta e inyectar los datos
                     panelNotif nuevaTarjeta = new panelNotif();
                     nuevaTarjeta.setHorarioData(
                             nombreAsignatura,
@@ -130,13 +102,11 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
                             fin
                     );
 
-                    // Configuración para BoxLayout
                     nuevaTarjeta.setAlignmentX(LEFT_ALIGNMENT);
                     nuevaTarjeta.setMaximumSize(new Dimension(270, 160));
 
                     notifs.add(nuevaTarjeta);
 
-                    // Añadir un pequeño separador visual
                     JPanel separator = new JPanel();
                     separator.setPreferredSize(new Dimension(270, 10));
                     separator.setBackground(notifs.getBackground());
@@ -147,7 +117,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
                 notifs.add(new javax.swing.JLabel("No hay notificaciones de horarios."));
             }
 
-            // Refrescar el panel 
             notifs.revalidate();
             notifs.repaint();
 
@@ -156,9 +125,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         }
     }
 
-    // -------------------------------------------------------------
-    // Métodos Actualizable
-    // -------------------------------------------------------------
     @Override
     public void actualizarNombreEnUI() {
         Usuario u = back.Session.getUsuario();
@@ -173,9 +139,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
     }
 
-    // -------------------------------------------------------------
-    // MÉTODO PRINCIPAL: Dibujar las asignaturas como tarjetas
-    // -------------------------------------------------------------
     public void mostrarAsignaturas(List<Asignatura> listaAsignaturas) {
 
         if (jPanel2 == null) {
@@ -183,7 +146,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
             return;
         }
 
-        // Limpiar el panel antes de dibujar
         jPanel2.removeAll();
 
         if (listaAsignaturas == null || listaAsignaturas.isEmpty()) {
@@ -194,13 +156,11 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
 
                 panelCurso tarjeta = new panelCurso(asig);
 
-                // Configuración para BoxLayout 
                 tarjeta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 220));
                 tarjeta.setAlignmentX(LEFT_ALIGNMENT);
 
                 jPanel2.add(tarjeta);
 
-                // Agregar un separador visual
                 JPanel separator = new JPanel();
                 separator.setPreferredSize(new Dimension(Integer.MAX_VALUE, 10));
                 separator.setBackground(jPanel2.getBackground());
@@ -209,7 +169,6 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
             }
         }
 
-        // Actualizar la Interfaz 
         jPanel2.revalidate();
         jPanel2.repaint();
     }
@@ -435,34 +394,33 @@ public class cursosDashMon extends javax.swing.JFrame implements Actualizable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void dashBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashBtnMouseClicked
-        //Cierra la ventana actual (login)
+
         this.dispose();
-        //Abre la ventana nueva 
+
         dashboardMon nuevaventana = new dashboardMon();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_dashBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
-        //Cierra la ventana actual (login)
+
         this.dispose();
-        //Abre la ventana nueva 
+
         login nuevaventana = new login();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_logoutBtnMouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        // Abrir el perfil pasando la referencia de esta ventana (dashboard)
+
         profileMon nuevaventana = new profileMon(this);
         nuevaventana.setVisible(true);
 
-        // Ocultar dashboard (no cerrarlo) para poder volver cuando el perfil cierre
         this.setVisible(false);
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void docBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_docBtnMouseClicked
-        //Cierra la ventana actual (login)
+
         this.dispose();
-        //Abre la ventana nueva
+
         docente nuevaventana = new docente();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_docBtnMouseClicked

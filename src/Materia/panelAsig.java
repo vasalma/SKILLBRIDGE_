@@ -1,5 +1,4 @@
 package Materia;
-//mammama
 
 import java.awt.Color;
 import java.awt.Font;
@@ -17,12 +16,9 @@ public class panelAsig extends javax.swing.JPanel {
 
     private String idMateria;
 
-    // Declaraciones de JPanels (asumo que coinciden con initComponents)
-    // Constructor ORIGINAL - para mantener compatibilidad
     public panelAsig() {
         initComponents();
 
-        // ⭐ SOLUCIÓN NPE: Inicialización Forzada
         if (videos == null) {
             videos = new javax.swing.JPanel();
         }
@@ -34,12 +30,10 @@ public class panelAsig extends javax.swing.JPanel {
         configurarContenedorActividades();
     }
 
-    // Constructor con ID (usado por docente.java)
     public panelAsig(String idMateria) {
         initComponents();
         this.idMateria = idMateria;
 
-        // ⭐ SOLUCIÓN NPE: Inicialización Forzada
         if (videos == null) {
             videos = new javax.swing.JPanel();
         }
@@ -149,8 +143,7 @@ public class panelAsig extends javax.swing.JPanel {
                 actividad actividadComponente = new actividad(actividadData);
 
                 final String tituloFinal = titulo;
-                // Nota: Asumo que tienes un método setOnEliminarListener en tu clase actividad
-                // Si no existe, esta línea dará un error de compilación.
+
                 actividadComponente.setOnEliminarListener(() -> {
                     eliminarActividad(tituloFinal);
                 });
@@ -225,27 +218,20 @@ public class panelAsig extends javax.swing.JPanel {
         cargarActividades();
     }
 
-    // Aquí deben ir tus métodos getAsigName() y getBackBtn() para que docente.java funcione
-    // public javax.swing.JLabel getAsigName() { return asigName; }
-    // public javax.swing.JPanel getBackBtn() { return backBtn; }
     private Runnable onIrExtra;
 
     public void setOnIrExtra(Runnable r) {
         this.onIrExtra = r;
     }
-// // Coloca estos métodos al final de la clase panelAsig.java:
 
     public javax.swing.JLabel getAsigName() {
         return asigName;
     }
 
-// Asumo que tienes un JPanel o JLabel para el botón 'Retroceder' llamado 'backBtn'
     public javax.swing.JPanel getBackBtn() {
         return backBtn;
     }
 
-    // El código initComponents() generado por NetBeans debe ir aquí.
-    // ...
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -459,7 +445,7 @@ public class panelAsig extends javax.swing.JPanel {
             onIrExtra.run();
         }
     }//GEN-LAST:event_loadIconMouseClicked
-//sisisis
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acts;
@@ -482,4 +468,4 @@ public class panelAsig extends javax.swing.JPanel {
     private javax.swing.JLabel videosTitle;
     // End of variables declaration//GEN-END:variables
 }
-//mamamama
+

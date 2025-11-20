@@ -1,7 +1,7 @@
 package Materia;
 
 import java.awt.Color;
-// 📌 IMPORTS AÑADIDOS para manejar archivos y diálogos
+
 import java.awt.Desktop;
 import java.io.File;
 import javax.swing.JOptionPane;
@@ -9,52 +9,49 @@ import java.net.URI;
 
 public class actividad extends javax.swing.JPanel {
 
-    // NUEVAS variables para almacenar los datos
+ 
     private final String titulo;
     private final String actividadUrl;
     
-    // ⭐ NUEVO LISTENER para la acción principal (Abrir/Descargar)
+  
     private Runnable onAbrirListener; 
 
-    // Constructor ORIGINAL (si lo necesitas para el editor de diseño, déjalo)
+  
     public actividad() {
-        // Llama al constructor con datos nulos para evitar NullPointerException en el diseñador
+
         this(new String[]{"Actividad sin título", "", ""});
     }
 
-    // ⭐ CONSTRUCTOR AJUSTADO: Recibe el String[] [titulo, descripcion, actividadurl]
+  
     public actividad(String[] actividadData) {
         initComponents();
 
-        // Asignación de datos
+  
         this.titulo = actividadData[0];
-        // actividadData[1] es la descripción (la ignoramos visualmente por ahora)
+   
         this.actividadUrl = actividadData[2];
 
-        // Asignar el título al JLabel actName
+     
         actName.setText(this.titulo);
     }
 
-    // ... (El resto de tu código mouseMoved, etc.)
-    // Puedes añadir un getter si el título o URL se necesitan fuera
     public String getActividadUrl() {
         return actividadUrl;
     }
     
-    // Declaración existente
+   
     private Runnable onEliminarListener;
 
-    // Método público para establecer el callback de eliminación
+    
     public void setOnEliminarListener(Runnable listener) {
         this.onEliminarListener = listener;
     }
     
-    // ⭐ NUEVO MÉTODO: Método público para establecer el callback de apertura
+   
     public void setOnAbrirListener(Runnable listener) {
         this.onAbrirListener = listener;
     }
 
-    // ⭐ MÉTODO DE ACCIÓN: Muestra el diálogo de confirmación y ejecuta el callback de eliminación
     private void eliminarActividadConfirm() {
         int confirm = JOptionPane.showConfirmDialog(
             this, 
@@ -63,13 +60,13 @@ public class actividad extends javax.swing.JPanel {
             JOptionPane.YES_NO_OPTION
         );
         
-        // Llama al callback si se confirma la eliminación
+       
         if (confirm == JOptionPane.YES_OPTION && onEliminarListener != null) {
             onEliminarListener.run();
         }
     }
 
-    // ⭐ MÉTODO DE ACCIÓN: Abre la actividad (archivo local o URL web)
+    //  Metodo que abre la actividad //
     private void abrirActividad() {
         if (actividadUrl == null || actividadUrl.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
@@ -81,17 +78,17 @@ public class actividad extends javax.swing.JPanel {
         try {
             File activityFile = new File(actividadUrl);
             
-            // 1. Intentar abrir como archivo local (si existe)
+          
             if (Desktop.isDesktopSupported() && activityFile.exists()) {
                 Desktop.getDesktop().open(activityFile);
                 JOptionPane.showMessageDialog(this, "Archivo de actividad abierto: " + titulo);
             } 
-            // 2. Intentar abrir como URL web (si comienza con http)
+        
             else if (actividadUrl.toLowerCase().startsWith("http")) {
                 Desktop.getDesktop().browse(new URI(actividadUrl));
                  JOptionPane.showMessageDialog(this, "URL de actividad abierta: " + titulo);
             }
-            // 3. El archivo no existe
+           
             else if (!activityFile.exists()) {
                  JOptionPane.showMessageDialog(this, 
                     "Error: Archivo de actividad no encontrado en la ruta:\n" + actividadUrl, 
@@ -110,11 +107,7 @@ public class actividad extends javax.swing.JPanel {
     }
 
 
-// 📌 Modifica el MouseListener del botón 'X' de eliminación (si lo tienes)
-// Busca el código donde manejas el clic en el botón de eliminar (la 'X' roja)
-// y llama al listener:
     private void eliminarBtnMouseClicked(java.awt.event.MouseEvent evt) {
-        // Llama al callback si está configurado
         if (onEliminarListener != null) {
             onEliminarListener.run();
         }

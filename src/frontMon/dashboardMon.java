@@ -1,10 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package frontMon;
-
-
 
 import front.login;
 import Dashboard.actDash;
@@ -17,14 +11,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import main.DBConnection;
 
-
-/**
- *
- * @author Mi PC
- */
 public class dashboardMon extends javax.swing.JFrame implements Actualizable {
 
-    //private PanelReproductor panelReproductor;
     public dashboardMon() {
         initComponents();
         System.out.println("📌 Constructor dashboard iniciado");
@@ -38,7 +26,7 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
             cargarVideosRecientes();
             System.out.println("✔ cargarVideosRecientes ejecutado");
 
-            cargarActividadesRecientes();  // ← NUEVA LÍNEA
+            cargarActividadesRecientes();
             System.out.println("✔ cargarActividadesRecientes ejecutado");
 
             System.out.println("✔ Mostrando ventana del dashboard...");
@@ -67,27 +55,20 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
         System.out.println("📌 Ejecutando cargarActividadesRecientes()...");
 
         actRecientesExcel.removeAll();
-        // Recomiendo usar un Layout vertical como BoxLayout o GridLayout(0, 1) para componentes de lista
-        // o simplemente quitar la línea de layout si lo manejas con un ScrollPane.
-        // Vamos a mantener tu FlowLayout (aunque no es ideal para listas):
-         // Ajustado a 0, 0 para que sea una lista vertical pegada
 
         List<String[]> lista = DBConnection.obtenerActividadesRecientes();
 
         for (String[] a : lista) {
 
-            // 🚨 CAMBIO CLAVE AQUÍ: Asignación correcta de los 4 índices.
             String titulo = a[0];
-            String nombreDocente = a[1]; // ¡El docente es el índice 1!
+            String nombreDocente = a[1];
             String materia = a[2];
             String rutaRelativa = a[3];
 
             actDash item = new actDash();
 
-            // El orden de setActividadData es: (titulo, docente, asignatura, actividadURL)
             item.setActividadData(titulo, nombreDocente, materia, rutaRelativa);
 
-            // LISTENER (CORRECTO, no necesita cambios)
             item.getDownloadBtn1().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -130,14 +111,12 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
             String asignatura = v[2];
             String rutaEnBD = v[3];
 
-            // Convertir a ruta absoluta relativa al proyecto
             File f = new File(rutaEnBD);
             String rutaFinal = f.getAbsolutePath();
 
             Dashboard.videoDash item = new Dashboard.videoDash();
             item.setVideoData(titulo, descripcion, asignatura, rutaFinal);
 
-            // --- LISTENER DEL PLAY ---
             item.getPlayBtn().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -152,7 +131,7 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
 
                     try {
                         System.out.println("▶ Abriendo video: " + videoFile.getAbsolutePath());
-                        Desktop.getDesktop().open(videoFile); // ✔ ABRE LA APP POR DEFECTO
+                        Desktop.getDesktop().open(videoFile);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null,
                                 "No fue posible abrir el video.");
@@ -169,12 +148,11 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
     }
 
     public void actualizarNombreEnUI() {
-        // Asegúrate de usar la misma lógica que usabas para cargar el nombre
+
         Usuario u = back.Session.getUsuario();
-        // O Usuario u = back.Manager.getUsuarioActual(); (depende de tu clase de sesión)
 
         if (u != null) {
-            // 'userName' debe ser el nombre de tu JLabel en la esquina superior
+
             userName.setText(u.getNombre() + " " + u.getApellido());
         } else {
             userName.setText("Usuario");
@@ -397,34 +375,33 @@ public class dashboardMon extends javax.swing.JFrame implements Actualizable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void coursesBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coursesBtnMouseClicked
-        //Cierra la ventana actual (login)
+
         this.dispose();
-        //Abre la ventana nueva 
+
         cursosDashMon nuevaventana = new cursosDashMon();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_coursesBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
-        //Cierra la ventana actual (login)
+
         this.dispose();
-        //Abre la ventana nueva 
+
         login nuevaventana = new login();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_logoutBtnMouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        // Abrir el perfil pasando la referencia de esta ventana (dashboard)
+
         profileMon nuevaventana = new profileMon(this);
         nuevaventana.setVisible(true);
 
-        // Ocultar dashboard (no cerrarlo) para poder volver cuando el perfil cierre
         this.setVisible(false);
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void docBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_docBtnMouseClicked
-        //Cierra la ventana actual (login)
+
         this.dispose();
-        //Abre la ventana nueva
+
         docente nuevaventana = new docente();
         nuevaventana.setVisible(true);
     }//GEN-LAST:event_docBtnMouseClicked

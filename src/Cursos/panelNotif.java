@@ -1,49 +1,29 @@
 package Cursos;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Dimension; // Import necesario si lo usas en el diseño
 
-/**
- *
- * @author Mi PC
- */
+
 public class panelNotif extends javax.swing.JPanel {
 
-    /**
-     * Creates new form panelNotif
-     */
+  
     public panelNotif() {
         initComponents();
     }
 
-    // -------------------------------------------------------------
-    // 🔥 MÉTODO CRÍTICO: setHorarioData
-    // -------------------------------------------------------------
-    /**
-     * Establece los datos del horario de excepción en los componentes de la tarjeta.
-     * Esta es la firma que el archivo cursosDash.java necesita para compilar.
-     */
+              //Metodo para el horario
+    
     public void setHorarioData(String nombreAsignatura, String nombreDocente, String salon, String dia, String horaInicio, String horaFin) {
         
-        // 1. Asignatura y Docente (usando las etiquetas de tu diseño)
         asigNotif.setText(nombreAsignatura);
         docenteNotif.setText(nombreDocente);
         
-        // 2. Salón, Día e Horario
+    
         salonNotif.setText("Salón: " + salon);
         diaNotif.setText("Día: " + dia);
         
-        // 3. Hora de Inicio y Salida
+        
         hinicioNotif.setText(horaInicio);
         hsalidaNotif.setText(horaFin);
         
-        // Opcional: Si quieres poner la Asignatura y el Docente dentro del grayPanel
-        // puedes usar el color blanco o mover las etiquetas si el diseño lo requiere.
-        
-        // Nota: asigNotif y docenteNotif están fuera del grayPanel en tu diseño original (pos 20, 20 y 20, 40)
-        // Por eso, la tarjeta visual que subiste  parece tenerlas dentro del panel gris.
-        // Si quieres que el texto "Asignatura" y "Docente" estén sobre el gris, puedes asignar su color a Color.BLACK (si no lo están ya).
     }
 
     /**

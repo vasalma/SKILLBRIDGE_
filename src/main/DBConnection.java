@@ -1,7 +1,6 @@
 package main;
 
 import Materia.Asignatura;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,23 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID; 
+import java.util.UUID;
 
 public class DBConnection {
 
-    // ------------------------------
-    // Configuración Singleton
-    // ------------------------------
     private static DBConnection instance = null;
-
     private static Connection conn = null;
-
     private static final String DB_PATH = "database/skillbridge.db";
-
     private static final String URL = "jdbc:sqlite:" + DB_PATH;
 
     private DBConnection() {
-        // Constructor privado
     }
 
     public static DBConnection getInstance() {
@@ -36,9 +28,6 @@ public class DBConnection {
         return instance;
     }
 
-    // ------------------------------
-    // Conexión
-    // ------------------------------
     public static Connection getConnection() {
         try {
             File dbDir = new File("database");
@@ -58,9 +47,6 @@ public class DBConnection {
         return conn;
     }
 
-    // ------------------------------
-    // Cerrar conexión
-    // ------------------------------
     public static void closeConnection() {
         try {
             if (conn != null && !conn.isClosed()) {
@@ -72,16 +58,11 @@ public class DBConnection {
         }
     }
 
-    // -------------------------------------------------------------
-    // OBTENER TODO EL CATÁLOGO ÚNICO DESDE 'DOCENTE'
-    // -------------------------------------------------------------
     public static List<Asignatura> obtenerTodasLasAsignaturas() {
         List<Asignatura> asignaturas = new ArrayList<>();
         String sql = "SELECT DISTINCT asignatura, descripcion FROM docente";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql); 
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 String nombre = rs.getString("asignatura");
                 String descripcion = rs.getString("descripcion");
@@ -93,17 +74,13 @@ public class DBConnection {
         return asignaturas;
     }
 
-    // -------------------------------------------------------------
-    // OBTENER ASIGNATURAS ASIGNADAS AL DOCENTE 
-    // -------------------------------------------------------------
     public static List<Asignatura> obtenerAsignaturasDocente(String idDocente) {
         List<Asignatura> asignaturas = new ArrayList<>();
         String sql = "SELECT m.id, m.nombre, m.descripcion FROM materias m "
                 + "INNER JOIN docente d ON m.nombre = d.asignatura AND m.descripcion = d.descripcion "
                 + "WHERE d.idDocente = ?";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, idDocente);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -119,12 +96,8 @@ public class DBConnection {
         return asignaturas;
     }
 
-    // ------------------------------
-    // Registrar asignatura en tabla materias (CATÁLOGO)
-    // ------------------------------
     public static Asignatura registrarAsignaturaEnBD(String id, String nombre, String descripcion) {
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO materias (id, nombre, descripcion) VALUES (?, ?, ?)"
         )) {
             stmt.setString(1, id);
@@ -146,12 +119,8 @@ public class DBConnection {
         return null;
     }
 
-    // ------------------------------
-    // Guardar asignatura en tabla docente (ASIGNACIÓN)
-    // ------------------------------
     public static void guardarAsignaturaDocente(String idDocente, String nombre, String descripcion) {
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO docente (idDocente, asignatura, descripcion) VALUES (?, ?, ?)"
         )) {
             stmt.setString(1, idDocente);
@@ -164,12 +133,8 @@ public class DBConnection {
         }
     }
 
-    // ------------------------------
-    // Eliminar asignatura SOLO del docente (DESASIGNAR)
-    // ------------------------------
     public static void eliminarAsignaturaDocente(String idDocente, String nombre, String descripcion) {
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "DELETE FROM docente WHERE idDocente = ? AND asignatura = ? AND descripcion = ?"
         )) {
             stmt.setString(1, idDocente);
@@ -187,13 +152,8 @@ public class DBConnection {
         }
     }
 
-    // ------------------------------
-    // Ejecutar UPDATE genérico
-    // ------------------------------
     public static boolean ejecutarUpdate(String sql, Object... params) {
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            // Establecer parámetros
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (int i = 0; i < params.length; i++) {
                 stmt.setObject(i + 1, params[i]);
             }
@@ -218,18 +178,14 @@ public class DBConnection {
         return exito;
     }
 
-    // ------------------------------
-    // Insertar Horario de Excepción
-    // ------------------------------
     public static boolean insertarHorarioExcepcion(String idDocente, String salon, String fecha, String horaInicio, String horaFin, String idMateria) {
-        // Generar un ID único tipo TEXT (UUID) para la PRIMARY KEY.
+
         String uniqueId = UUID.randomUUID().toString();
-        
+
         String sql = "INSERT INTO horarios (id, idDocente, salon, fecha, hora_inicio, hora_fin, idMateria) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, uniqueId); 
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, uniqueId);
             stmt.setString(2, idDocente);
             stmt.setString(3, salon);
             stmt.setString(4, fecha);
@@ -256,14 +212,10 @@ public class DBConnection {
         }
     }
 
-    // ------------------------------
-    // Insertar video
-    // ------------------------------
     public static boolean insertarVideo(String idDocente, String titulo, String descripcion, String idMateria, String videourl) {
         String sql = "INSERT INTO videos (idDocente, titulo, descripcion, idMateria, videourl) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, idDocente);
             stmt.setString(2, titulo);
             stmt.setString(3, descripcion);
@@ -289,9 +241,7 @@ public class DBConnection {
         List<String[]> lista = new ArrayList<>();
         String sql = "SELECT titulo, descripcion, idMateria, videourl FROM videos";
 
-        try (Connection conn = getConnection(); 
-             PreparedStatement ps = conn.prepareStatement(sql); 
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 String titulo = rs.getString("titulo");
                 String descripcion = rs.getString("descripcion");
@@ -305,15 +255,11 @@ public class DBConnection {
         return lista;
     }
 
-    // ------------------------------
-    // Obtener actividades por materia
-    // ------------------------------
     public static List<String[]> obtenerActividadesPorMateria(String idMateria) {
         List<String[]> actividades = new ArrayList<>();
         String sql = "SELECT titulo, descripcion, actividadurl FROM actividades WHERE idMateria = ?";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, idMateria);
             ResultSet rs = stmt.executeQuery();
 
@@ -331,15 +277,11 @@ public class DBConnection {
         return actividades;
     }
 
-    // ------------------------------
-    // Obtener videos por materia
-    // ------------------------------
     public static List<String[]> obtenerVideosPorMateria(String idMateria) {
         List<String[]> videos = new ArrayList<>();
         String sql = "SELECT titulo, descripcion, videourl FROM videos WHERE idMateria = ?";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, idMateria);
             ResultSet rs = stmt.executeQuery();
 
@@ -365,9 +307,7 @@ public class DBConnection {
                 + "LEFT JOIN materias m ON a.idMateria = m.id "
                 + "LEFT JOIN usuarios u ON a.idDocente = u.id";
 
-        try (Connection conn = getConnection(); 
-             PreparedStatement ps = conn.prepareStatement(sql); 
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 String titulo = rs.getString("titulo");
                 String materia = rs.getString("materia");
@@ -383,42 +323,27 @@ public class DBConnection {
         return lista;
     }
 
-    // =========================================================================
-    // FUNCIONES ADICIONALES (Consultas)
-    // =========================================================================
-
-    /**
-     * Consulta y retorna TODAS las excepciones de horario publicadas.
-     * Muestra todos los horarios de excepción, ya que son visibles para todos los estudiantes.
-     *
-     * @param idBusqueda ID del ESTUDIANTE logueado (No se usa, se mantiene la firma).
-     * @return List<String[]> con {idDocente, salon, fecha, hora_inicio, hora_fin, idMateria, nombreAsignatura}
-     */
     public static List<String[]> consultarHorarioExcepcion(String idBusqueda) {
         List<String[]> horarios = new ArrayList<>();
-        
-        // CONSULTA CORREGIDA: Se eliminó el JOIN a 'inscripciones' y la cláusula WHERE por idEstudiante.
+
         String sql = "SELECT h.idDocente, h.salon, h.fecha, h.hora_inicio, h.hora_fin, h.idMateria, m.nombre AS nombreAsignatura "
                 + "FROM horarios h "
                 + "INNER JOIN materias m ON h.idMateria = m.id "
                 + "ORDER BY h.fecha, h.hora_inicio DESC";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            // NO se necesita establecer parámetros
-            
-            try(ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
 
                 while (rs.next()) {
                     String[] horarioData = {
-                        rs.getString("idDocente"),      // Índice 0 (Docente ID)
-                        rs.getString("salon"),          // Índice 1
-                        rs.getString("fecha"),          // Índice 2
-                        rs.getString("hora_inicio"),    // Índice 3
-                        rs.getString("hora_fin"),       // Índice 4
-                        rs.getString("idMateria"),      // Índice 5 (Materia ID)
-                        rs.getString("nombreAsignatura")// Índice 6 (Nombre para la tarjeta)
+                        rs.getString("idDocente"),
+                        rs.getString("salon"),
+                        rs.getString("fecha"),
+                        rs.getString("hora_inicio"),
+                        rs.getString("hora_fin"),
+                        rs.getString("idMateria"),
+                        rs.getString("nombreAsignatura")
                     };
                     horarios.add(horarioData);
                 }
@@ -430,18 +355,14 @@ public class DBConnection {
         return horarios;
     }
 
-    /**
-     * Obtiene el nombre completo (nombre + apellido) de un usuario por su ID.
-     */
     public static String obtenerNombreCompletoUsuario(String idUsuario) {
         String nombreCompleto = "Usuario Desconocido";
         String sql = "SELECT nombre, apellido FROM usuarios WHERE id = ?";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, idUsuario);
-            
+
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -456,18 +377,14 @@ public class DBConnection {
         return nombreCompleto;
     }
 
-    /**
-     * Obtiene el nombre de la materia a partir de su ID.
-     */
     public static String obtenerNombreMateria(String idMateria) {
         String nombreMateria = "Materia Desconocida";
         String sql = "SELECT nombre FROM materias WHERE id = ?";
 
-        try (Connection conn = DBConnection.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, idMateria);
-            
+
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {

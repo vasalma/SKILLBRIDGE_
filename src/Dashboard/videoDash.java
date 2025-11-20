@@ -1,27 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Dashboard;
 
-import javax.swing.JLabel;
-
-/**
- *
- * @author Mi PC
- */
 public class videoDash extends javax.swing.JPanel {
 
-    /**
-     * Creates new form videoDash
-     */
     public videoDash() {
         initComponents();
     }
 
     private String videoURL;
 
-    // ==================== GETTERS PARA EL DASHBOARD ====================
     public javax.swing.JLabel getPlayBtn() {
         return bigplayBtn;
     }
@@ -38,10 +24,6 @@ public class videoDash extends javax.swing.JPanel {
         return asigName;
     }
 
-// ===============================================================
-// 🚀 MÉTODOS QUE DEBES AÑADIR AQUÍ (debajo de los getters)
-// ===============================================================
-// private String videoURL;
     public void setVideoData(String titulo, String descripcion, String asignatura, String videoURL) {
         this.videoName.setText(titulo);
         this.descripTxt.setText(descripcion);
@@ -49,9 +31,8 @@ public class videoDash extends javax.swing.JPanel {
         this.videoURL = videoURL;
     }
 
-
     public String getVideoURL() {
-        return videoURL; // el atributo donde guardas videourl
+        return videoURL; // el atributo donde se guarda videourl
     }
 
     @SuppressWarnings("unchecked")

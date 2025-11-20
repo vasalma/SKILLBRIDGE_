@@ -9,15 +9,13 @@ import javax.swing.JOptionPane;
 
 public class Privada {
 
-    // ... (Método conectar() y generarLlaveUnica() permanecen igual) ...
-    
-    // Método para obtener la conexión a la base de datos
+   
     private static Connection conectar() throws Exception {
         String url = "jdbc:sqlite:database/skillbridge.db";
         return DriverManager.getConnection(url);
     }
 
-    // Método para generar una llave de acceso única de 6 dígitos
+ 
     private static String generarLlaveUnica() throws Exception {
         String llaveGenerada = "";
         boolean esUnica = false;
@@ -46,17 +44,17 @@ public class Privada {
         return llaveGenerada;
     }
 
-    // Método para insertar la llave en la base de datos (AHORA RECIBE LA MATERIA)
+ 
     public static void insertarLlave(String id, String llave) {
         String sqlVerificarId = "SELECT 1 FROM llaves_acceso WHERE id = ?";
-        // ⚠ La sentencia INSERT ahora incluye el campo 'materia'
+        
         String sqlInsertar = "INSERT INTO llaves_acceso (id, llave) VALUES (?, ?)";
 
         try (Connection conn = conectar();
              PreparedStatement verificarId = conn.prepareStatement(sqlVerificarId);
              PreparedStatement insertar = conn.prepareStatement(sqlInsertar)) {
 
-            // 1. Verificar si ya existe el ID
+          
             verificarId.setString(1, id);
             ResultSet rs = verificarId.executeQuery();
 
@@ -66,14 +64,14 @@ public class Privada {
                 return;
             }
 
-            // 2. Insertar el registro (ID, LLAVE y MATERIA)
+         
             insertar.setString(1, id);
             insertar.setString(2, llave);
       
             
             int filasAfectadas = insertar.executeUpdate();
             if (filasAfectadas > 0) {
-                // Mensaje final mostrando la llave y la materia
+              
                 JOptionPane.showMessageDialog(null, 
                         "✅ Llave de acceso insertada correctamente.\n\n"
                         + "Id " + id + "\n"
@@ -87,26 +85,19 @@ public class Privada {
         }
     }
 
-    // Método principal modificado
+
     public static void main(String[] args) {
-        // --- 1. Solicitar el ID ---
+       
         String id = JOptionPane.showInputDialog("Ingrese el ID del profesor o monitor:");
         if (id == null || id.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "⚠ El ID no puede estar vacío.");
             return;
         }
         
-        // --- 2. Mostrar el Menú de Materias ---
-        
-        
-        // Si el usuario cancela o cierra la ventana
-        
-
-        // --- 3. Generar e Insertar ---
+       
         try {
             String llaveGenerada = generarLlaveUnica();
             
-            // Llamamos a la función con el tercer parámetro: la materia
             insertarLlave(id, llaveGenerada);
             
         } catch (Exception e) {

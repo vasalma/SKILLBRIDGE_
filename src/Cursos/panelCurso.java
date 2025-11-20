@@ -1,59 +1,32 @@
 package Cursos;
 
-import Materia.Asignatura; // Ejemplo: Si está en el paquete Materia
+import Materia.Asignatura;
 import frontEs.dashboard;
 import frontMon.dashboardMon;
 import java.awt.Color;
-// import Materia.ClaseDeAsignatura; // Usa el nombre correcto de tu clase de modelo
 
-/**
- *
- * @author Mi PC
- */
 public class panelCurso extends javax.swing.JPanel {
 
-    // Variable para almacenar el objeto Asignatura si es necesario para acciones posteriores
     private Asignatura asignaturaActual;
 
-    /**
-     * Constructor por defecto (mantener si es necesario para el diseñador de
-     * NetBeans). Nota: En la aplicación, usaremos el constructor con
-     * parámetros.
-     */
     public panelCurso() {
         initComponents();
-        // Si usas este constructor, las etiquetas tendrán los valores por defecto
+
     }
 
-    // -------------------------------------------------------------
-    // 🔥 NUEVO CONSTRUCTOR: Recibe la Asignatura y actualiza la UI
-    // -------------------------------------------------------------
-    /**
-     * Crea un nuevo panelCurso y lo inicializa con los datos de la asignatura.
-     *
-     * @param asig El objeto Asignatura que contiene el nombre y descripción.
-     */
     public panelCurso(Asignatura asig) {
         initComponents();
         this.asignaturaActual = asig;
         cargarDatosAsignatura();
     }
+        //Metodo para cargar las asignaturas//
 
-    // -------------------------------------------------------------
-    // 🔥 MÉTODO: Carga los datos de la Asignatura en los JLabel
-    // -------------------------------------------------------------
     private void cargarDatosAsignatura() {
         if (asignaturaActual != null) {
-            // Asumo que tu clase Asignatura tiene métodos getNombre() y getDescripcion()
-
-            // Asigna el nombre de la asignatura al JLabel videoName
             videoName.setText(asignaturaActual.getNombre());
 
-            // Asigna la descripción de la asignatura al JLabel descripTxt
             descripTxt.setText(asignaturaActual.getDescripcion());
 
-            // Opcional: Podrías querer configurar la acción del botón "Acceder" aquí
-            // accAsigBtn.addMouseListener(new java.awt.event.MouseAdapter() { ... });
         } else {
             videoName.setText("Error: Asignatura no cargada");
             descripTxt.setText("Verifique el objeto Asignatura pasado al constructor.");
@@ -151,49 +124,48 @@ public class panelCurso extends javax.swing.JPanel {
 
     private void accAsigTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigTxtMouseClicked
 
-        back.Usuario usuario = back.Session.getUsuario(); 
+        back.Usuario usuario = back.Session.getUsuario();
 
-    if (usuario == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-                "❌ Error: No hay sesión de usuario activa. Vuelva a iniciar sesión.", 
-                "Error de Sesión", javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+        if (usuario == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "❌ Error: No hay sesión de usuario activa. Vuelva a iniciar sesión.",
+                    "Error de Sesión", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    // 2. Redirigir según el rol
-    String rol = usuario.getRol();
-    System.out.println("Rol del usuario: " + rol); // Para depuración
+        String rol = usuario.getRol();
+        System.out.println("Rol del usuario: " + rol);
 
-    if ("Estudiante".equalsIgnoreCase(rol)) {
-        dashboard nuevaventana = new dashboard();
-        nuevaventana.setVisible(true);
+        if ("Estudiante".equalsIgnoreCase(rol)) {
+            dashboard nuevaventana = new dashboard();
+            nuevaventana.setVisible(true);
 
-    } else if ("Monitor/tutor".equalsIgnoreCase(rol)) {
-        dashboardMon nuevaventana = new dashboardMon();
-        nuevaventana.setVisible(true);
+        } else if ("Monitor/tutor".equalsIgnoreCase(rol)) {
+            dashboardMon nuevaventana = new dashboardMon();
+            nuevaventana.setVisible(true);
 
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this,
-                "⚠️ Rol desconocido (" + rol + "). Contacte al administrador.");
-        return; // Detener la ejecución si el rol es desconocido
-    }
-    
-    // 3. Cierre de la ventana actual
-    // Como estás en un JPanel (panelCurso), debes cerrar el JFrame padre.
-    java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
-    if (window != null) {
-        window.dispose(); }// Cierra el JFrame que contiene este panel
-    
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "⚠️ Rol desconocido (" + rol + "). Contacte al administrador.");
+            return;
+        }
+
+        //Cierre de la ventana actual
+        java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
+        }// Cierra el JFrame que contiene este panel
+
     }//GEN-LAST:event_accAsigTxtMouseClicked
 
     private void accAsigTxtMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigTxtMouseMoved
-       accAsigBtn.setBackground(new Color(64,174,178));
-       accAsigTxt.setForeground(new Color(247,247,247));
+        accAsigBtn.setBackground(new Color(64, 174, 178));
+        accAsigTxt.setForeground(new Color(247, 247, 247));
     }//GEN-LAST:event_accAsigTxtMouseMoved
 
     private void accAsigTxtMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accAsigTxtMouseExited
-       accAsigBtn.setBackground(new Color(247,247,247));
-       accAsigTxt.setForeground(new Color(64,174,178));
+        accAsigBtn.setBackground(new Color(247, 247, 247));
+        accAsigTxt.setForeground(new Color(64, 174, 178));
     }//GEN-LAST:event_accAsigTxtMouseExited
 
 
