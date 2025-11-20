@@ -256,7 +256,7 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
         mainCont.add(cont1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 700, 570));
 
-        cont2.setBackground(new java.awt.Color(204, 204, 204));
+        cont2.setBackground(new java.awt.Color(255, 255, 255));
         cont2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelNotif.setBackground(new java.awt.Color(255, 255, 255));
@@ -279,9 +279,10 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         panelNotif.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 290, 20));
 
+        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        notifs.setBackground(new java.awt.Color(153, 153, 153));
+        notifs.setBackground(new java.awt.Color(255, 255, 255));
         notifs.setLayout(new javax.swing.BoxLayout(notifs, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane3.setViewportView(notifs);
 

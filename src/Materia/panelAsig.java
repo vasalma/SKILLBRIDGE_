@@ -338,10 +338,11 @@ public class panelAsig extends javax.swing.JPanel {
 
         actsSection.add(loadactsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 37, -1, -1));
 
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        acts.setBackground(new java.awt.Color(153, 153, 153));
+        acts.setBackground(new java.awt.Color(255, 255, 255));
         acts.setLayout(new javax.swing.BoxLayout(acts, javax.swing.BoxLayout.X_AXIS));
         jScrollPane2.setViewportView(acts);
 
@@ -388,10 +389,11 @@ public class panelAsig extends javax.swing.JPanel {
 
         videosSection.add(loadvidBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 37, -1, -1));
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        videos.setBackground(new java.awt.Color(153, 153, 153));
+        videos.setBackground(new java.awt.Color(255, 255, 255));
         videos.setLayout(new javax.swing.BoxLayout(videos, javax.swing.BoxLayout.X_AXIS));
         jScrollPane1.setViewportView(videos);
 

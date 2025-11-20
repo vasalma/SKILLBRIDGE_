@@ -1,4 +1,3 @@
-
 package front;
 
 import back.Usuario;
@@ -6,10 +5,8 @@ import front.login;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
-
 public class signup extends javax.swing.JFrame {
 
-   
     public signup() {
         initComponents();
         rsscalelabel.RSScaleLabel.setScaleLabel(bc, "src/images/bc.png");
@@ -24,6 +21,8 @@ public class signup extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        backBtn = new javax.swing.JPanel();
+        backTxt = new javax.swing.JLabel();
         rolTitle = new javax.swing.JLabel();
         rolTxt = new javax.swing.JComboBox<>();
         starMini = new javax.swing.JLabel();
@@ -66,6 +65,52 @@ public class signup extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        backBtn.setBackground(new java.awt.Color(223, 91, 91));
+        backBtn.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                backBtnMouseMoved(evt);
+            }
+        });
+        backBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backBtnMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backBtnMouseExited(evt);
+            }
+        });
+
+        backTxt.setFont(new java.awt.Font("Questrial", 0, 14)); // NOI18N
+        backTxt.setForeground(new java.awt.Color(255, 255, 255));
+        backTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        backTxt.setText("Retroceder");
+        backTxt.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                backTxtMouseMoved(evt);
+            }
+        });
+        backTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backTxtMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backTxtMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout backBtnLayout = new javax.swing.GroupLayout(backBtn);
+        backBtn.setLayout(backBtnLayout);
+        backBtnLayout.setHorizontalGroup(
+            backBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(backTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+        );
+        backBtnLayout.setVerticalGroup(
+            backBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(backTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(backBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 610, 210, 40));
 
         rolTitle.setFont(new java.awt.Font("Questrial", 0, 15)); // NOI18N
         rolTitle.setForeground(new java.awt.Color(102, 102, 102));
@@ -300,7 +345,7 @@ public class signup extends javax.swing.JFrame {
     }//GEN-LAST:event_registrarBtnMouseExited
 
     private void registrarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrarBtnMouseClicked
-      
+
         Usuario usuario = new Usuario();
 
         String id = IDTxt.getText();
@@ -342,7 +387,6 @@ public class signup extends javax.swing.JFrame {
         if (ok) {
             JOptionPane.showMessageDialog(this, "✅ Usuario registrado correctamente.\nAhora puedes iniciar sesión.");
 
-           
             this.dispose();
             login ventanaLogin = new login();
             ventanaLogin.setVisible(true);
@@ -368,6 +412,35 @@ public class signup extends javax.swing.JFrame {
     private void rolTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rolTxtActionPerformed
+
+    private void backBtnMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseMoved
+
+    }//GEN-LAST:event_backBtnMouseMoved
+
+    private void backBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseClicked
+
+
+    }//GEN-LAST:event_backBtnMouseClicked
+
+    private void backBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseExited
+
+
+    }//GEN-LAST:event_backBtnMouseExited
+
+    private void backTxtMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backTxtMouseMoved
+        backBtn.setBackground(new Color(191, 40, 40));
+    }//GEN-LAST:event_backTxtMouseMoved
+
+    private void backTxtMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backTxtMouseExited
+        backBtn.setBackground(new Color(223, 91, 91));
+    }//GEN-LAST:event_backTxtMouseExited
+
+    private void backTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backTxtMouseClicked
+        this.dispose();
+
+        login nuevaventana = new login();
+        nuevaventana.setVisible(true);
+    }//GEN-LAST:event_backTxtMouseClicked
 
     /**
      * @param args the command line arguments
@@ -411,6 +484,8 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JLabel aTitle;
     private javax.swing.JLabel appName;
     private javax.swing.JLabel arrow;
+    private javax.swing.JPanel backBtn;
+    private javax.swing.JLabel backTxt;
     private javax.swing.JLabel bc;
     private javax.swing.JLabel bienvenidoTitle;
     private javax.swing.JLabel blackMarker;
