@@ -1,7 +1,4 @@
-
 package Dashboard;
-
-import javax.swing.JPanel;
 
 /**
  *
@@ -17,9 +14,10 @@ public class actDash extends javax.swing.JPanel {
     }
     private String actividadURL;
 
-    // ==================== GETTERS CORREGIDOS ====================
-    public javax.swing.JPanel getDownloadBtn() {  // ← MANTÉN ESTE
-        return downloadBtn;
+    // ==================== GETTER CLAVE CORREGIDO ====================
+    public javax.swing.JPanel getDownloadBtn1() {  
+        // Esta variable (downloadBtn) se inicializa en initComponents()
+        return downloadBtn1;
     }
 
     public javax.swing.JLabel getActividadName() {
@@ -62,6 +60,7 @@ public class actDash extends javax.swing.JPanel {
         docenteName = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         downloadBtn1.setBackground(new java.awt.Color(64, 174, 178));
 
@@ -81,41 +80,22 @@ public class actDash extends javax.swing.JPanel {
             .addComponent(downloadTxt1, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
         );
 
+        add(downloadBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(836, 4, 150, 22));
+
         actName.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         actName.setForeground(new java.awt.Color(0, 0, 0));
         actName.setText("Actividad.pdf");
+        add(actName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 260, 30));
 
         asigTxt.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         asigTxt.setForeground(new java.awt.Color(0, 0, 0));
         asigTxt.setText("Asignatura");
+        add(asigTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 210, 30));
 
         docenteName.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         docenteName.setForeground(new java.awt.Color(0, 0, 0));
         docenteName.setText("Nombre");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(actName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(asigTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(docenteName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
-                .addComponent(downloadBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(actName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(asigTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(docenteName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(downloadBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        add(docenteName, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 180, 30));
     }// </editor-fold>//GEN-END:initComponents
 
 

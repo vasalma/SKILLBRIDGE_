@@ -18,32 +18,8 @@
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
   </AuxValues>
 
-  <Layout>
-    <DimensionLayout dim="0">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
-              <Component id="actName" min="-2" pref="260" max="-2" attributes="0"/>
-              <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
-              <Component id="asigTxt" min="-2" pref="210" max="-2" attributes="0"/>
-              <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
-              <Component id="docenteName" min="-2" pref="180" max="-2" attributes="0"/>
-              <EmptySpace min="66" pref="66" max="-2" attributes="0"/>
-              <Component id="downloadBtn1" min="-2" max="-2" attributes="0"/>
-          </Group>
-      </Group>
-    </DimensionLayout>
-    <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="actName" min="-2" pref="30" max="-2" attributes="0"/>
-          <Component id="asigTxt" min="-2" pref="30" max="-2" attributes="0"/>
-          <Component id="docenteName" min="-2" pref="30" max="-2" attributes="0"/>
-          <Group type="102" attributes="0">
-              <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
-              <Component id="downloadBtn1" min="-2" max="-2" attributes="0"/>
-          </Group>
-      </Group>
-    </DimensionLayout>
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+    <Property name="useNullLayout" type="boolean" value="false"/>
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="downloadBtn1">
@@ -52,6 +28,11 @@
           <Color blue="b2" green="ae" red="40" type="rgb"/>
         </Property>
       </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="836" y="4" width="150" height="22"/>
+        </Constraint>
+      </Constraints>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -90,6 +71,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Actividad.pdf"/>
       </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="40" y="0" width="260" height="30"/>
+        </Constraint>
+      </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="asigTxt">
       <Properties>
@@ -101,6 +87,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Asignatura"/>
       </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="340" y="0" width="210" height="30"/>
+        </Constraint>
+      </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="docenteName">
       <Properties>
@@ -112,6 +103,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Nombre"/>
       </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="590" y="0" width="180" height="30"/>
+        </Constraint>
+      </Constraints>
     </Component>
   </SubComponents>
 </Form>

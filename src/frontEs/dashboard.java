@@ -83,7 +83,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             item.setActividadData(titulo, nombreDocente, materia, rutaRelativa);
 
             // LISTENER (CORRECTO, no necesita cambios)
-            item.getDownloadBtn().addMouseListener(new java.awt.event.MouseAdapter() {
+            item.getDownloadBtn1().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
                     File archivo = new File(rutaRelativa);
