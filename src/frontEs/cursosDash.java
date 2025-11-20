@@ -1,44 +1,49 @@
 package frontEs;
 
-// -------------------------------------------------------------------
-// 🔥 IMPORTS NECESARIOS (Asegúrate de que estas clases existan)
-// -------------------------------------------------------------------
-import Cursos.panelCurso; // Tu tarjeta de curso individual
+import Cursos.panelCurso;
+import Cursos.panelNotif;
 import back.Session;
 import back.Usuario;
 import back.Actualizable;
-import main.DBConnection; // Importa tu clase de conexión a la BD
-import Materia.Asignatura; // Importa tu clase de modelo
+import main.DBConnection;
+import Materia.Asignatura;
 import front.login;
+// Asegúrate de importar la clase profile
+import frontEs.dashboard; // Asegúrate de importar la clase dashboard
+
 import java.util.List;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.Dimension;
-// -------------------------------------------------------------------
 
 /**
  * Clase principal que actúa como el dashboard de cursos (vista del Estudiante).
- * Se ha cambiado para cargar automáticamente todos los cursos disponibles.
  */
 public class cursosDash extends javax.swing.JFrame implements Actualizable {
 
-    // Asegúrate de que estas variables existan en tus componentes (diseñador):
-    // private javax.swing.JLabel userName;
-    // private javax.swing.JPanel jPanel5; // El contenedor de las tarjetas
+    // 🔥 Declaración ÚNICA de variables de la UI (AQUÍ ESTÁN AHORA)
+
+    // Variables autogeneradas no utilizadas en los métodos, pero necesarias para el initComponents:
+
 
     public cursosDash() {
         initComponents();
-        
-        // 1. Configurar el layout del contenedor (jPanel5) para que apile las tarjetas verticalmente
+
         if (jPanel2 != null) {
             jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
         }
-        
+
+        if (notifs != null) {
+            notifs.setLayout(new javax.swing.BoxLayout(notifs, javax.swing.BoxLayout.Y_AXIS));
+        }
+
         cargarUsuario();
-        
-        // 🔥 LÍNEA CRÍTICA: Llamar a la función que carga los cursos para el ESTUDIANTE
-        cargarCursosDisponibles(); 
+
+        cargarCursosDisponibles();
+        cargarHorariosDeExcepcion();
     }
+    
+    // El bloque initComponents() autogenerado por NetBeans ha sido movido a su lugar correcto al final del código.
+    // Solo queda una única definición.
 
     private void cargarUsuario() {
         Usuario u = Session.getUsuario();
@@ -50,26 +55,107 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         }
     }
 
-    // Método para ser llamado desde el constructor
     private void cargarCursosDisponibles() {
         try {
             System.out.println("⏳ Cargando cursos disponibles para el estudiante...");
-            
-            // 1. Llama al método de la BD para obtener TODAS las asignaturas
+
+            // NOTA: Si solo quieres mostrar los cursos INSCRITOS por el estudiante,
+            // deberías usar un método que filtre por Session.getUsuario().getId().
+            // Por ahora, se mantiene obtenerTodasLasAsignaturas (el catálogo completo).
             List<Asignatura> listaCursos = DBConnection.obtenerTodasLasAsignaturas();
-            
-            // 2. Llama a tu propio método para dibujar las tarjetas
+
             mostrarAsignaturas(listaCursos);
-            
+
             System.out.println("✅ Cursos cargados exitosamente: " + listaCursos.size());
-            
+
         } catch (Exception e) {
             System.err.println("❌ Error al intentar cargar los cursos: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    
-    // Métodos Actualizable (se mantienen)
+
+    // -------------------------------------------------------------
+    // FUNCIÓN CLAVE CORREGIDA: Cargar y Mostrar el Horario de Excepción (Notificaciones)
+    // -------------------------------------------------------------
+    public void cargarHorariosDeExcepcion() {
+        Usuario usuarioActual = Session.getUsuario();
+        if (usuarioActual == null) {
+            return;
+        }
+
+        String idBusqueda = usuarioActual.getId();
+
+        if (notifs != null) {
+            notifs.removeAll();
+        } else {
+            System.err.println("Error: El contenedor 'notifs' no está inicializado.");
+            return;
+        }
+
+        try {
+            // Retorna 7 campos: {idDocente, salon, fecha, hora_inicio, hora_fin, idMateria, nombreAsignatura}
+            List<String[]> horarios = DBConnection.consultarHorarioExcepcion(idBusqueda);
+
+            if (!horarios.isEmpty()) {
+
+                for (String[] horarioData : horarios) {
+                    // 🔥 Mapeo de datos CORREGIDO (Índices 0 a 6)
+                    String idDocenteEnHorario = horarioData[0];
+                    String salon = horarioData[1];
+                    String dia = horarioData[2];
+                    String inicio = horarioData[3];
+                    String fin = horarioData[4];
+                    String idMateria = horarioData[5];
+                    String nombreAsignatura = horarioData[6]; // <--- ¡Nuevo campo que viene de la BD!
+
+                    // Obtener nombre del docente
+                    String nombreDocente = DBConnection.obtenerNombreCompletoUsuario(idDocenteEnHorario);
+                    
+                    // Si el nombre de la asignatura es "Materia Desconocida" (por si el join falló)
+                    // se puede optar por llamar al método, pero ya viene en la consulta.
+                    // Si prefieres usar el método anterior:
+                    // String nombreAsignatura = DBConnection.obtenerNombreMateria(idMateria);
+
+                    // Crear la tarjeta e inyectar los datos
+                    panelNotif nuevaTarjeta = new panelNotif();
+                    nuevaTarjeta.setHorarioData(
+                            nombreAsignatura,
+                            nombreDocente,
+                            salon,
+                            dia,
+                            inicio,
+                            fin
+                    );
+
+                    // Configuración para BoxLayout
+                    nuevaTarjeta.setAlignmentX(LEFT_ALIGNMENT);
+                    nuevaTarjeta.setMaximumSize(new Dimension(270, 160));
+
+                    notifs.add(nuevaTarjeta);
+
+                    // Añadir un pequeño separador visual
+                    JPanel separator = new JPanel();
+                    separator.setPreferredSize(new Dimension(270, 10));
+                    separator.setBackground(notifs.getBackground());
+                    separator.setAlignmentX(LEFT_ALIGNMENT);
+                    notifs.add(separator);
+                }
+            } else {
+                notifs.add(new javax.swing.JLabel("No hay notificaciones de horarios."));
+            }
+
+            // Refrescar el panel 
+            notifs.revalidate();
+            notifs.repaint();
+
+        } catch (Exception e) {
+            System.err.println("Error general en cargarHorariosDeExcepcion: " + e.getMessage());
+        }
+    }
+
+    // -------------------------------------------------------------
+    // Métodos Actualizable
+    // -------------------------------------------------------------
     @Override
     public void actualizarNombreEnUI() {
         Usuario u = back.Session.getUsuario();
@@ -83,53 +169,52 @@ public class cursosDash extends javax.swing.JFrame implements Actualizable {
         this.repaint();
         System.out.println("✅ Dashboard: Nombre de usuario recargado.");
     }
-    
+
     // -------------------------------------------------------------
-    // 🔥 MÉTODO PRINCIPAL: Dibujar las asignaturas como tarjetas
+    // MÉTODO PRINCIPAL: Dibujar las asignaturas como tarjetas
     // -------------------------------------------------------------
-    /**
-     * Recibe la lista de asignaturas y las dibuja como tarjetas (panelCurso) en jPanel5.
-     */
     public void mostrarAsignaturas(List<Asignatura> listaAsignaturas) {
 
         if (jPanel2 == null) {
-            System.err.println("❌ ERROR: jPanel5 no está inicializado. No se pueden mostrar asignaturas.");
+            System.err.println("❌ ERROR: jPanel2 no está inicializado. No se pueden mostrar asignaturas.");
             return;
         }
 
-        // 1. Limpiar el panel antes de dibujar
+        // Limpiar el panel antes de dibujar
         jPanel2.removeAll();
 
         if (listaAsignaturas == null || listaAsignaturas.isEmpty()) {
-            // Muestra un mensaje si no hay asignaturas
             jPanel2.add(new javax.swing.JLabel("No hay asignaturas disponibles en el catálogo."));
         } else {
-            // 2. Iterar sobre la lista y añadir la tarjeta con sus datos
+
             for (Asignatura asig : listaAsignaturas) {
 
-                // --- INSTANCIACIÓN DE LA TARJETA panelCurso ---
                 panelCurso tarjeta = new panelCurso(asig);
 
-                // Configuración para BoxLayout (importante para que se vean bien)
+                // Configuración para BoxLayout 
                 tarjeta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 220));
                 tarjeta.setAlignmentX(LEFT_ALIGNMENT);
 
-                jPanel2.add(tarjeta); // Añadir la tarjeta a jPanel5
+                jPanel2.add(tarjeta);
 
-                // 3. Agregar un separador visual para espacio entre tarjetas
+                // Agregar un separador visual
                 JPanel separator = new JPanel();
-                separator.setPreferredSize(new Dimension(Integer.MAX_VALUE, 10)); // 10px de espacio
+                separator.setPreferredSize(new Dimension(Integer.MAX_VALUE, 10));
                 separator.setBackground(jPanel2.getBackground());
                 separator.setAlignmentX(LEFT_ALIGNMENT);
                 jPanel2.add(separator);
             }
         }
 
-        // 4. Actualizar la Interfaz (esencial)
+        // Actualizar la Interfaz 
         jPanel2.revalidate();
         jPanel2.repaint();
-    }    // -------------------------------------------------------------
+    }
+    
 
+
+    // NOTA: Recuerda que debes tener implementado el método initComponents() 
+    // y declaradas las varia
     // ... El resto de tus métodos (initComponents, listeners, main, y variables)
     /**
      * This method is called from within the constructor to initialize the form.

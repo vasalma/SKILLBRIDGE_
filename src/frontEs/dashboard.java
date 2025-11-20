@@ -32,7 +32,7 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             cargarVideosRecientes();
             System.out.println("✔ cargarVideosRecientes ejecutado");
 
-            cargarActividadesRecientes();  // ← NUEVA LÍNEA
+            cargarActividadesRecientes();  // ← Corregida para rutas absolutas
             System.out.println("✔ cargarActividadesRecientes ejecutado");
 
             System.out.println("✔ Mostrando ventana del dashboard...");
@@ -61,41 +61,59 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
         System.out.println("📌 Ejecutando cargarActividadesRecientes()...");
 
         actRecientesExcel.removeAll();
-        // Recomiendo usar un Layout vertical como BoxLayout o GridLayout(0, 1) para componentes de lista
-        // o simplemente quitar la línea de layout si lo manejas con un ScrollPane.
-        // Vamos a mantener tu FlowLayout (aunque no es ideal para listas):
-         // Ajustado a 0, 0 para que sea una lista vertical pegada
+
+        // 1. Obtener y declarar la Ruta Base del Proyecto (final para el listener)
+        final String rutaBase = System.getProperty("user.dir");
+        System.out.println("Ruta Base del Proyecto (CWD): " + rutaBase);
 
         List<String[]> lista = DBConnection.obtenerActividadesRecientes();
 
         for (String[] a : lista) {
 
-            // 🚨 CAMBIO CLAVE AQUÍ: Asignación correcta de los 4 índices.
             String titulo = a[0];
-            String nombreDocente = a[1]; // ¡El docente es el índice 1!
+            String nombreDocente = a[1];
             String materia = a[2];
-            String rutaRelativa = a[3];
+            String rutaRelativa = a[3]; // ej: uploads\actividades\...
 
-            actDash item = new actDash();
+            // 2. Declarar 'item' como final para que pueda ser referenciado en el MouseListener
+            final Dashboard.actDash item = new Dashboard.actDash();
 
-            // El orden de setActividadData es: (titulo, docente, asignatura, actividadURL)
+            // Establecer los datos y la URL de la actividad
             item.setActividadData(titulo, nombreDocente, materia, rutaRelativa);
 
-            // LISTENER (CORRECTO, no necesita cambios)
+            // 3. LISTENER: Se adjunta al botón de descarga para manejar el clic
             item.getDownloadBtn1().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
-                    File archivo = new File(rutaRelativa);
 
+                    // A. Obtener la ruta relativa guardada en el componente
+                    String rutaDB = item.getActividadURL();
+
+                    // B. Ajustar la ruta para usar el separador de sistema operativo
+                    // (Esto maneja rutas con '/' o '\' sin importar el SO)
+                    String rutaAjustada = rutaDB
+                            .replace('/', File.separatorChar)
+                            .replace('\\', File.separatorChar);
+
+                    // C. Construir la ruta absoluta completa
+                    String rutaCompleta = rutaBase + File.separator + rutaAjustada;
+
+                    File archivo = new File(rutaCompleta);
+
+                    // D. Validación de Existencia y Apertura
                     if (!archivo.exists()) {
-                        JOptionPane.showMessageDialog(null, "Archivo no encontrado:\n" + rutaRelativa);
+                        JOptionPane.showMessageDialog(null,
+                                "❌ Archivo NO encontrado en la ruta:\n" + archivo.getAbsolutePath()
+                                + "\nVerifique que la carpeta 'uploads' esté en la raíz del proyecto.");
                         return;
                     }
 
                     try {
+                        System.out.println("⬇ Abriendo archivo: " + archivo.getAbsolutePath());
                         Desktop.getDesktop().open(archivo);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Error al abrir archivo");
+                        JOptionPane.showMessageDialog(null, "Error al abrir archivo. Asegúrese de tener un programa asociado (PDF, Word, etc.).");
+                        ex.printStackTrace();
                     }
                 }
             });
@@ -124,9 +142,9 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
             String asignatura = v[2];
             String rutaEnBD = v[3];
 
-            // Convertir a ruta absoluta relativa al proyecto
+            // Convertir a ruta absoluta relativa al proyecto (funciona correctamente)
             File f = new File(rutaEnBD);
-            String rutaFinal = f.getAbsolutePath();
+            final String rutaFinal = f.getAbsolutePath(); // Declarada como final aquí
 
             Dashboard.videoDash item = new Dashboard.videoDash();
             item.setVideoData(titulo, descripcion, asignatura, rutaFinal);
@@ -136,7 +154,8 @@ public class dashboard extends javax.swing.JFrame implements Actualizable {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
 
-                    File videoFile = new File(rutaFinal);
+                    // Utiliza la rutaFinal que ya es absoluta.
+                    File videoFile = new File(rutaFinal); 
 
                     if (!videoFile.exists()) {
                         JOptionPane.showMessageDialog(null,

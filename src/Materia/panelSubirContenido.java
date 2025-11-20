@@ -953,7 +953,86 @@ public class panelSubirContenido extends javax.swing.JPanel {
     }//GEN-LAST:event_salidaTxtMouseClicked
 
     private void subirScheTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subirScheTxtMouseClicked
-        // EVENTOOOO
+                                    
+        
+        // 1. Obtener datos de los campos de texto
+        String salon = salonTxt.getText();
+        String diaTexto = diaTxt.getText(); 
+        String horaInicioTexto = inicioTxt.getText();
+        String horaFinTexto = salidaTxt.getText();
+        
+        // 2. Validación de Campos de Sesión
+        if (idDocente == null || idMateria == null || idDocente.isEmpty() || idMateria.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error de Sesión: Datos del Docente o Materia faltantes.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // 3. Validación de Campos de Formulario Vacíos/Ejemplo
+        // Se valida que no estén vacíos O que aún contengan el texto de ejemplo ("ej:")
+        if (diaTexto.contains("ej:") || horaInicioTexto.contains("ej:") || horaFinTexto.contains("ej:") || salon.contains("ej:") || salon.isEmpty() || diaTexto.isEmpty() || horaInicioTexto.isEmpty() || horaFinTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos de la excepción de horario.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 4. Procesamiento de la Fecha (para guardar solo "DD/MM/YY")
+        String fechaAInsertar; 
+
+        try {
+            // Intenta buscar el formato "DíaSemana, DD/MM/YY"
+            String[] partes = diaTexto.split(", "); 
+            if (partes.length >= 2) {
+                // Obtenemos solo la parte de la fecha (ej: "11/11/25")
+                fechaAInsertar = partes[1].trim(); 
+            } else if (diaTexto.matches("\\d{2}/\\d{2}/\\d{2}")) {
+                // Si el formato es solo "DD/MM/YY"
+                fechaAInsertar = diaTexto.trim();
+            } else {
+                 throw new IllegalArgumentException("El formato de fecha es incorrecto. Use 'DíaSemana, DD/MM/YY' o 'DD/MM/YY'.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "❌ Error al procesar el formato de fecha: " + e.getMessage(), "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            return;
+        }
+
+        // 5. Llamada a la Capa de Datos (DBConnection)
+        boolean exito = DBConnection.insertarHorarioExcepcion(
+            idDocente, 
+            salon, 
+            fechaAInsertar, 
+            horaInicioTexto, 
+            horaFinTexto, 
+            idMateria
+        );
+
+        // 6. Mensaje de Respuesta
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "✅ Excepción de horario para la materia " + idMateria + " guardada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCamposHorario();
+            
+            // Opcional: Refrescar el panel de asignaturas para mostrar el horario
+            // if (panelAsigRef != null) {
+            //     panelAsigRef.refrescarHorarios(); // Asumiendo que existe este método
+            // }
+            
+        } else {
+            // Se asume que DBConnection ya maneja e imprime los errores SQL (como UNIQUE constraint failed)
+            JOptionPane.showMessageDialog(this, "❌ Error: No se pudo guardar la excepción de horario. Podría ya existir una registrada para este docente.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    // -------------------------------------------------------------------------
+    // MÉTODOS DE UTILIDAD (Limpieza del nuevo formulario)
+    // -------------------------------------------------------------------------
+    
+    private void limpiarCamposHorario() {
+        salonTxt.setText("ej: Salon 305");
+        diaTxt.setText("ej: Miércoles, 11/11/25");
+        inicioTxt.setText("ej: 2:00 pm");
+        salidaTxt.setText("ej: 4:00 pm");
+    
+    
     }//GEN-LAST:event_subirScheTxtMouseClicked
 
 
